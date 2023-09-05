@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventaire BDMANGA</title>
+</head>
+<body>
+
+<h1>Séries</h1>
+<ul>
+{% for serie in object_list %}
+    <li>{{ serie.series_name }} - {{ serie.book_type }} - {{ serie.book_category }}</li>
+{% endfor %}
+</ul>
+
+</body>
+</html>
