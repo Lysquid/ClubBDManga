@@ -1,15 +1,17 @@
 from django.db import models
 from django.core import validators
+from django.utils.datetime_safe import datetime
 
 
 class Author(models.Model):
-    name = models.CharField("nom", max_length=255)
+    name = models.CharField("nom", unique=True, max_length=255)
 
     def __str__(self):
         return self.name
 
     class Meta:
         verbose_name = "auteur"
+        ordering = ["name"]
 
 
 class Editor(models.Model):
@@ -20,6 +22,7 @@ class Editor(models.Model):
 
     class Meta:
         verbose_name = "éditeur"
+        ordering = ["name"]
 
 
 class Genre(models.Model):
@@ -30,14 +33,15 @@ class Genre(models.Model):
 
     class Meta:
         verbose_name = "catégorie"
+        ordering = ["name"]
 
 
 class Series(models.Model):
     TYPES = [
         ("bd", "BD"),
-        ("manga", "manga"),
-        ("comics", "comics"),
-        ("novel", "roman")
+        ("manga", "Manga"),
+        ("comics", "Comics"),
+        ("novel", "Roman")
     ]
     id = models.CharField("référence", primary_key=True, max_length=5, validators=[
         validators.RegexValidator('^[A-Z0-9]{5}$')
@@ -53,6 +57,7 @@ class Series(models.Model):
 
     class Meta:
         verbose_name = "série"
+        ordering = ["id"]
 
 
 class Book(models.Model):
@@ -61,7 +66,7 @@ class Book(models.Model):
     ])
     name = models.CharField("nom", max_length=255, blank=True)
     series = models.ForeignKey(Series, on_delete=models.CASCADE, verbose_name="série")
-    volume_nb = models.PositiveIntegerField("numéro de volume")
+    volume_nb = models.PositiveIntegerField("volume")
     duplicate_nb = models.PositiveIntegerField("nombre d'exemplaires", default=1)
     available = models.BooleanField("disponible", default=True)
     condition = models.PositiveSmallIntegerField("état", validators=[
@@ -72,11 +77,12 @@ class Book(models.Model):
     comment = models.TextField("commentaire", blank=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.series} {self.volume_nb}"
 
     class Meta:
         verbose_name = "livre"
-        unique_together = (("series", "volume_nb", "duplicate_nb"),)
+        unique_together = ("series", "volume_nb", "duplicate_nb")
+        ordering = ["id"]
 
 
 class Member(models.Model):
@@ -97,7 +103,7 @@ class Member(models.Model):
         validators.MinValueValidator(0)
     ])
     last_loan = models.DateField("date du dernier emprunt", editable=False, blank=True, null=True)
-    role_bdm = models.CharField("rôle au ClubBDM", max_length=64, choices=ROLES)
+    role_bdm = models.CharField("rôle au Club BDManga", max_length=64, choices=ROLES)
     role_alir = models.CharField("rôle à l'Alir", max_length=64, choices=ROLES)
     archived = models.BooleanField("ancien membre", default=False)
     comment = models.TextField("commentaire", blank=True)
@@ -108,20 +114,23 @@ class Member(models.Model):
 
     class Meta:
         verbose_name = "membre"
+        ordering = ["-date_added"]
 
 
 class Loan(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE, verbose_name="membre")
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name="livre")
-    loan_start = models.DateField("date de début")
-    late_return = models.DateField("date de retard", blank=True, null=True,
-                                   help_text="date à partir de laquelle l'emprunt est en retard")
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name="livre",
+                             help_text="la recherche se fait par cote")
+    loan_start = models.DateField("date de début", default=datetime.now)
+    late_return = models.DateField("date de retour maximum", blank=True, null=True,
+                                   help_text="date avant laquelle le livre devra être rendu")
     loan_return = models.DateField("date de retour", blank=True, null=True)
     archived = models.BooleanField("archivé", default=False)
 
     def __str__(self):
-        return f"{self.member} - {self.book}"
+        return f"{self.member} - {self.book.name}"
 
     class Meta:
-        verbose_name = "prêt"
-        unique_together = (('member', 'book', 'loan_start'),)
+        verbose_name = "emprunt"
+        unique_together = ('member', 'book', 'loan_start')
+        ordering = ["-loan_start"]
