@@ -6,6 +6,11 @@ from django.utils.datetime_safe import datetime
 class Author(models.Model):
     name = models.CharField("nom", unique=True, max_length=255)
 
+    @property
+    def nb_series(self):
+        return self.series_set.count()
+    nb_series.fget.short_description = "nombre de séries"
+
     def __str__(self):
         return self.name
 
@@ -16,6 +21,11 @@ class Author(models.Model):
 
 class Editor(models.Model):
     name = models.CharField("nom", unique=True, max_length=255)
+
+    @property
+    def nb_series(self):
+        return self.series_set.count()
+    nb_series.fget.short_description = "nombre de séries"
 
     def __str__(self):
         return self.name
@@ -28,11 +38,16 @@ class Editor(models.Model):
 class Genre(models.Model):
     name = models.CharField("nom", unique=True, max_length=64)
 
+    @property
+    def nb_series(self):
+        return self.series_set.count()
+    nb_series.fget.short_description = "nombre de séries"
+
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name = "catégorie"
+        verbose_name = "genre"
         ordering = ["name"]
 
 
@@ -51,6 +66,11 @@ class Series(models.Model):
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE, verbose_name="genre")
     authors = models.ManyToManyField(Author, verbose_name="auteurs")
     editors = models.ManyToManyField(Editor, verbose_name="éditeurs")
+
+    @property
+    def nb_books(self):
+        return self.book_set.count()
+    nb_books.fget.short_description = "nombre de volumes"
 
     def __str__(self):
         return self.name
@@ -109,6 +129,11 @@ class Member(models.Model):
     comment = models.TextField("commentaire", blank=True)
     date_added = models.DateField("date d'inscription", auto_now_add=True)
 
+    @property
+    def nb_loans(self):
+        return self.loan_set.count()
+    nb_loans.fget.short_description = "nb d'emprunts"
+
     def __str__(self):
         return self.name
 
@@ -119,12 +144,12 @@ class Member(models.Model):
 
 class Loan(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE, verbose_name="membre")
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name="livre",
-                             help_text="la recherche se fait par cote")
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name="livre")
     loan_start = models.DateField("date de début", default=datetime.now)
     late_return = models.DateField("date de retour maximum", blank=True, null=True,
                                    help_text="date avant laquelle le livre devra être rendu")
-    loan_return = models.DateField("date de retour", blank=True, null=True)
+    loan_return = models.DateField("date de retour", blank=True, null=True,
+                                   help_text="laisser vide jusqu'au retour")
     archived = models.BooleanField("archivé", default=False)
 
     def __str__(self):
