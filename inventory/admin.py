@@ -16,7 +16,7 @@ class SeriesAdmin(admin.ModelAdmin):
 
 
 class BookAdmin(admin.ModelAdmin):
-    search_fields = ["id"]
+    search_fields = ["name", "volume_nb"]
     autocomplete_fields = ["series"]
     list_display = ["name", "series", "volume_nb", "id", "date_added", "comment"]
     list_filter = ["available", "date_added"]
