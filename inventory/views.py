@@ -1,13 +1,17 @@
 from django.http import HttpResponse
-from django.views.generic.list import ListView
+from django.views import generic
 from django.shortcuts import render
 
 from inventory.models import Series
 
 
-def index(request):
-    return HttpResponse("Inventaire ClubBDM")
+class HomePageView(generic.TemplateView):
+    template_name = "inventory/home.html"
 
 
-class SeriesListView(ListView):
+class SeriesListView(generic.ListView):
+    model = Series
+
+
+class SeriesDetailView(generic.DetailView):
     model = Series

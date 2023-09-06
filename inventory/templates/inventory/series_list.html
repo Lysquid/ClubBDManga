@@ -1,17 +1,24 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Inventaire BDMANGA</title>
-</head>
-<body>
+{% extends "inventory/base.html" %}
 
-<h1>Séries</h1>
-<ul>
-{% for serie in object_list %}
-    <li>{{ serie.series_name }} - {{ serie.book_type }} - {{ serie.book_category }}</li>
-{% endfor %}
-</ul>
+{% block title %}Séries{% endblock %}
 
-</body>
-</html>
+{% block content %}
+
+        <h1>Séries</h1>
+
+        <div class="row">
+            {% for series in object_list %}
+                <div class="col-sm-3 mx-1 my-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ series.name }}</h5>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">{{ series.authors.all|join:", " }}</h6>
+                            <p class="card-text">{{ series.get_type_display }} - {{ series.genre }}</p>
+                            <a href="{% url 'series detail' series.id %}" class="btn btn-primary">Détails</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+{% endblock %}
