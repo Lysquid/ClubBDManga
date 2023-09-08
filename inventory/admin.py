@@ -5,7 +5,7 @@ from inventory import models
 
 class BookInline(admin.TabularInline):
     model = models.Book
-    fields = ["name", "volume_nb", "id", "duplicate_nb"]
+    fields = ["name", "volume_nb", "duplicate_nb"]
     extra = 0
 
 
@@ -20,6 +20,7 @@ class SeriesAdmin(admin.ModelAdmin):
 
 @admin.register(models.Book)
 class BookAdmin(admin.ModelAdmin):
+    readonly_fields = ["id"]
     search_fields = ["series__name", "volume_nb"]
     autocomplete_fields = ["series"]
     list_display = ["__str__", "id", "date_added", "comment"]

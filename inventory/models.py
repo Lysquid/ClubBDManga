@@ -81,13 +81,13 @@ class Series(models.Model):
 
 
 class Book(models.Model):
-    id = models.CharField("cote", primary_key=True, max_length=12, validators=[
+    id = models.CharField("cote", primary_key=True, max_length=12, editable=False, validators=[
         validators.RegexValidator('^[0-9]{2}[A-Z0-9]{5}[0-9]{5}$')
     ])
     name = models.CharField("nom", max_length=255, blank=True)
     series = models.ForeignKey(Series, on_delete=models.CASCADE, verbose_name="série")
     volume_nb = models.PositiveIntegerField("volume")
-    duplicate_nb = models.PositiveIntegerField("nombre d'exemplaires", default=1)
+    duplicate_nb = models.PositiveIntegerField("numéro de duplicata", default=1)
     available = models.BooleanField("disponible", default=True)
     condition = models.PositiveSmallIntegerField("état", validators=[
         validators.MinValueValidator(1),
@@ -98,6 +98,15 @@ class Book(models.Model):
 
     def __str__(self):
         return f"{self.series} {self.volume_nb}"
+
+    def save(self, *args, **kwargs):
+        self.id = "".join((
+            str(self.series.genre.id).zfill(2),
+            self.series.id,
+            str(self.volume_nb).zfill(3),
+            str(self.duplicate_nb).zfill(2)
+        ))
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "livre"
