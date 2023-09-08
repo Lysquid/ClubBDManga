@@ -46,9 +46,23 @@ def can_make_loan(member_id):
         raise ValidationError(f"{member} à dépassé le quota des {Member.MAX_LOAN_LENGTH} emprunts maximums")
 
 
+def _last_loan_member():
+    if Loan.objects.count() > 0:
+        return Loan.objects.latest("id").member
+    return None
+
+
+def _last_loan_book():
+    if Loan.objects.count() > 0:
+        return Loan.objects.latest("id").book
+    return None
+
+
 class Loan(models.Model):
-    member = models.ForeignKey(Member, on_delete=models.CASCADE, verbose_name="membre", validators=[can_make_loan])
-    book = models.ForeignKey(inventory.models.Book, on_delete=models.CASCADE, verbose_name="livre")
+    member = models.ForeignKey(Member, on_delete=models.CASCADE, verbose_name="membre", validators=[can_make_loan],
+                               default=_last_loan_member)
+    book = models.ForeignKey(inventory.models.Book, on_delete=models.CASCADE, verbose_name="livre",
+                             default=_last_loan_book)
     loan_start = models.DateField("date de début", default=datetime.now)
     late_return = models.DateField("date de retour maximum", editable=False,
                                    help_text="date avant laquelle le livre devra être rendu")
