@@ -98,6 +98,15 @@ class Book(models.Model):
     def __str__(self):
         return f"{self.series} {self.volume_nb}"
 
+    def save(self, *args, **kwargs):
+        self.id = "".join((
+            str(self.series.genre.id).zfill(2),
+            self.series.id,
+            str(self.volume_nb).zfill(3),
+            str(self.duplicate_nb).zfill(2)
+        ))
+        super().save(*args, **kwargs)
+
     class Meta:
         verbose_name = "livre"
         unique_together = ("series", "volume_nb", "duplicate_nb")

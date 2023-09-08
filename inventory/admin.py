@@ -19,7 +19,7 @@ class BookInline(admin.TabularInline):
         TextField: {'widget': Textarea(attrs={'rows': 1})},
     }
     model = models.Book
-    fields = ["name", "id", "volume_nb", "condition", "duplicate_nb", "comment"]
+    fields = ["name", "volume_nb", "duplicate_nb", "condition", "comment"]
     extra = 0
 
 
