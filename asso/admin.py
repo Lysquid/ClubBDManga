@@ -8,12 +8,24 @@ class LoanInline(admin.TabularInline):
     extra = 0
 
 
+class BailListFilter(admin.SimpleListFilter):
+    title = "caution"
+    parameter_name = "bail"
+
+    def lookups(self, request, model_admin):
+        return [(True, "oui")]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(bail__gt=0)
+
+
 @admin.register(models.Member)
 class MembersAdmin(admin.ModelAdmin):
-    # inlines = [LoanInline]   slow for some reason
+    # inlines = [LoanInline]  # slow for some reason
     search_fields = ["name"]
-    list_display = ["name", "role_bdm", "date_added", "nb_loans", "last_loan", "comment"]
-    list_filter = ["archived", "role_bdm", "date_added"]
+    list_display = ["name", "can_make_loan", "date_added", "bail", "nb_loans", "comment"]
+    list_filter = [BailListFilter, "archived", "date_added", "is_alir_member"]
 
 
 @admin.register(models.Loan)
