@@ -4,13 +4,15 @@ from django.core import validators
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.datetime_safe import datetime
+from django.contrib.auth.models import User
 
 import inventory
 
 
 class Member(models.Model):
-    name = models.CharField("nom", unique=True, max_length=255)
-    mail = models.EmailField("email")
+    first_name = models.CharField("prénom", max_length=255)
+    last_name = models.CharField("nom", max_length=255)
+    email = models.EmailField("email")
     tel = models.CharField("tel", max_length=12, blank=True)
     bail = models.FloatField("caution déposée", default=0, help_text="en euros", validators=[
         validators.MinValueValidator(0)
@@ -21,6 +23,7 @@ class Member(models.Model):
                                         help_text="Les membres + peuvent emprunter des livres")
     is_alir_member = models.BooleanField("membre de l'ALIR", default=False)
     comment = models.TextField("commentaire", blank=True)
+    account = models.OneToOneField(User, on_delete=models.PROTECT, null=True, blank=True, verbose_name="compte")
     date_added = models.DateField("date d'inscription", auto_now_add=True)
 
     MAX_NB_LOANS = 10
@@ -32,7 +35,15 @@ class Member(models.Model):
     nb_loans.fget.short_description = "nb d'emprunts"
 
     def __str__(self):
-        return self.name
+        return f"{self.first_name} {self.last_name}"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.account:
+            self.account.first_name = self.first_name
+            self.account.last_name = self.last_name
+            self.account.email = self.email
+            self.account.save()
 
     class Meta:
         verbose_name = "membre"
