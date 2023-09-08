@@ -24,7 +24,7 @@ class BookAdmin(admin.ModelAdmin):
     search_fields = ["series__name", "volume_nb"]
     autocomplete_fields = ["series"]
     list_display = ["__str__", "id", "date_added", "comment"]
-    list_filter = ["available", "date_added"]
+    list_filter = ["date_added"]
 
 
 class LoanInline(admin.TabularInline):
@@ -44,7 +44,7 @@ class MembersAdmin(admin.ModelAdmin):
 class LoanAdmin(admin.ModelAdmin):
     autocomplete_fields = ["book", "member"]
     list_display = ["book", "member", "loan_start", "late_return", "loan_return"]
-    list_filter = ["archived", "late_return", "loan_return"]
+    list_filter = ["late_return", "loan_return"]
 
 
 class SeriesInline(admin.TabularInline):

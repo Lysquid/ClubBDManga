@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.db import models
 from django.core import validators
 from django.utils.datetime_safe import datetime
@@ -88,13 +90,19 @@ class Book(models.Model):
     series = models.ForeignKey(Series, on_delete=models.CASCADE, verbose_name="série")
     volume_nb = models.PositiveIntegerField("volume")
     duplicate_nb = models.PositiveIntegerField("numéro de duplicata", default=1)
-    available = models.BooleanField("disponible", default=True)
     condition = models.PositiveSmallIntegerField("état", validators=[
         validators.MinValueValidator(1),
         validators.MaxValueValidator(10)
     ])
     date_added = models.DateField("date d'ajout", auto_now_add=True)
     comment = models.TextField("commentaire", blank=True)
+
+    @property
+    def available(self):
+        if hasattr(self, "loan_set"):
+            return self.loan_set.count() == 0
+        else:
+            return False
 
     def __str__(self):
         return f"{self.series} {self.volume_nb}"
@@ -155,14 +163,17 @@ class Loan(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE, verbose_name="membre")
     book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name="livre")
     loan_start = models.DateField("date de début", default=datetime.now)
-    late_return = models.DateField("date de retour maximum", blank=True, null=True,
+    late_return = models.DateField("date de retour maximum", editable=False,
                                    help_text="date avant laquelle le livre devra être rendu")
     loan_return = models.DateField("date de retour", blank=True, null=True,
                                    help_text="laisser vide jusqu'au retour")
-    archived = models.BooleanField("archivé", default=False)
 
     def __str__(self):
         return f"{self.member} - {self.book.name}"
+
+    def save(self, *args, **kwargs):
+        self.late_return = self.loan_start + timedelta(days=self.member.loan_length)  # might make this a property ?
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "emprunt"
