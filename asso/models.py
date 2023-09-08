@@ -14,16 +14,17 @@ class Member(models.Model):
     last_name = models.CharField("nom", max_length=255)
     email = models.EmailField("email")
     tel = models.CharField("tel", max_length=12, blank=True)
-    bail = models.FloatField("caution déposée", default=0, help_text="en euros", validators=[
-        validators.MinValueValidator(0)
-    ])
     has_paid = models.BooleanField("a cotisé",
                                    help_text="Ce champ est réinitialisé tous les ans")
     can_make_loan = models.BooleanField("membre +",
                                         help_text="Les membres + peuvent emprunter des livres")
     is_alir_member = models.BooleanField("membre de l'ALIR", default=False)
+    bail = models.FloatField("caution déposée", default=0, help_text="en euros", validators=[
+        validators.MinValueValidator(0)
+    ])
+    account = models.OneToOneField(User, on_delete=models.PROTECT, null=True, blank=True, verbose_name="compte",
+                                   help_text="compte pour accéder à ce site")
     comment = models.TextField("commentaire", blank=True)
-    account = models.OneToOneField(User, on_delete=models.PROTECT, null=True, blank=True, verbose_name="compte")
     date_added = models.DateField("date d'inscription", auto_now_add=True)
 
     MAX_NB_LOANS = 10
