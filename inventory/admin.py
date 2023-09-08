@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.datetime_safe import datetime
 
 from inventory import models
 
@@ -24,7 +25,7 @@ class BookAdmin(admin.ModelAdmin):
     search_fields = ["series__name", "volume_nb"]
     autocomplete_fields = ["series"]
     list_display = ["__str__", "id", "date_added", "comment"]
-    list_filter = ["date_added"]
+    list_filter = ["available", "date_added"]
 
 
 class LoanInline(admin.TabularInline):
@@ -42,9 +43,16 @@ class MembersAdmin(admin.ModelAdmin):
 
 @admin.register(models.Loan)
 class LoanAdmin(admin.ModelAdmin):
+    search_fields = ["book__series__name", "book__volume_nb", "member__name"]
     autocomplete_fields = ["book", "member"]
     list_display = ["book", "member", "loan_start", "late_return", "loan_return"]
     list_filter = ["late_return", "loan_return"]
+    actions = ["mark_returned"]
+
+    @admin.action(description="Marquer les emprunts sélectionnés comme rendus")
+    def mark_returned(self, request, queryset):
+        for loan in queryset:
+            loan.return_book()
 
 
 class SeriesInline(admin.TabularInline):

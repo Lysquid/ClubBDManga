@@ -90,6 +90,7 @@ class Book(models.Model):
     series = models.ForeignKey(Series, on_delete=models.CASCADE, verbose_name="série")
     volume_nb = models.PositiveIntegerField("volume")
     duplicate_nb = models.PositiveIntegerField("numéro de duplicata", default=1)
+    available = models.BooleanField("disponible", default=True, editable=False)
     condition = models.PositiveSmallIntegerField("état", validators=[
         validators.MinValueValidator(1),
         validators.MaxValueValidator(10)
@@ -97,24 +98,8 @@ class Book(models.Model):
     date_added = models.DateField("date d'ajout", auto_now_add=True)
     comment = models.TextField("commentaire", blank=True)
 
-    @property
-    def available(self):
-        if hasattr(self, "loan_set"):
-            return self.loan_set.count() == 0
-        else:
-            return False
-
     def __str__(self):
         return f"{self.series} {self.volume_nb}"
-
-    def save(self, *args, **kwargs):
-        self.id = "".join((
-            str(self.series.genre.id).zfill(2),
-            self.series.id,
-            str(self.volume_nb).zfill(3),
-            str(self.duplicate_nb).zfill(2)
-        ))
-        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "livre"
@@ -173,7 +158,13 @@ class Loan(models.Model):
 
     def save(self, *args, **kwargs):
         self.late_return = self.loan_start + timedelta(days=self.member.loan_length)  # might make this a property ?
+        self.book.available = self.loan_return is not None
+        self.book.save()
         super().save(*args, **kwargs)
+
+    def return_book(self):
+        self.loan_return = datetime.now()
+        self.save()
 
     class Meta:
         verbose_name = "emprunt"
