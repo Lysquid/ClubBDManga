@@ -3,17 +3,13 @@ from django.contrib import admin
 from inventory import models
 
 
-class MyAdminSite(admin.AdminSite):
-    site_title = "Club BDManga"
-    site_header = "Club BDManga"
-
-
 class BookInline(admin.TabularInline):
     model = models.Book
     fields = ["name", "volume_nb", "id", "duplicate_nb"]
     extra = 0
 
 
+@admin.register(models.Series)
 class SeriesAdmin(admin.ModelAdmin):
     inlines = [BookInline]
     search_fields = ["name"]
@@ -22,6 +18,7 @@ class SeriesAdmin(admin.ModelAdmin):
     list_filter = ["type"]
 
 
+@admin.register(models.Book)
 class BookAdmin(admin.ModelAdmin):
     search_fields = ["series__name", "volume_nb"]
     autocomplete_fields = ["series"]
@@ -34,6 +31,7 @@ class LoanInline(admin.TabularInline):
     extra = 0
 
 
+@admin.register(models.Member)
 class MembersAdmin(admin.ModelAdmin):
     # inlines = [LoanInline]   slow for some reason
     search_fields = ["name"]
@@ -41,6 +39,7 @@ class MembersAdmin(admin.ModelAdmin):
     list_filter = ["archived", "role_bdm", "date_added"]
 
 
+@admin.register(models.Loan)
 class LoanAdmin(admin.ModelAdmin):
     autocomplete_fields = ["book", "member"]
     list_display = ["book", "member", "loan_start", "late_return", "loan_return"]
@@ -59,35 +58,27 @@ class SeriesEditorsInline(SeriesInline):
     model = models.Editor.series_set.through
 
 
-class SeriesGenreInline(SeriesInline):
+class SeriesGenresInline(SeriesInline):
     model = models.Series
     fields = ["name", "type", "id"]
 
 
+@admin.register(models.Author)
 class AuthorAdmin(admin.ModelAdmin):
     search_fields = ["name"]
     list_display = ["name", "nb_series"]
     inlines = [SeriesAuthorsInline]
 
 
+@admin.register(models.Editor)
 class EditorAdmin(admin.ModelAdmin):
     search_fields = ["name"]
     list_display = ["name", "nb_series"]
     inlines = [SeriesEditorsInline]
 
 
+@admin.register(models.Genre)
 class GenreAdmin(admin.ModelAdmin):
     search_fields = ["name"]
     list_display = ["name", "id", "nb_series"]
-    inlines = [SeriesGenreInline]
-
-
-admin_site = MyAdminSite()
-
-admin_site.register(models.Book, BookAdmin)
-admin_site.register(models.Author, AuthorAdmin)
-admin_site.register(models.Series, SeriesAdmin)
-admin_site.register(models.Member, MembersAdmin)
-admin_site.register(models.Editor, EditorAdmin)
-admin_site.register(models.Loan, LoanAdmin)
-admin_site.register(models.Genre, GenreAdmin)
+    inlines = [SeriesGenresInline]
