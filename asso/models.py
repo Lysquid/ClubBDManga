@@ -15,10 +15,11 @@ class Member(models.Model):
     bail = models.FloatField("caution déposée", default=0, help_text="en euros", validators=[
         validators.MinValueValidator(0)
     ])
+    has_paid = models.BooleanField("a cotisé",
+                                   help_text="Ce champ est réinitialisé tous les ans")
     can_make_loan = models.BooleanField("membre +",
                                         help_text="Les membres + peuvent emprunter des livres")
-    is_alir_member = models.BooleanField("Membre de l'ALIR", default=False)
-    archived = models.BooleanField("ancien membre", default=False)
+    is_alir_member = models.BooleanField("membre de l'ALIR", default=False)
     comment = models.TextField("commentaire", blank=True)
     date_added = models.DateField("date d'inscription", auto_now_add=True)
 
@@ -40,6 +41,8 @@ class Member(models.Model):
 
 def can_make_loan(member_id):
     member = Member.objects.get(pk=member_id)
+    if not member.has_paid:
+        raise ValidationError(f"{member} n'a pas encore cotisé cette année")
     if not member.can_make_loan:
         raise ValidationError("Il faut être Membre+ pour pouvoir emprunter")
     if member.loan_set.count() > Member.MAX_NB_LOANS:
