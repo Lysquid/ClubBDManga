@@ -4,7 +4,7 @@ from inventory.models import Series
 
 
 class HomePageView(generic.TemplateView):
-    template_name = "inventory/home.html"
+    template_name = "asso/home.html"
 
 
 class SeriesListView(generic.ListView):
