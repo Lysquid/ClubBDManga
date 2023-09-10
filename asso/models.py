@@ -28,7 +28,6 @@ class Member(models.Model):
     date_added = models.DateField("date d'inscription", auto_now_add=True)
 
     MAX_NB_LOANS = 10
-    MAX_LOAN_LENGTH = timedelta(days=30)
 
     @property
     def nb_loans(self):
@@ -51,6 +50,16 @@ class Member(models.Model):
         ordering = ["-date_added"]
 
 
+class LoanQuerySet(models.QuerySet):
+
+    def current_loans(self):
+        return self.filter(loan_return__exact=None)
+
+    def late_loans(self):
+        late_start = datetime.now() - Loan.MAX_LOAN_LENGTH
+        return self.current_loans().filter(loan_start__lt=late_start)
+
+
 def can_make_loan(member_id):
     member = Member.objects.get(pk=member_id)
     if not member.has_paid:
@@ -58,7 +67,7 @@ def can_make_loan(member_id):
     if not member.can_make_loan:
         raise ValidationError("Il faut être Membre+ pour pouvoir emprunter")
     if member.loan_set.count() > Member.MAX_NB_LOANS:
-        raise ValidationError(f"{member} à dépassé le quota des {Member.MAX_LOAN_LENGTH} emprunts maximums")
+        raise ValidationError(f"{member} à dépassé le quota des {Loan.MAX_LOAN_LENGTH} emprunts maximums")
 
 
 def _last_loan_member():
@@ -79,17 +88,27 @@ class Loan(models.Model):
     book = models.ForeignKey(inventory.models.Book, on_delete=models.CASCADE, verbose_name="livre",
                              default=_last_loan_book)
     loan_start = models.DateField("date de début", default=datetime.now)
-    late_return = models.DateField("date de retour maximum", editable=False,
-                                   help_text="date avant laquelle le livre devra être rendu")
     loan_return = models.DateField("date de retour", blank=True, null=True,
                                    help_text="laisser vide jusqu'au retour")
+    objects = LoanQuerySet.as_manager()
+
+    MAX_LOAN_LENGTH = timedelta(days=30)
+
+    @property
+    def late_return(self):
+        return self.loan_start + Loan.MAX_LOAN_LENGTH
+    late_return.fget.short_description = "date de retour maximum"
+
+    @property
+    def returned(self):
+        return self.loan_return is not None
+    late_return.fget.short_description = "emprunt rendu"
 
     def __str__(self):
         return f"{self.member} - {self.book.name}"
 
     def save(self, *args, **kwargs):
-        self.late_return = self.loan_start + Member.MAX_LOAN_LENGTH  # might make this a property ?
-        self.book.available = self.loan_return is not None
+        self.book.available = self.returned
         self.book.save()
         super().save(*args, **kwargs)
 
