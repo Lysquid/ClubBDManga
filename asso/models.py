@@ -27,7 +27,7 @@ class Member(models.Model):
     comment = models.TextField("commentaire", blank=True)
     date_added = models.DateField("date d'inscription", auto_now_add=True)
 
-    MAX_NB_LOANS = 10
+    MAX_NB_LOANS = 5
 
     @property
     def nb_loans(self):
