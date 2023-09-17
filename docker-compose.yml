@@ -1,23 +1,41 @@
 services:
   db:
-    image: mariadb
+    image: mariadb:11
     volumes:
-      - ./data/db:/var/lib/mysql/
+      - database:/var/lib/mysql/
     environment:
       - MARIADB_DATABASE=${DB_NAME}
       - MARIADB_USER=${DB_USER}
       - MARIADB_PASSWORD=${DB_PASSWORD}
       - MARIADB_ROOT_PASSWORD=${DB_PASSWORD}
-  web:
+
+  app:
     build: .
-    command: gunicorn --bind 0.0.0.0:8000 clubBDM.wsgi
     volumes:
-      - .:/code
+      - .:/app
+      - static:/app/static
+      - media:/app/media
     ports:
-      - "8000:8000"
+      - 8000:8000
     environment:
       - DB_NAME
       - DB_USER
       - DB_PASSWORD
     depends_on:
       - db
+
+  nginx:
+    image: nginx:1.25
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - static:/app/static
+      - media:/app/media
+    depends_on:
+      - app
+
+volumes:
+  database:
+  static:
+  media:
