@@ -1,0 +1,23 @@
+services:
+  db:
+    image: mariadb
+    volumes:
+      - ./data/db:/var/lib/mysql/
+    environment:
+      - MARIADB_DATABASE=${DB_NAME}
+      - MARIADB_USER=${DB_USER}
+      - MARIADB_PASSWORD=${DB_PASSWORD}
+      - MARIADB_ROOT_PASSWORD=${DB_PASSWORD}
+  web:
+    build: .
+    command: gunicorn --bind 0.0.0.0:8000 clubBDM.wsgi
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_NAME
+      - DB_USER
+      - DB_PASSWORD
+    depends_on:
+      - db

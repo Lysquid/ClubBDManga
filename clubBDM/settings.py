@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-@5d!b@c_h649^qd0go%m)o3amv22)!707cp+5#9z96_ffw1k5b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -78,9 +78,11 @@ WSGI_APPLICATION = 'clubBDM.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'BDMANGA',
-        'USER': 'root',
-        'PASSWORD': os.getenv('BDMANGA_DB_PASSWORD')
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': 'db',
+        'PORT': 3306,
     }
 }
 
