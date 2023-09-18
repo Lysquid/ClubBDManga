@@ -15,13 +15,12 @@ services:
       - .:/app
       - static:/app/static
       - media:/app/media
-    ports:
-      - 8000:8000
     environment:
       - DB_NAME
       - DB_USER
       - DB_PASSWORD
       - SECRET_KEY
+      - ALLOWED_HOSTS
       - DEBUG=0
     depends_on:
       - db
