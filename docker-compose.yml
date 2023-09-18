@@ -29,12 +29,25 @@ services:
     image: nginx:1.25
     ports:
       - 80:80
+      - 443:443
     volumes:
       - ./nginx:/etc/nginx/conf.d:ro
       - static:/app/static:ro
       - media:/app/media:ro
+      - ./certbot/www:/var/www/certbot/:ro
     depends_on:
       - app
+
+  certbot:
+    image: certbot/certbot
+    command: certonly --webroot --webroot-path /var/www/certbot/ -d bdmanga.insalgo.fr --agree-tos --email $EMAIL
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
+    environment:
+      - email
+    depends_on:
+      - nginx
 
 volumes:
   database:
