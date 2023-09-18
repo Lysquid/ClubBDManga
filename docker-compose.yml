@@ -41,7 +41,7 @@ services:
 
   certbot:
     image: certbot/certbot
-    command: certonly --webroot --webroot-path /var/www/certbot/ -d bdmanga.insalgo.fr --agree-tos --email $EMAIL
+    command: certonly --webroot --webroot-path /var/www/certbot/ -d bdmanga.insalgo.fr --agree-tos --email $EMAIL --non-interactive --keep-until-expiring
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
       - ./certbot/conf/:/etc/letsencrypt/:rw
