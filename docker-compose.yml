@@ -21,6 +21,8 @@ services:
       - DB_NAME
       - DB_USER
       - DB_PASSWORD
+      - SECRET_KEY
+      - DEBUG=0
     depends_on:
       - db
 
