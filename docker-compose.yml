@@ -21,7 +21,6 @@ services:
       - DB_PASSWORD
       - SECRET_KEY
       - SITE_URL
-      - DEBUG=0
     depends_on:
       - db
 
