@@ -20,7 +20,7 @@ services:
       - DB_USER
       - DB_PASSWORD
       - SECRET_KEY
-      - ALLOWED_HOSTS
+      - SITE_URL
       - DEBUG=0
     depends_on:
       - db
@@ -41,12 +41,13 @@ services:
 
   certbot:
     image: certbot/certbot
-    command: certonly --webroot --webroot-path /var/www/certbot/ -d bdmanga.insalgo.fr --agree-tos --email $EMAIL --non-interactive --keep-until-expiring
+    command: certonly --webroot --webroot-path /var/www/certbot/ -d $SITE_URL -m $EMAIL --non-interactive --agree-tos --keep-until-expiring
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
       - ./certbot/conf/:/etc/letsencrypt/:rw
     environment:
-      - email
+      - EMAIL
+      - SITE_URL
     depends_on:
       - nginx
 

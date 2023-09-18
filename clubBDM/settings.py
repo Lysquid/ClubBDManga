@@ -28,8 +28,9 @@ DEBUG = bool(int(os.getenv('DEBUG', 0)))
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    'bdmanga.insalgo.fr',
 ]
+if 'SITE_URL' in os.environ:
+    ALLOWED_HOSTS.append(os.getenv('SITE_URL'))
 
 # Application definition
 
