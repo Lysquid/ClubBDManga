@@ -15,7 +15,9 @@ jobs:
     - name: Build, restart docker compose and migrate
       run: |
         docker compose up --build --detach --remove-orphans
+        docker exec clubbdmanga-db-1 mariadb-dump -u $DB_USER --password=$DB_PASSWORD $DB_NAME > ~/bdmanga_dump_before.sql
         docker compose run app python manage.py migrate
+        docker exec clubbdmanga-db-1 mariadb-dump -u $DB_USER --password=$DB_PASSWORD $DB_NAME > ~/bdmanga_dump_after.sql
       env:
         DB_NAME: ${{ vars.DB_NAME }}
         DB_USER: ${{ vars.DB_USER }}
