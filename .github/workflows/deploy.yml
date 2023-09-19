@@ -33,7 +33,7 @@ jobs:
     needs: pre
     steps:
     - name: Migrate database
-      run: docker compose run app python manage.py migrate
+      run: docker compose run --rm app python manage.py migrate
   post:
     uses: Lysquid/ClubBDManga/.github/workflows/dump.yml@main
     secrets:
