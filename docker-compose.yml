@@ -3,6 +3,8 @@ services:
     image: mariadb:11
     volumes:
       - database:/var/lib/mysql:rw
+    networks:
+      - database
     environment:
       - MARIADB_DATABASE=${DB_NAME}
       - MARIADB_USER=${DB_USER}
@@ -12,32 +14,40 @@ services:
   app:
     build: .
     volumes:
-      - nginx:/app/nginx:ro
       - static:/app/static:rw
       - media:/app/media:rw
+    networks:
+      - database
+      - nginx
     environment:
       - DB_NAME
       - DB_USER
       - DB_PASSWORD
       - SECRET_KEY
       - SITE_URL
-      - DEBUG=0
+      - DEBUG=${DEBUG:-0}
     depends_on:
       - db
 
   nginx:
-    image: nginx:1
+    build: ./nginx
     ports:
-      - 8001:8000
+      - 8001:8001
     volumes:
-      - nginx:/etc/nginx/conf.d:ro
       - static:/app/static:ro
       - media:/app/media:ro
+    networks:
+      - nginx
     depends_on:
       - app
+
+networks:
+  database:
+    driver: bridge
+  nginx:
+    driver: bridge
 
 volumes:
   database:
   static:
   media:
-  nginx:
