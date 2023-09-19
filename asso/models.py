@@ -66,8 +66,8 @@ def can_make_loan(member_id):
         raise ValidationError(f"{member} n'a pas encore cotisé cette année")
     if not member.can_make_loan:
         raise ValidationError("Il faut être Membre+ pour pouvoir emprunter")
-    if member.loan_set.count() > Member.MAX_NB_LOANS:
-        raise ValidationError(f"{member} à dépassé le quota des {Loan.MAX_LOAN_LENGTH} emprunts maximums")
+    if member.loan_set.current_loans().count() > Member.MAX_NB_LOANS:
+        raise ValidationError(f"{member} à dépassé le quota des {Member.MAX_NB_LOANS} emprunts maximums")
 
 
 def _last_loan_member():
