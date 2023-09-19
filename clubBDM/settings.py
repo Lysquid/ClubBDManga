@@ -25,13 +25,14 @@ SECRET_KEY = os.getenv('SECRET_KEY', '=4iot)a81-rf%xii$)b#09@=*%=la#@^bdk$=)^@9*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.getenv('DEBUG', 0)))
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    '0.0.0.0',
-]
-if 'SITE_URL' in os.environ:
-    ALLOWED_HOSTS.append(os.getenv('SITE_URL'))
+if DEBUG:
+    ALLOWED_HOSTS = [
+        'localhost',
+        '127.0.0.1',
+        '0.0.0.0',
+    ]
+else:
+    ALLOWED_HOSTS = [os.getenv('SITE_URL')]
 
 # Application definition
 
@@ -135,10 +136,9 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Deployment
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-
+# Deployment security settings
 if not DEBUG:
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
     SECURE_SSL_REDIRECT = True
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
