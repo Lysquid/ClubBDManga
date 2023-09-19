@@ -9,6 +9,8 @@ on:
 jobs:
   dump:
     uses: Lysquid/ClubBDManga/.github/workflows/dump.yml@main
+    secrets:
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
   deploy:
     runs-on: [self-hosted, linux]
     environment: Production
