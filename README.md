@@ -22,3 +22,9 @@
 ### Réstaurer une backup
 
 `mariadb -u root -p -D BDMANGA < dump.sql`
+
+## Déploiement
+
+La première fois, il faut générer un certificat ssl signé à la main pour que nginx puisse démarrer, avec la commande :
+
+`docker run -p80:80 -v/etc/letsencrypt/:/etc/letsencrypt/ certbot/certbot certonly --email <email> --domain <domain> --standalone --non-interactive --agree-tos`
