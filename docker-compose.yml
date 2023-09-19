@@ -12,47 +12,32 @@ services:
   app:
     build: .
     volumes:
+      - nginx:/app/nginx:ro
       - static:/app/static:rw
       - media:/app/media:rw
-      - nginx:/app/nginx:ro
     environment:
       - DB_NAME
       - DB_USER
       - DB_PASSWORD
       - SECRET_KEY
       - SITE_URL
+      - DEBUG=0
     depends_on:
       - db
 
   nginx:
     image: nginx:1
     ports:
-      - 80:80
-      - 443:443
+      - 8001:8000
     volumes:
       - nginx:/etc/nginx/conf.d:ro
       - static:/app/static:ro
       - media:/app/media:ro
-      - certbot:/var/www/html/:ro
-      - /etc/letsencrypt/:/etc/nginx/ssl/:ro
     depends_on:
       - app
-
-  certbot:
-    image: certbot/certbot
-    command: certonly --webroot --webroot-path /var/www/html/ -d $SITE_URL -m $EMAIL --non-interactive --agree-tos --keep-until-expiring
-    volumes:
-      - certbot:/var/www/html/:rw
-      - /etc/letsencrypt/:/etc/letsencrypt/:rw
-    environment:
-      - EMAIL
-      - SITE_URL
-    depends_on:
-      - nginx
 
 volumes:
   database:
   static:
   media:
-  certbot:
   nginx:
