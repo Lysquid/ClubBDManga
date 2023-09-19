@@ -7,21 +7,21 @@ on:
   workflow_dispatch:
 
 jobs:
+  dump:
+    uses: Lysquid/ClubBDManga/.github/workflows/dump.yml@main
   deploy:
     runs-on: [self-hosted, linux]
     environment: Production
+    env:
+      DB_NAME: ${{ vars.DB_NAME }}
+      DB_USER: ${{ vars.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      EMAIL: ${{ vars.EMAIL }}
+      SITE_URL: ${{ vars.SITE_URL }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
     steps:
     - uses: actions/checkout@v3
-    - name: Build, restart docker compose and migrate
-      run: |
-        docker compose up --build --detach --remove-orphans
-        docker exec clubbdmanga-db-1 mariadb-dump -u $DB_USER --password=$DB_PASSWORD $DB_NAME > ~/bdmanga_dump_before.sql
-        docker compose run app python manage.py migrate
-        docker exec clubbdmanga-db-1 mariadb-dump -u $DB_USER --password=$DB_PASSWORD $DB_NAME > ~/bdmanga_dump_after.sql
-      env:
-        DB_NAME: ${{ vars.DB_NAME }}
-        DB_USER: ${{ vars.DB_USER }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        EMAIL: ${{ vars.EMAIL }}
-        SITE_URL: ${{ vars.SITE_URL }}
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+    - name: Build and restart docker compose
+      run: docker compose up --build --detach --remove-orphans
+    - name: Migrate
+      run: docker compose run app python manage.py migrate

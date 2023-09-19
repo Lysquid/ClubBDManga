@@ -18,4 +18,6 @@ jobs:
     - name: Make dump directory
       run: mkdir -p ~/$DB_NAME
     - name: Dump database
-      run: docker exec clubbdmanga-db-1 mariadb-dump -u $DB_USER --password=$DB_PASSWORD $DB_NAME > ~/$DB_NAME/$(date +"%Y-%m-%d").sql
+      run: docker exec clubbdmanga-db-1 mariadb-dump -u $DB_USER --password=$DB_PASSWORD $DB_NAME > ~/$DB_NAME/$(date +"%s").sql
+    - name: Delete dumps older than 30 days
+      run: find ~/$DB_NAME -type f -mtime +30 -delete
