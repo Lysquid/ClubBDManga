@@ -33,17 +33,17 @@ services:
       - ./nginx:/etc/nginx/conf.d:ro
       - static:/app/static:ro
       - media:/app/media:ro
-      - ./certbot/www:/var/www/certbot/:ro
-      - ./certbot/conf/:/etc/nginx/ssl/:ro
+      - certbot:/var/www/html/:ro
+      - /etc/letsencrypt/:/etc/nginx/ssl/:ro
     depends_on:
       - app
 
   certbot:
     image: certbot/certbot
-    command: certonly --webroot --webroot-path /var/www/certbot/ -d $SITE_URL -m $EMAIL --non-interactive --agree-tos --keep-until-expiring
+    command: certonly --webroot --webroot-path /var/www/html/ -d $SITE_URL -m $EMAIL --non-interactive --agree-tos --keep-until-expiring
     volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
+      - certbot:/var/www/html/:rw
+      - /etc/letsencrypt/:/etc/letsencrypt/:rw
     environment:
       - EMAIL
       - SITE_URL
@@ -54,3 +54,4 @@ volumes:
   database:
   static:
   media:
+  certbot:
