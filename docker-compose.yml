@@ -12,9 +12,9 @@ services:
   app:
     build: .
     volumes:
-      - .:/app
       - static:/app/static:rw
       - media:/app/media:rw
+      - nginx:/app/nginx:ro
     environment:
       - DB_NAME
       - DB_USER
@@ -30,7 +30,7 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ./nginx:/etc/nginx/conf.d:ro
+      - nginx:/etc/nginx/conf.d:ro
       - static:/app/static:ro
       - media:/app/media:ro
       - certbot:/var/www/html/:ro
@@ -55,3 +55,4 @@ volumes:
   static:
   media:
   certbot:
+  nginx:

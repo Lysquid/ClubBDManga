@@ -9,16 +9,15 @@ on:
 jobs:
   deploy:
     runs-on: [self-hosted, linux]
+    environment: Production
     steps:
-    - name: ssh on vps and update
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
-        script: |
-          cd ${{ github.event.repository.name }}
-          git pull origin ${{ github.ref_name }}
-          git checkout ${{ github.ref_name }}
-          docker compose up --build --detach
+    - uses: actions/checkout@v3
+    - name: Build and restart docker
+      run: docker compose up --build --detach --remove-orphans
+      env:
+        DB_NAME: ${{ vars.DB_NAME }}
+        DB_USER: ${{ vars.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        EMAIL: ${{ vars.EMAIL }}
+        SITE_URL: ${{ vars.SITE_URL }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
