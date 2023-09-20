@@ -20,6 +20,7 @@ services:
       - database
       - nginx
     environment:
+      - DB_HOST=db
       - DB_NAME
       - DB_USER
       - DB_PASSWORD

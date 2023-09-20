@@ -1,0 +1,15 @@
+.git
+.gitignore
+.github
+.vscode
+.idea
+.env
+env
+venv
+__pycache__
+nginx
+*.md
+LICENSE
+docker-compose.yml
+Dockerfile
+dumps
