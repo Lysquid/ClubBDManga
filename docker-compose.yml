@@ -12,7 +12,9 @@ services:
       - MARIADB_ROOT_PASSWORD=${DB_PASSWORD}
 
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: docker/django/Dockerfile
     volumes:
       - static:/app/static:rw
       - media:/app/media:rw
@@ -31,7 +33,9 @@ services:
       - db
 
   nginx:
-    build: ./nginx
+    build:
+      context: docker/nginx
+      dockerfile: Dockerfile
     ports:
       - 8001:8001
     volumes:

@@ -22,20 +22,8 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build and restart docker compose
       run: docker compose up --build --detach --remove-orphans
-  pre:
+  backup:
     uses: Lysquid/ClubBDManga/.github/workflows/dump.yml@main
     secrets:
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
     needs: deploy
-  migrate:
-    runs-on: [ self-hosted, linux ]
-    environment: Production
-    needs: pre
-    steps:
-    - name: Migrate database
-      run: docker compose run --rm app python manage.py migrate
-  post:
-    uses: Lysquid/ClubBDManga/.github/workflows/dump.yml@main
-    secrets:
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-    needs: migrate

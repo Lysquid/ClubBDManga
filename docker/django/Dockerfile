@@ -10,6 +10,5 @@ RUN pip install gunicorn
 RUN pip install -r requirements.txt
 
 COPY . /app/
-RUN python manage.py collectstatic --no-input
 
-CMD ["gunicorn", "clubBDM.wsgi", "--bind", "0.0.0.0:8001"]
+CMD ./docker/django/entrypoint.sh

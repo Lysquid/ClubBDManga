@@ -2,7 +2,7 @@ name: Backup database
 
 on:
   schedule:
-    - cron:  '0 4 * * *'
+    - cron:  '0 4,14 * * *'
   workflow_call:
     secrets:
       DB_PASSWORD:
