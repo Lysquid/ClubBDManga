@@ -33,6 +33,18 @@ class MembersAdmin(admin.ModelAdmin):
         queryset.update(has_paid=False)
 
 
+class CurrentLoansListFilter(admin.SimpleListFilter):
+    title = "en cours"
+    parameter_name = "current"
+
+    def lookups(self, request, model_admin):
+        return [(True, "oui")]
+
+    def queryset(self, request, queryset: models.LoanQuerySet):
+        if self.value():
+            return queryset.current_loans()
+
+
 class LateLoansListFilter(admin.SimpleListFilter):
     title = "en retard"
     parameter_name = "late"
@@ -50,7 +62,7 @@ class LoanAdmin(admin.ModelAdmin):
     search_fields = ["book__series__name", "book__volume_nb", "member__name"]
     autocomplete_fields = ["book", "member"]
     list_display = ["book", "member", "loan_start", "late_return", "loan_return"]
-    list_filter = [LateLoansListFilter, "loan_return"]
+    list_filter = [CurrentLoansListFilter, LateLoansListFilter, "loan_return"]
     actions = ["mark_returned"]
 
     @admin.action(description="Marquer les emprunts sélectionnés comme rendus")
