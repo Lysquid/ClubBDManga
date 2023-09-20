@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.db.models import TextField
+from django.forms import Textarea
 
 from inventory import models
 
@@ -13,8 +15,11 @@ class BookAdmin(admin.ModelAdmin):
 
 
 class BookInline(admin.TabularInline):
+    formfield_overrides = {
+        TextField: {'widget': Textarea(attrs={'rows': 1})},
+    }
     model = models.Book
-    fields = ["name", "volume_nb", "duplicate_nb"]
+    fields = ["name", "id", "volume_nb", "condition", "duplicate_nb", "comment"]
     extra = 0
 
 
