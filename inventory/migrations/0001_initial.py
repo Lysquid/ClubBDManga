@@ -54,7 +54,7 @@ class Migration(migrations.Migration):
                 ('loan_length', models.PositiveIntegerField(default=30, help_text="durée maximale d'un emprunt en jours", verbose_name="durée d'emprunt")),
                 ('bail', models.FloatField(default=0, help_text='en euros', verbose_name='caution')),
                 ('last_loan', models.DateField(blank=True, verbose_name='date du dernier emprunt')),
-                ('role_bdm', models.CharField(choices=[('member', 'Membre'), ('member+', 'Membre +'), ('not member', 'Non membre'), ('board', 'Bureau')], max_length=64, verbose_name='rôle au ClubBDM')),
+                ('role_bdm', models.CharField(choices=[('member', 'Membre'), ('member+', 'Membre +'), ('not member', 'Non membre'), ('board', 'Bureau')], max_length=64, verbose_name='rôle au Club BDManga')),
                 ('role_alir', models.CharField(choices=[('member', 'Membre'), ('member+', 'Membre +'), ('not member', 'Non membre'), ('board', 'Bureau')], max_length=64, verbose_name="rôle à l'Alir")),
                 ('archived', models.BooleanField(default=False, verbose_name='ancien membre')),
                 ('comment', models.TextField(blank=True, verbose_name='commentaire')),
