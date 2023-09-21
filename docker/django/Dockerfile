@@ -6,7 +6,7 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 COPY requirements.txt /app/
-RUN pip install gunicorn
+RUN pip install "gunicorn>=21.2.0,<22.0"
 RUN pip install -r requirements.txt
 
 COPY . /app/
