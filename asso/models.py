@@ -22,7 +22,7 @@ class Member(models.Model):
     bail = models.FloatField("caution déposée", default=0, help_text="en euros", validators=[
         validators.MinValueValidator(0)
     ])
-    account = models.OneToOneField(User, on_delete=models.PROTECT, null=True, blank=True, verbose_name="compte",
+    account = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="compte",
                                    help_text="compte pour accéder à ce site")
     comment = models.TextField("commentaire", blank=True)
     date_added = models.DateField("date d'inscription", auto_now_add=True)
