@@ -25,7 +25,7 @@ class MembersAdmin(admin.ModelAdmin):
     # inlines = [LoanInline]  # slow for some reason
     search_fields = ["first_name", "last_name"]
     list_display = ["__str__", "has_paid", "can_make_loan", "bail", "date_added", "nb_loans", "comment"]
-    list_filter = ["has_paid", "can_make_loan", BailListFilter, "date_added", "is_alir_member"]
+    list_filter = ["has_paid", "can_make_loan", BailListFilter, "date_added"]
     actions = ["mark_has_not_paid"]
 
     @admin.action(description="Réinitialiser la cotisation des membres sélectionnés")

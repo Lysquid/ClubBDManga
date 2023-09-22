@@ -18,7 +18,6 @@ class Member(models.Model):
                                    help_text="Ce champ est réinitialisé tous les ans")
     can_make_loan = models.BooleanField("membre +",
                                         help_text="Les membres + peuvent emprunter des livres")
-    is_alir_member = models.BooleanField("membre de l'ALIR", default=False)
     bail = models.FloatField("caution déposée", default=0, help_text="en euros", validators=[
         validators.MinValueValidator(0)
     ])
