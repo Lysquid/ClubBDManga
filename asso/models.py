@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.datetime_safe import datetime
 
-import inventory
+from inventory.models import Book
 
 
 class Member(models.Model):
@@ -70,21 +70,25 @@ def can_make_loan(member_id):
 
 
 def _last_loan_member():
-    if Loan.objects.count() > 0:
+    if Loan.objects.exists():
         return Loan.objects.latest("id").member
     return None
 
 
 def _last_loan_book():
-    if Loan.objects.count() > 0:
-        return Loan.objects.latest("id").book
+    if Loan.objects.exists():
+        latest_book = Loan.objects.latest("id").book
+        try:
+            return Book.objects.get(series=latest_book.series, volume_nb=latest_book.volume_nb + 1)
+        except models.ObjectDoesNotExist:
+            return None
     return None
 
 
 class Loan(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE, verbose_name="membre", validators=[can_make_loan],
                                default=_last_loan_member)
-    book = models.ForeignKey(inventory.models.Book, on_delete=models.CASCADE, verbose_name="livre",
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name="livre",
                              default=_last_loan_book)
     loan_start = models.DateField("date de début", default=datetime.now)
     loan_return = models.DateField("date de retour", blank=True, null=True,
