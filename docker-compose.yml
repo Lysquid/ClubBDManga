@@ -18,6 +18,7 @@ services:
     volumes:
       - static:/app/static:rw
       - media:/app/media:rw
+      - ./helloasso:./helloasso
     networks:
       - database
       - nginx
