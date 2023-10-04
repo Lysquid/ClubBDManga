@@ -16,10 +16,12 @@ Including another URLconf
 """
 from django.urls import include, path
 
+from bdmanga import views
 from .admin import admin
 
 urlpatterns = [
     path('', include('asso.urls')),
     path('', include('inventory.urls')),
     path('admin/', admin.site.urls),
+    path("helloasso/notifs", views.helloasso_notif)
 ]
