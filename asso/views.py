@@ -1,5 +1,6 @@
 from pathlib import Path
 from time import time
+from json import dump
 
 from django.http import HttpRequest, HttpResponse, HttpResponseNotAllowed
 from django.views import generic
@@ -13,9 +14,9 @@ def helloasso_notif(request: HttpRequest):
     if request.method != "POST":
         return HttpResponseNotAllowed(["POST"])
 
-    data = request.POST
+    data = request.POST.dict()
     Path("helloasso/notifs/").mkdir(parents=True, exist_ok=True)
     with open(f"helloasso/notifs/{int(time() * 1000)}.json", 'w') as f:
-        f.write(data)
+        dump(data, f, indent=2)
 
     return HttpResponse()
