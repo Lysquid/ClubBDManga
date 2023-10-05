@@ -59,7 +59,7 @@ class LateLoansListFilter(admin.SimpleListFilter):
 
 @admin.register(models.Loan)
 class LoanAdmin(admin.ModelAdmin):
-    search_fields = ["book__series__name", "book__volume_nb", "member__name"]
+    search_fields = ["book__series__name", "book__volume_nb", "member__first_name", "member__last_name"]
     autocomplete_fields = ["book", "member"]
     list_display = ["book", "member", "loan_start", "late_return", "loan_return"]
     list_filter = [CurrentLoansListFilter, LateLoansListFilter, "loan_return"]
