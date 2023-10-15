@@ -6,6 +6,10 @@
 
         <h1>Séries</h1>
 
+        <form action="{% url 'series list' %}" method="get">
+            <input name="search" type="text" placeholder="Rechercher...">
+        </form>
+
         <div class="row">
             {% for series in object_list %}
                 <div class="col-sm-3 mx-1 my-3">
