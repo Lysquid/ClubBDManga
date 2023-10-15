@@ -13,7 +13,7 @@ class Member(models.Model):
     first_name = models.CharField("prénom", max_length=255)
     last_name = models.CharField("nom", max_length=255)
     email = models.EmailField("email")
-    tel = models.CharField("tel", max_length=12, blank=True)
+    tel = models.CharField("tel", max_length=15, blank=True)
     has_paid = models.BooleanField("a cotisé",
                                    help_text="Ce champ est réinitialisé tous les ans")
     can_make_loan = models.BooleanField("membre +",
