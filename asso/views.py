@@ -10,12 +10,6 @@ from django.views.decorators.csrf import csrf_exempt
 class HomePageView(generic.TemplateView):
     template_name = "asso/home.html"
 
-@csrf_exempt
-def test(request: HttpRequest):
-    print("test received")
-    print(request.method)
-    print(request.POST)
-    return HttpResponse()
 
 @csrf_exempt
 def helloasso_notif(request: HttpRequest):
