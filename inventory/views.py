@@ -6,8 +6,6 @@ from inventory.models import Series
 class SeriesListView(generic.ListView):
     model = Series
 
-    # queryset = Series.objects.filter(name__icontains="test")
-    
     def get_queryset(self):
         print("in get_queryset")
         object_list = Series.objects.all()

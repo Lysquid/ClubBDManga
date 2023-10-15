@@ -7,7 +7,10 @@
         <h1>Séries</h1>
 
         <form action="{% url 'series list' %}" method="get">
-            <input name="search" type="text" placeholder="Rechercher...">
+            <div class="input-group rounded w-75 mx-1 my-3">
+                <input name="search" type="search" class="form-control" placeholder="Recherche" aria-label="Search" aria-describedby="search-addon" />
+                <button type="button" class="btn btn-outline-primary">rechercher</button>
+            </div>
         </form>
 
         <div class="row">
