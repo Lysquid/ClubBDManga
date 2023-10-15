@@ -7,7 +7,6 @@ class SeriesListView(generic.ListView):
     model = Series
 
     def get_queryset(self):
-        print("in get_queryset")
         object_list = Series.objects.all()
         query = self.request.GET.get("search")
         if query:
