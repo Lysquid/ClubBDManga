@@ -12,7 +12,6 @@ class SeriesListView(generic.ListView):
         print("in get_queryset")
         object_list = Series.objects.all()
         query = self.request.GET.get("search")
-        print(query)
         if query:
             object_list = object_list.filter(name__icontains=query)
         return object_list
