@@ -1,6 +1,6 @@
 # Application web du Club BDManga
 
-## Installer en local
+## Installation en local
 
  - `git clone https://github.com/Lysquid/ClubBDManga`
  - `python -m venv env`
@@ -8,23 +8,37 @@
  - `pip install -r requirements.txt`
  - installer `mariadb` ou `mysql` (les deux sont interchangeables)
  - `mariadb -u root -p -e "create database BDMANGA"`
- - définir la variable d'environnement `BDMANGA_DB_PASSWORD` avec le mot de passe de la base de donnée
+ - définir les variables d'environnement suivantes :
+   - `DB_USER` l'utilisateur de la base de données, `root` ici
+   - `DB_PASSWORD`
+   - `DB_NAME` le nom de la base de données, `BDMANGA` ici
+   - `DEBUG=1` pour faciliter le développement
  - `python manage.py migrate`
  - `python manage.py createsuperuser` (optionnel, pour avoir le site admin)
  - `python manage.py runserver`
 
+Le docker-compose peut également être utilisé en local, en définissant les variables d'environnement dans un fichier `.env`. Cette méthode reste moins pratique pour le développement car elle a été prévue pour le déploiement.
+
 ## Base de données
 
-### Backup
+Des backups journalières sont réalisées sur le VPS avec une action.
+
+### Faire une backup
 
 `mariadb-dump -u root -p -D BDMANGA > dump.sql`
+
+Avec docker :
+
+`docker exec -i clubbdmanga-db-1 mariadb-dump -u $DB_USER $DB_NAME > dump.sql`
 
 ### Réstaurer une backup
 
 `mariadb -u root -p -D BDMANGA < dump.sql`
 
+Avec docker :
+
+`cat dump.sql | docker exec -i clubbdmanga-db-1 mariadb -u $DB_USER --password=$DB_PASSWORD $DB_NAME`
+
 ## Déploiement
 
-La première fois, il faut générer un certificat ssl signé à la main pour que nginx puisse démarrer, avec la commande :
-
-`docker run -p80:80 -v/etc/letsencrypt/:/etc/letsencrypt/ certbot/certbot certonly --email <email> --domain <domain> --standalone --non-interactive --agree-tos`
+Le déploiement se fait automatiquement sur le VPS hébergeant le runner à chaque push sur `main`, ou en lançant manuellement l'action. Il y a une autre action pour arrêter l'application.
