@@ -1,0 +1,16 @@
+{
+  "short_name": "CLUB BD MANGA",
+  "name": "CLUB BD MANGA INSA",
+  "description": "Official App of Club BD Manga of Insa",
+  "icons": [
+    {
+      "src":"https://bdm.insalgo.fr/static/asso/logo.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": "https://bdm.insalgo.fr/",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FFFFFF",
+  "display": "standalone"
+}
