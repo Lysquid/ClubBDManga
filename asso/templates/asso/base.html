@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- added by Malik-->
     <title>{% block title %}{% endblock %} - Club BDManga</title>
-    <link rel="shortcut icon" type="image/png" href="{% static 'asso/favicon.png' %}" >
+    <link rel="shortcut icon" type="image/png" href="{% static 'asso/logo.png' %}" >
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'asso/style.css' %}">
@@ -15,7 +15,8 @@
 
 <nav class="navbar navbar-expand-lg bg-primary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'home' %}">Club BDManga</a>
+        <img src="{% static 'asso/logoAndText.png' %}" style="width:10em;height:5em;">
+        <a class="navbar-brand" href="{% url 'home' %}"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -31,22 +32,27 @@
         </div>
     </div>
 </nav>
+<div id="content" class="" style="background-image:url('{% static 'asso/logoMain.png' %}');background-size: contain;background-repeat: no-repeat;border:1px solid #F3F3F3;margin:0;background-size: 100% 100%;">
+	<img src="{% static 'asso/logo.png' %}" style="margin-left:auto;margin-right:auto;width:10em;height:10em;display:block;">
+    <h2 style="text-align:center;">Club BDManga !</h2>
+	<h2 style="text-align:center;color:red;">depuis 1975</h2>
+</div><br/>
 <div class="container">
-
-    <div id="content" class="my-5">
+<img src="./static/asso/banner.png" style="margin-left:auto;margin-right:auto;width:100%;height:30%;display:block;">
+    <!--<div id="content" class="my-5">
         {% block content %}{% endblock %}
-    </div>
+    </div>-->
 
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-        <p class="col-md-4 mb-0 text-body-secondary">© 2023 Club BDManga</p>
+        <p class="col-md-4 mb-0 text-body-primary">© 2023 Club BDManga</p>
 
         <ul class="nav col-md-4 justify-content-end">
-            <li class="nav-item"><a href="https://discord.gg/KHbnbJuBU" class="nav-link px-2 text-body-secondary">Discord</a></li>
-            <li class="nav-item"><a href="https://www.facebook.com/ClubBdMangaInsa/" class="nav-link px-2 text-body-secondary">Facebook</a></li>
-            <li class="nav-item"><a href="https://www.instagram.com/insabdmangas" class="nav-link px-2 text-body-secondary">Intagram</a></li>
-            <li class="nav-item"><a href="https://www.youtube.com/@clubbdinsa" class="nav-link px-2 text-body-secondary">Youtube</a></li>
-            <li class="nav-item"><a href="https://github.com/Lysquid/ClubBDManga" class="nav-link px-2 text-body-secondary">Github</a></li>
-            <li class="nav-item"><a href="mailto:clubbdinsa@gmail.com" class="nav-link px-2 text-body-secondary">Mail</a></li>
+            <li class="nav-item"><a href="https://discord.gg/KHbnbJuBU" class="nav-link px-2 text-body-primary">Discord</a></li>
+            <li class="nav-item"><a href="https://www.facebook.com/ClubBdMangaInsa/" class="nav-link px-2 text-body-primary">Facebook</a></li>
+            <li class="nav-item"><a href="https://www.instagram.com/insabdmangas" class="nav-link px-2 text-body-primary">Intagram</a></li>
+            <li class="nav-item"><a href="https://www.youtube.com/@clubbdinsa" class="nav-link px-2 text-body-primary">Youtube</a></li>
+            <li class="nav-item"><a href="https://github.com/Lysquid/ClubBDManga" class="nav-link px-2 text-body-primary">Github</a></li>
+            <li class="nav-item"><a href="mailto:clubbdinsa@gmail.com" class="nav-link px-2 text-body-primary">Mail</a></li>
         </ul>
     </footer>
 
