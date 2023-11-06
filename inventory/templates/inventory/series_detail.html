@@ -7,11 +7,11 @@
         <h1>{{ series.name }}</h1>
 
         <ul class="list-unstyled fs-5">
-            <li><span class="text-body-secondary">Auteurs : </span> {{ series.authors.all|join:", " }}</li>
-            <li><span class="text-body-secondary">Éditeurs : </span> {{ series.editors.all|join:", " }}</li>
-            <li><span class="text-body-secondary">Type : </span> {{ series.get_type_display }}</li>
-            <li><span class="text-body-secondary">Genre : </span> {{ series.genre }}</li>
-            <li><span class="text-body-secondary">Référence : </span> {{ series.id }}</li>
+            <li><span class="text-body-primary">Auteurs : </span> {{ series.authors.all|join:", " }}</li>
+            <li><span class="text-body-primary">Éditeurs : </span> {{ series.editors.all|join:", " }}</li>
+            <li><span class="text-body-primary">Type : </span> {{ series.get_type_display }}</li>
+            <li><span class="text-body-primary">Genre : </span> {{ series.genre }}</li>
+            <li><span class="text-body-primary">Référence : </span> {{ series.id }}</li>
         </ul>
 
 {% endblock %}
