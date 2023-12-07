@@ -30,7 +30,7 @@ class MembersAdmin(admin.ModelAdmin):
 
     @admin.action(description="Réinitialiser la cotisation des membres sélectionnés")
     def mark_has_not_paid(self, request, queryset):
-        queryset.update(has_paid=False)
+        queryset.update(has_paid=False, can_make_loan=False)
 
 
 class CurrentLoansListFilter(admin.SimpleListFilter):
