@@ -1,7 +1,7 @@
 from django.db.models import Q
 from django.views import generic
 
-from inventory.models import Series
+from inventory.models import Series, Genre
 
 
 class SeriesListView(generic.ListView):
@@ -15,7 +15,16 @@ class SeriesListView(generic.ListView):
         book_type = self.request.GET.get("type")
         if book_type:
             object_list = object_list.filter(type__exact=book_type)
+        genre = self.request.GET.get("genre")
+        if genre:
+            object_list = object_list.filter(genre__name__exact=genre)
         return object_list
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["types"] = Series.TYPES
+        context["genres"] = Genre.objects.all()
+        return context
 
 
 class SeriesDetailView(generic.DetailView):

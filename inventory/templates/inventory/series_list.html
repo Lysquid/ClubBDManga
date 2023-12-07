@@ -7,10 +7,11 @@
     <h1>Séries</h1>
 
 
-    <div class="row my-4">
-        <div class="col-xl-6 col-lg-8 col-sm-12">
+    <form action="{% url 'series list' %}" method="get">
 
-            <form action="{% url 'series list' %}" method="get">
+        <div class="row my-4 gy-3">
+
+            <div class="col-xl-6 col-lg-8 col-sm-12">
 
                 <div class="input-group rounded">
                     <input list="books" name="search" type="search" class="form-control" placeholder="Recherche" aria-label="Search" aria-describedby="search-addon" value="{{ request.GET.search }}" />
@@ -21,28 +22,32 @@
                     </datalist>
                     <button type="submit" class="btn btn-outline-primary">Rechercher</button>
                 </div>
+            </div>
 
+            <div class="col">
                 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                     <input type="radio" class="btn-check" name="type" value="" id="all" autocomplete="off" {% if not request.GET.type %}checked{% endif %}>
                     <label class="btn btn-outline-primary" for="all">Tout</label>
 
-                    <input type="radio" class="btn-check" name="type" value="manga" id="manga" autocomplete="off" {% if request.GET.type == "manga" %}checked{% endif %}>
-                    <label class="btn btn-outline-primary" for="manga">Manga</label>
-
-                    <input type="radio" class="btn-check" name="type" value="bd" id="bd" autocomplete="off" {% if request.GET.type == "bd" %}checked{% endif %}>
-                    <label class="btn btn-outline-primary" for="bd">BD</label>
-
-                    <input type="radio" class="btn-check" name="type" value="comics" id="comics" autocomplete="off" {% if request.GET.type == "comics" %}checked{% endif %}>
-                    <label class="btn btn-outline-primary" for="comics">Comics</label>
+                    {% for type, type_name in types %}
+                        <input type="radio" class="btn-check" name="type" value="{{ type }}" id="{{ type }}" autocomplete="off" {% if request.GET.type == type %}checked{% endif %}>
+                        <label class="btn btn-outline-primary" for="{{ type }}">{{ type_name }}</label>
+                    {% endfor %}
                 </div>
+            </div>
 
-                <p>{{ request.GET.type }}</p>
-
-            </form>
+            <div class="col">
+                <select name="genre" class="form-select" aria-label="Default select example">
+                    <option value="">Tous les genres</option>
+                    {% for genre in genres %}
+                        <option value="{{ genre }}" {% if request.GET.genre == genre.name %}selected{% endif %}>{{ genre|capfirst }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
         </div>
+    </form>
 
-    </div>
 
     <div class="row gx-4 gy-4">
         {% for series in object_list %}
@@ -51,7 +56,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ series.name }}</h5>
                         <h6 class="card-subtitle mb-2 text-body-primary">{{ series.authors.all|join:", " }}</h6>
-                        <p class="card-text">{{ series.get_type_display }} - {{ series.genre }}</p>
+                        <p class="card-text">{{ series.get_type_display }} - {{ series.genre|capfirst }}</p>
                         <a href="{% url 'series detail' series.id %}" class="btn btn-outline-primary stretched-link">Détails</a>
                     </div>
                 </div>
