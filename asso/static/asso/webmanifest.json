@@ -1,7 +1,7 @@
 {
-  "short_name": "CLUB BD MANGA",
-  "name": "CLUB BD MANGA INSA",
-  "description": "Official App of Club BD Manga of Insa",
+  "short_name": "Club BD Manga",
+  "name": "Club BD Manga",
+  "description": "App of Club BD Manga of INSA",
   "icons": [
     {
       "src":"https://bdm.insalgo.fr/static/asso/logo.png",

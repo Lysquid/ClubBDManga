@@ -1,9 +1,4 @@
-/* Old content
-.bg-primary {
-    background: rebeccapurple!important;
+.card {
+    background-image: url("background_dots.png");
+    background-repeat: repeat;
 }
-*/
-body{background-color:#FFF;color:#000;}
-footer li{color:#000;}
-.navbar-text {color:#000;}
-.card{background-image: url("./backgroundTrensp.png");color:#000;border:1px solid black;}
