@@ -9,10 +9,9 @@
 
     <form action="{% url 'series list' %}" method="get">
 
-        <div class="row my-4 gy-3">
+        <div class="d-flex flex-row my-4 gap-4 flex-wrap">
 
-            <div class="col-xl-6 col-lg-8 col-sm-12">
-
+            <div>
                 <div class="input-group rounded">
                     <input list="books" name="search" type="search" class="form-control" placeholder="Recherche" aria-label="Search" aria-describedby="search-addon" value="{{ request.GET.search }}" />
                     <datalist id="books">
@@ -24,19 +23,17 @@
                 </div>
             </div>
 
-            <div class="col">
-                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                    <input type="radio" class="btn-check" name="type" value="" id="all" autocomplete="off" {% if not request.GET.type %}checked{% endif %}>
-                    <label class="btn btn-outline-primary" for="all">Tout</label>
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="type" value="" id="all" autocomplete="off" {% if not request.GET.type %}checked{% endif %}>
+                <label class="btn btn-outline-primary" for="all">Tout</label>
 
-                    {% for type, type_name in types %}
-                        <input type="radio" class="btn-check" name="type" value="{{ type }}" id="{{ type }}" autocomplete="off" {% if request.GET.type == type %}checked{% endif %}>
-                        <label class="btn btn-outline-primary" for="{{ type }}">{{ type_name }}</label>
-                    {% endfor %}
-                </div>
+                {% for type, type_name in types %}
+                    <input type="radio" class="btn-check" name="type" value="{{ type }}" id="{{ type }}" autocomplete="off" {% if request.GET.type == type %}checked{% endif %}>
+                    <label class="btn btn-outline-primary" for="{{ type }}">{{ type_name }}</label>
+                {% endfor %}
             </div>
 
-            <div class="col">
+            <div>
                 <select name="genre" class="form-select" aria-label="Default select example">
                     <option value="">Tous les genres</option>
                     {% for genre in genres %}
