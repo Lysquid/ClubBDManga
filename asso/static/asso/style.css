@@ -1,4 +1,4 @@
 .card {
-    background-image: url("background_dots.png");
-    background-repeat: repeat;
+  background-image: radial-gradient(#dcdcdc 1px, transparent 0);
+  background-size: 30px 30px;
 }

@@ -11,7 +11,12 @@
             <div class="col-xl-6 col-lg-8 col-sm-12">
                 <form action="{% url 'series list' %}" method="get">
                     <div class="input-group rounded">
-                        <input name="search" type="search" class="form-control" placeholder="Recherche" aria-label="Search" aria-describedby="search-addon" />
+                        <input list="books" name="search" type="search" class="form-control" placeholder="Recherche" aria-label="Search" aria-describedby="search-addon" />
+                        <datalist id="books">
+                            {% for series in object_list %}
+                                <option value="{{ series.name }}">
+                            {% endfor %}
+                        </datalist>
                         <button type="button" class="btn btn-outline-primary">Rechercher</button>
                     </div>
                 </form>
@@ -26,7 +31,7 @@
                             <h5 class="card-title">{{ series.name }}</h5>
                             <h6 class="card-subtitle mb-2 text-body-primary">{{ series.authors.all|join:", " }}</h6>
                             <p class="card-text">{{ series.get_type_display }} - {{ series.genre }}</p>
-                            <a href="{% url 'series detail' series.id %}" class="btn btn-primary">Détails</a>
+                            <a href="{% url 'series detail' series.id %}" class="btn btn-outline-primary stretched-link">Détails</a>
                         </div>
                     </div>
                 </div>

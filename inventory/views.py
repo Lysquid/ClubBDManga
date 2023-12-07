@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.views import generic
 
 from inventory.models import Series
@@ -10,7 +11,7 @@ class SeriesListView(generic.ListView):
         object_list = Series.objects.all()
         query = self.request.GET.get("search")
         if query:
-            object_list = object_list.filter(name__icontains=query)
+            object_list = object_list.filter(Q(name__icontains=query) | Q(authors__name__icontains=query))
         return object_list
 
 
