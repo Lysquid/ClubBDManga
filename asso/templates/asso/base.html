@@ -14,9 +14,9 @@
 
 <body>
 
-<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+<nav class="navbar navbar-expand-sm bg-primary" data-bs-theme="dark">
     <div class="container-fluid">
-        <img src="{% static 'asso/logo.png' %}" style="max-height: 46px; margin: -10px 0" class="me-3" >
+        <img src="{% static 'asso/logo.png' %}" alt="logo" style="max-height: 46px; margin: -10px 0" class="me-sm-3" >
         <a class="navbar-brand" href="{% url 'home' %}">
             <span>Club BD Manga</span>
         </a>
@@ -24,7 +24,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'home' %}">Accueil</a>
                 </li>

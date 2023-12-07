@@ -6,16 +6,21 @@
 
         <h1>Séries</h1>
 
-        <form action="{% url 'series list' %}" method="get">
-            <div class="input-group rounded w-75 mx-1 my-3">
-                <input name="search" type="search" class="form-control" placeholder="Recherche" aria-label="Search" aria-describedby="search-addon" />
-                <button type="button" class="btn btn-outline-primary">rechercher</button>
-            </div>
-        </form>
 
-        <div class="row">
+        <div class="row my-4">
+            <div class="col-xl-6 col-lg-8 col-sm-12">
+                <form action="{% url 'series list' %}" method="get">
+                    <div class="input-group rounded">
+                        <input name="search" type="search" class="form-control" placeholder="Recherche" aria-label="Search" aria-describedby="search-addon" />
+                        <button type="button" class="btn btn-outline-primary">Rechercher</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row gx-4 gy-4">
             {% for series in object_list %}
-                <div class="col-sm-3 mx-1 my-3">
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">{{ series.name }}</h5>
