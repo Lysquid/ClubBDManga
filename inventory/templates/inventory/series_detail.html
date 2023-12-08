@@ -39,26 +39,24 @@
 
             <h2 class="mb-4">Tomes</h2>
 
-            {% if series.book_set.exists %}
 
-                <ol class="list-group">
-                    {% for book in series.book_set.all %}
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div>{{ book.volume_nb }}. {% if book.name %}{{ book.name }}{% else %}{{ book }}{% endif %}</div>
-                            </div>
-                            {% if book.available %}
-                                <span class="badge bg-primary rounded-pill">Disponible</span>
-                            {% else %}
-                                <span class="badge bg-danger rounded-pill">Emprunté</span>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                </ol>
+            <ol class="list-group">
+                {% for book in series.book_set.all %}
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div>{{ book.volume_nb }}. {% if book.name %}{{ book.name }}{% else %}{{ book }}{% endif %}</div>
+                        </div>
+                        {% if book.available %}
+                            <span class="badge bg-primary rounded-pill">Disponible</span>
+                        {% else %}
+                            <span class="badge bg-danger rounded-pill">Emprunté</span>
+                        {% endif %}
+                    </li>
+                {% empty %}
+                    <p>Aucun tome ajouté pour le moment</p>
+                {% endfor %}
+            </ol>
 
-            {% else %}
-                <p>Aucun tome ajouté pour le moment</p>
-            {% endif %}
 
         </div>
 

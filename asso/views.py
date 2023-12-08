@@ -1,4 +1,4 @@
-import datetime
+from collections import defaultdict
 
 from django.views import generic
 from inventory.models import Book, Series, Author
@@ -14,6 +14,16 @@ class StatsPageView(generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        count = defaultdict(list)
+        for loan in Loan.objects.all():
+            count[loan.book.series].append(loan.member)
+        context["top_series"] = tuple(sorted((
+            (len(set(members)), len(members), series) for series, members in count.items()),
+            key=lambda x: x[:-1],
+            reverse=True)
+        )[:10]
+
         context["books"] = Book.objects
         context["types"] = {}
         for book_type, type_name in Series.TYPES:

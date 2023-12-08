@@ -1,8 +1,8 @@
 <p class="text-end">{{ series_list.count }} résultat{{ series_list|pluralize }}</p>
 
-<div class="row gx-4 gy-4">
+<div class="row g-4">
     {% for series in series_list %}
-        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">{{ series.name }}</h5>

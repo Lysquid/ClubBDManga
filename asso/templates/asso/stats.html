@@ -6,12 +6,29 @@
 
 {% block content %}
 
-    <h1>Statistiques</h1>
-    <p>L'inventaire n'étant pas terminé, ces statistiques sont sous-estimés</p>
 
-    <div class="row">
-        <div class="col-md-6 col-lg-4">
-            <ul class="list-group list-group-flush">
+    <div class="row gx-5 gy-4">
+
+        <div class="col-12">
+            <h1>Statistiques</h1>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <h3 class="mb-3">Les séries les plus empruntées</h3>
+            <ol class="list-group list-group-numbered">
+                {% for nb_members, nb_loans, series in top_series %}
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">{{ series }}</div>
+                        <span class="badge">{{ nb_members }} personne{{ nb_members|pluralize }}</span>
+                        <span class="badge">{{ nb_loans }} emprunt{{ nb_members|pluralize }}</span>
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
+        <div class="col-12 col-md-6">
+            <h3 class="mb-3">Les chiffres du Club</h3>
+            <p>L'inventaire n'étant pas terminé, ces statistiques sont sous-estimées</p>
+            <ul class="list-group">
                 <li class="list-group-item"><b>{{ books.count }}</b> livres</li>
                 {% for type, books_by_type in types.items %}
                     {% if books_by_type.exists %}
