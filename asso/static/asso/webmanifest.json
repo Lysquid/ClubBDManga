@@ -6,12 +6,12 @@
   "display": "standalone",
   "icons": [
     {
-      "src": "https://bdmanga.insalgo.fr/static/asso/img/favicon.png",
+      "src": "static/asso/img/favicon.png",
       "sizes": "128x128",
       "type": "image/png"
     },
     {
-      "src":"https://bdmanga.insalgo.fr/static/asso/img/logo.png",
+      "src":"static/asso/img/logo.png",
       "sizes": "460x460",
       "type": "image/png"
     }
