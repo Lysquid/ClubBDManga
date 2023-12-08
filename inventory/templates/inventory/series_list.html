@@ -28,7 +28,7 @@
 
                 {% for type, type_name in types %}
                     <input type="radio" class="btn-check" name="type" value="{{ type }}" id="{{ type }}" autocomplete="off" onChange="this.form.submit()" {% if request.GET.type == type %}checked{% endif %}>
-                    <label class="btn btn-outline-primary" for="{{ type }}">{{ type_name }}</label>
+                    <label class="btn btn-outline-primary" for="{{ type }}">{{ type_name|capfirst }}</label>
                 {% endfor %}
             </div>
 
@@ -41,6 +41,8 @@
                 </select>
             </div>
 
+            <div class="d-flex align-items-center">{{ object_list.count }} résultat{{ object_list|pluralize }}</div>
+
         </div>
     </form>
 
@@ -52,7 +54,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ series.name }}</h5>
                         <p class="card-subtitle mt-1">{{ series.authors.all|join:", " }}</p>
-                        <p class="card-text fst-italic mt-1">{{ series.get_type_display }} - {{ series.genre|capfirst }}</p>
+                        <p class="card-text fst-italic mt-1">{{ series.get_type_display|capfirst }} - {{ series.genre|capfirst }}</p>
                         <a href="{% url 'series detail' series.id %}" class="btn btn-outline-primary stretched-link">Détails</a>
                     </div>
                 </div>
