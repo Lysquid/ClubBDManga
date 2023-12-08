@@ -15,7 +15,7 @@
                     <div class="text-body-secondary">Auteur{% if series.authors.count > 1 %}s{% endif %}</div>
                     <div>
                         {% for author in series.authors.all %}
-                            <a class="link-light link-underline-opacity-0" href="{% url 'series list' %}?author={{ author.name }}">{{ author.name }}</a>{% if not forloop.last %},{% endif %}
+                            <a class="text-reset text-decoration-none" href="{% url 'series list' %}?author={{ author.name }}">{{ author.name }}</a>{% if not forloop.last %},{% endif %}
                         {% endfor %}
                     </div>
                 </div>
@@ -23,17 +23,17 @@
                     <div class="text-body-secondary">Éditeur{% if series.editors.count > 1 %}s{% endif %}</div>
                     <div>
                         {% for editor in series.editors.all %}
-                            <a class="link-light link-underline-opacity-0" href="{% url 'series list' %}?editor={{ editor.name }}">{{ editor.name }}</a>{% if not forloop.last %},{% endif %}
+                            <a class="text-reset text-decoration-none" href="{% url 'series list' %}?editor={{ editor.name }}">{{ editor.name }}</a>{% if not forloop.last %},{% endif %}
                         {% endfor %}
                     </div>
                 </div>
                 <div>
                     <div class="text-body-secondary">Type</div>
-                    <a class="link-light link-underline-opacity-0" href="{% url 'series list' %}?type={{ series.type }}">{{ series.get_type_display }}</a>
+                    <a class="text-reset text-decoration-none" href="{% url 'series list' %}?type={{ series.type }}">{{ series.get_type_display }}</a>
                 </div>
                 <div>
                     <div class="text-body-secondary">Genre</div>
-                    <a class="link-light link-underline-opacity-0" href="{% url 'series list' %}?genre={{ series.genre.name }}">{{ series.genre|capfirst }}</a>
+                    <a class="text-reset text-decoration-none" href="{% url 'series list' %}?genre={{ series.genre.name }}">{{ series.genre|capfirst }}</a>
                 </div>
                 <div>
                     <div class="text-body-secondary">Référence</div>

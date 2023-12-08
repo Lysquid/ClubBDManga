@@ -34,7 +34,16 @@
                 <p>
                     Club ouvert aux étudiants, au personnel INSA et aux anciens Insaliens.
                 </p>
+
+                <p>Quelques chiffres :</p>
+                <ul>
+                    <li><b>{{ books_count }}</b> livres référencés</li>
+                    <li><b>{{ series_count }}</b> séries</li>
+                    <li><b>{{ member_count }}</b> membres cette année</li>
+                </ul>
+
                 <a class="btn btn-primary" href="{% url 'series list' %}">Rechercher un livre !</a>
+
             </div>
             <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 mt-3">
                 <img class="img-fluid" src="{% static 'asso/logo_full.png' %}" alt="logo de l'asso"/>
