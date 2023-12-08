@@ -1,0 +1,52 @@
+{% extends "asso/base.html" %}
+{% load static %}
+
+{% block title %}Séries{% endblock %}
+
+{% block content %}
+
+    <h1>Bibliothèque du Club</h1>
+
+    <form action="{% url 'library' %}" method="post"
+          hx-post="/search/" hx-target="#search-results" hx-indicator=".htmx-indicator" hx-trigger="load, change">
+        {% csrf_token %}
+
+        <div class="d-flex flex-row my-4 gap-4 flex-wrap mt-4 mb-3">
+
+            <div>
+                <div class="input-group rounded">
+                    <input list="books" name="search" type="search" class="form-control" placeholder="Recherche" aria-label="Search" aria-describedby="search-addon"
+                        hx-trigger="input changed delay:500ms, search" hx-post="/search/"/>
+                    <button type="submit" hx-post="/search/"  class="btn btn-outline-primary">Rechercher</button>
+                </div>
+            </div>
+
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="type" value="" id="all" autocomplete="off" hx-post="/search/" checked/>
+                <label class="btn btn-outline-primary" for="all">Tout</label>
+
+                {% for type, type_name in types %}
+                    <input type="radio" class="btn-check" name="type" value="{{ type }}" id="{{ type }}" autocomplete="off"/>
+                    <label class="btn btn-outline-primary" for="{{ type }}">{{ type_name|capfirst }}</label>
+                {% endfor %}
+            </div>
+
+            <div>
+                <select name="genre" class="form-select" aria-label="Default select example">
+                    <option value="">Tous les genres</option>
+                    {% for genre in genres %}
+                        <option value="{{ genre }}">{{ genre|capfirst }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <img class="htmx-indicator" src="{% static 'asso/spinner.svg' %}" alt="spinner">
+            </div>
+
+        </div>
+    </form>
+
+    <div id="search-results"></div>
+
+{% endblock %}

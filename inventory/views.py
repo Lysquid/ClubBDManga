@@ -1,36 +1,19 @@
 from django.db.models import Q
+from django.http import HttpResponse, HttpRequest
+from django.shortcuts import render
 from django.views import generic
+from django.views.decorators.http import require_POST
 
 from inventory.models import Series, Genre
+from django_htmx.middleware import HtmxDetails
 
 
-class SeriesListView(generic.ListView):
-    model = Series
+class HtmxHttpRequest(HttpRequest):
+    htmx: HtmxDetails
 
-    def get_queryset(self):
-        object_list = Series.objects.all()
 
-        search = self.request.GET.get("search")
-        if search:
-            object_list = object_list.filter(Q(name__icontains=search) | Q(authors__name__icontains=search))
-
-        author = self.request.GET.get("author")
-        if author:
-            object_list = object_list.filter(authors__name__exact=author)
-
-        editor = self.request.GET.get("editor")
-        if editor:
-            object_list = object_list.filter(editors__name__exact=editor)
-
-        book_type = self.request.GET.get("type")
-        if book_type:
-            object_list = object_list.filter(type__exact=book_type)
-
-        genre = self.request.GET.get("genre")
-        if genre:
-            object_list = object_list.filter(genre__name__exact=genre)
-
-        return object_list
+class LibraryView(generic.TemplateView):
+    template_name = "inventory/library.html"
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -41,3 +24,24 @@ class SeriesListView(generic.ListView):
 
 class SeriesDetailView(generic.DetailView):
     model = Series
+
+
+@require_POST
+def series_search(request: HtmxHttpRequest) -> HttpResponse:
+    series = Series.objects.all()
+
+    search = request.POST.get("search")
+    if search:
+        series = series.filter(Q(name__icontains=search) | Q(authors__name__icontains=search))
+    book_type = request.POST.get("type")
+    if book_type:
+        series = series.filter(type__exact=book_type)
+    genre = request.POST.get("genre")
+    if genre:
+        series = series.filter(genre__name__exact=genre)
+
+    return render(
+        request,
+        "inventory/series_list.html",
+        {"series_list": series.distinct()},
+    )
