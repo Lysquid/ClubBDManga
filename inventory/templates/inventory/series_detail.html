@@ -13,27 +13,19 @@
             <div class="d-flex flex-column gap-3">
                 <div>
                     <div class="text-body-secondary">Auteur{{ series.authors.all|pluralize }}</div>
-                    <div>
-                        {% for author in series.authors.all %}
-                            <a class="text-reset text-decoration-none" href="{% url 'series list' %}?author={{ author.name }}">{{ author.name }}</a>{% if not forloop.last %},{% endif %}
-                        {% endfor %}
-                    </div>
+                    <div>{{ series.authors.all|join:", " }}</div>
                 </div>
                 <div>
                     <div class="text-body-secondary">Éditeur{{ series.editors.all|pluralize }}</div>
-                    <div>
-                        {% for editor in series.editors.all %}
-                            <a class="text-reset text-decoration-none" href="{% url 'series list' %}?editor={{ editor.name }}">{{ editor.name }}</a>{% if not forloop.last %},{% endif %}
-                        {% endfor %}
-                    </div>
+                    <div>{{ series.editors.all|join:", " }}</div>
                 </div>
                 <div>
                     <div class="text-body-secondary">Type</div>
-                    <a class="text-reset text-decoration-none" href="{% url 'series list' %}?type={{ series.type }}">{{ series.get_type_display|capfirst }}</a>
+                    <div>{{ series.type|capfirst }}</div>
                 </div>
                 <div>
                     <div class="text-body-secondary">Genre</div>
-                    <a class="text-reset text-decoration-none" href="{% url 'series list' %}?genre={{ series.genre.name }}">{{ series.genre|capfirst }}</a>
+                    <div>{{ series.genre|capfirst }}</div>
                 </div>
                 <div>
                     <div class="text-body-secondary">Référence</div>

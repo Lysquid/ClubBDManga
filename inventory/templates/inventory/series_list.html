@@ -1,65 +1,16 @@
-{% extends "asso/base.html" %}
+<p class="text-end">{{ series_list.count }} résultat{{ series_list|pluralize }}</p>
 
-{% block title %}Séries{% endblock %}
-
-{% block content %}
-
-    <h1 class="">Bibliothèque du Club</h1>
-
-    <form action="{% url 'series list' %}" method="get">
-
-        <div class="d-flex flex-row my-4 gap-4 flex-wrap mb-5 mt-4">
-
-            <div>
-                <div class="input-group rounded">
-                    <input list="books" name="search" type="search" class="form-control" placeholder="Recherche" aria-label="Search" aria-describedby="search-addon" value="{{ request.GET.search }}" />
-                    <datalist id="books">
-                        {% for series in object_list %}
-                            <option value="{{ series.name }}">
-                        {% endfor %}
-                    </datalist>
-                    <button type="submit" class="btn btn-primary">Rechercher</button>
+<div class="row gx-4 gy-4">
+    {% for series in series_list %}
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ series.name }}</h5>
+                    <p class="card-subtitle mt-1">{{ series.authors.all|join:", " }}</p>
+                    <p class="card-text fst-italic mt-1">{{ series.get_type_display|capfirst }} - {{ series.genre|capfirst }}</p>
+                    <a href="{% url 'series detail' series.id %}" class="btn btn-outline-primary stretched-link">Détails</a>
                 </div>
             </div>
-
-            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="type" value="" id="all" autocomplete="off" onChange="this.form.submit()" {% if not request.GET.type %}checked{% endif %}>
-                <label class="btn btn-outline-primary" for="all">Tout</label>
-
-                {% for type, type_name in types %}
-                    <input type="radio" class="btn-check" name="type" value="{{ type }}" id="{{ type }}" autocomplete="off" onChange="this.form.submit()" {% if request.GET.type == type %}checked{% endif %}>
-                    <label class="btn btn-outline-primary" for="{{ type }}">{{ type_name|capfirst }}</label>
-                {% endfor %}
-            </div>
-
-            <div>
-                <select name="genre" class="form-select" aria-label="Default select example" onChange="this.form.submit()">
-                    <option value="">Tous les genres</option>
-                    {% for genre in genres %}
-                        <option value="{{ genre }}" {% if request.GET.genre == genre.name %}selected{% endif %}>{{ genre|capfirst }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="d-flex align-items-center">{{ object_list.count }} résultat{{ object_list|pluralize }}</div>
-
         </div>
-    </form>
-
-
-    <div class="row gx-4 gy-4">
-        {% for series in object_list %}
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ series.name }}</h5>
-                        <p class="card-subtitle mt-1">{{ series.authors.all|join:", " }}</p>
-                        <p class="card-text fst-italic mt-1">{{ series.get_type_display|capfirst }} - {{ series.genre|capfirst }}</p>
-                        <a href="{% url 'series detail' series.id %}" class="btn btn-outline-primary stretched-link">Détails</a>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-
-{% endblock %}
+    {% endfor %}
+</div>
