@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="manifest" href="{% static 'asso/webmanifest.json' %}">
     <title>{% block title %}{% endblock %} - Club BDManga</title>
-    <link rel="shortcut icon" type="image/png" href="{% static 'asso/logo.png' %}" >
+    <link rel="shortcut icon" type="image/png" href="{% static 'asso/img/logo.png' %}" >
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{% static 'asso/style.css' %}">
-    <script src="{% static 'asso/base.js' %}"></script>
-    <script src="{% static 'asso/htmx.min.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static 'asso/css/style.css' %}">
+    <script src="{% static 'asso/js/base.js' %}"></script>
+    <script src="{% static 'asso/lib/htmx.min.js' %}" defer></script>
 </head>
 
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
@@ -19,7 +19,7 @@
 <nav class="navbar navbar-expand-sm bg-primary" data-bs-theme="dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'home' %}">
-            <img src="{% static 'asso/favicon.png' %}" alt="logo" height="27" class="d-inline-block align-text-top me-2">
+            <img src="{% static 'asso/img/favicon.png' %}" alt="logo" height="27" class="d-inline-block align-text-top me-2">
             Club BD Manga
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.contrib.admin.models import LogEntry
 
-admin.site.site_title = "Club BDManga"
-admin.site.site_header = "Club BDManga"
+admin.site.site_title = "Club BD Manga"
+admin.site.site_header = "Club BD Manga"
 
 
 @admin.register(LogEntry)
