@@ -8,7 +8,7 @@
 
     <form action="{% url 'series list' %}" method="get">
 
-        <div class="d-flex flex-row my-4 gap-4 flex-wrap mb-5 mt-4">
+        <div class="d-flex flex-row my-4 gap-4 flex-wrap mb-5 mt-4 mt-md-5">
 
             <div>
                 <div class="input-group rounded">
@@ -23,17 +23,17 @@
             </div>
 
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="type" value="" id="all" autocomplete="off" {% if not request.GET.type %}checked{% endif %}>
+                <input type="radio" class="btn-check" name="type" value="" id="all" autocomplete="off" onChange="this.form.submit()" {% if not request.GET.type %}checked{% endif %}>
                 <label class="btn btn-outline-primary" for="all">Tout</label>
 
                 {% for type, type_name in types %}
-                    <input type="radio" class="btn-check" name="type" value="{{ type }}" id="{{ type }}" autocomplete="off" {% if request.GET.type == type %}checked{% endif %}>
+                    <input type="radio" class="btn-check" name="type" value="{{ type }}" id="{{ type }}" autocomplete="off" onChange="this.form.submit()" {% if request.GET.type == type %}checked{% endif %}>
                     <label class="btn btn-outline-primary" for="{{ type }}">{{ type_name }}</label>
                 {% endfor %}
             </div>
 
             <div>
-                <select name="genre" class="form-select" aria-label="Default select example">
+                <select name="genre" class="form-select" aria-label="Default select example" onChange="this.form.submit()">
                     <option value="">Tous les genres</option>
                     {% for genre in genres %}
                         <option value="{{ genre }}" {% if request.GET.genre == genre.name %}selected{% endif %}>{{ genre|capfirst }}</option>

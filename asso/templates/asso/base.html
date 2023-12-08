@@ -16,9 +16,9 @@
 
 <nav class="navbar navbar-expand-sm bg-primary" data-bs-theme="dark">
     <div class="container-fluid">
-        <img src="{% static 'asso/favicon.png' %}" alt="logo" style="max-height: 46px; margin: -10px 0" class="me-sm-3" >
         <a class="navbar-brand" href="{% url 'home' %}">
-            <span>Club BD Manga</span>
+            <img src="{% static 'asso/favicon.png' %}" alt="logo" height="27" class="d-inline-block align-text-top me-2">
+            Club BD Manga
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -30,6 +30,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'series list' %}">Livres</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'stats' %}">Statistiques</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/admin">Accès admin</a>

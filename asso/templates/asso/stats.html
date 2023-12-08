@@ -1,0 +1,31 @@
+{% extends "asso/base.html" %}
+
+{% load static %}
+
+{% block title %}Statistiques{% endblock %}
+
+{% block content %}
+
+    <h1>Statistiques</h1>
+    <p>L'inventaire n'étant pas terminé, ces statistiques sont sous-estimés</p>
+
+    <div class="row">
+        <div class="col-md-6 col-lg-4">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><b>{{ books.count }}</b> livres</li>
+                {% for type, books_by_type in types.items %}
+                <li class="list-group-item"><b>{{ books_by_type.count }}</b> {{ type }}s</li>
+                {% endfor %}
+                <li class="list-group-item"><b>{{ series.count }}</b> séries</li>
+                <li class="list-group-item"><b>{{ authors.count }}</b> auteurs</li>
+                <li class="list-group-item"><b>{{ members.count }}</b> membres cette année</li>
+                <li class="list-group-item"><b>{{ loans.count }}</b> emprunts cette année</li>
+            </ul>
+        </div>
+
+    </div>
+
+
+
+
+{% endblock %}

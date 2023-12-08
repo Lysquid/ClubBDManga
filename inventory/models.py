@@ -53,9 +53,9 @@ class Genre(models.Model):
 class Series(models.Model):
     TYPES = [
         ("bd", "BD"),
-        ("manga", "Manga"),
-        ("comics", "Comics"),
-        ("novel", "Roman")
+        ("manga", "manga"),
+        ("comics", "comic"),
+        ("novel", "roman")
     ]
     id = models.CharField("référence", primary_key=True, max_length=5, validators=[
         validators.RegexValidator('^[A-Z0-9]{5}$')
@@ -76,7 +76,7 @@ class Series(models.Model):
 
     class Meta:
         verbose_name = "série"
-        ordering = ["id"]
+        ordering = ["name"]
 
 
 class Book(models.Model):
