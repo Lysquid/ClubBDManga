@@ -4,14 +4,73 @@
 
 {% block content %}
 
-        <h1>{{ series.name }}</h1>
+    <div class="row gy-5 mx-2 mx-sm-0">
 
-        <ul class="list-unstyled fs-5">
-            <li><span class="text-body-primary">Auteurs : </span> {{ series.authors.all|join:", " }}</li>
-            <li><span class="text-body-primary">Éditeurs : </span> {{ series.editors.all|join:", " }}</li>
-            <li><span class="text-body-primary">Type : </span> {{ series.get_type_display }}</li>
-            <li><span class="text-body-primary">Genre : </span> {{ series.genre }}</li>
-            <li><span class="text-body-primary">Référence : </span> {{ series.id }}</li>
-        </ul>
+        <div class="col-sm-12 col-md-6 col-xl-4">
+
+            <h2 class="mb-4">{{ series.name }}</h2>
+
+            <div class="d-flex flex-column gap-3">
+                <div>
+                    <div class="text-body-secondary">Auteur{% if series.authors.count > 1 %}s{% endif %}</div>
+                    <div>
+                        {% for author in series.authors.all %}
+                            <a class="link-light link-underline-opacity-0" href="{% url 'series list' %}?author={{ author.name }}">{{ author.name }}</a>{% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div>
+                    <div class="text-body-secondary">Éditeur{% if series.editors.count > 1 %}s{% endif %}</div>
+                    <div>
+                        {% for editor in series.editors.all %}
+                            <a class="link-light link-underline-opacity-0" href="{% url 'series list' %}?editor={{ editor.name }}">{{ editor.name }}</a>{% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div>
+                    <div class="text-body-secondary">Type</div>
+                    <a class="link-light link-underline-opacity-0" href="{% url 'series list' %}?type={{ series.type }}">{{ series.get_type_display }}</a>
+                </div>
+                <div>
+                    <div class="text-body-secondary">Genre</div>
+                    <a class="link-light link-underline-opacity-0" href="{% url 'series list' %}?genre={{ series.genre.name }}">{{ series.genre|capfirst }}</a>
+                </div>
+                <div>
+                    <div class="text-body-secondary">Référence</div>
+                    <div>{{ series.id }}</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-xl-4">
+
+            <h2 class="mb-4">Tomes</h2>
+
+            {% if series.book_set.exists %}
+
+                <ol class="list-group">
+                    {% for book in series.book_set.all %}
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div>{{ book.volume_nb }}. {% if book.name %}{{ book.name }}{% else %}{{ book }}{% endif %}</div>
+                            </div>
+                            {% if book.available %}
+                                <span class="badge bg-primary rounded-pill">Disponible</span>
+                            {% else %}
+                                <span class="badge bg-danger rounded-pill">Emprunté</span>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ol>
+
+            {% else %}
+                <p>Aucun tome ajouté pour le moment</p>
+            {% endif %}
+
+        </div>
+
+    </div>
+
 
 {% endblock %}

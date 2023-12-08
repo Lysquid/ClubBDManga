@@ -9,7 +9,7 @@
 
     <form action="{% url 'series list' %}" method="get">
 
-        <div class="d-flex flex-row my-4 gap-4 flex-wrap">
+        <div class="d-flex flex-row my-4 gap-4 flex-wrap mb-5">
 
             <div>
                 <div class="input-group rounded">
@@ -19,7 +19,7 @@
                             <option value="{{ series.name }}">
                         {% endfor %}
                     </datalist>
-                    <button type="submit" class="btn btn-outline-primary">Rechercher</button>
+                    <button type="submit" class="btn btn-primary">Rechercher</button>
                 </div>
             </div>
 
@@ -52,8 +52,8 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">{{ series.name }}</h5>
-                        <h6 class="card-subtitle mb-2 text-body-primary">{{ series.authors.all|join:", " }}</h6>
-                        <p class="card-text">{{ series.get_type_display }} - {{ series.genre|capfirst }}</p>
+                        <p class="card-subtitle mt-1">{{ series.authors.all|join:", " }}</p>
+                        <p class="card-text fst-italic mt-1">{{ series.get_type_display }} - {{ series.genre|capfirst }}</p>
                         <a href="{% url 'series detail' series.id %}" class="btn btn-outline-primary stretched-link">Détails</a>
                     </div>
                 </div>
