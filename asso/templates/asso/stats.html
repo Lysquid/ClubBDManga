@@ -14,7 +14,9 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item"><b>{{ books.count }}</b> livres</li>
                 {% for type, books_by_type in types.items %}
-                <li class="list-group-item"><b>{{ books_by_type.count }}</b> {{ type }}{{ books_by_type|pluralize }}</li>
+                    {% if books_by_type.exists %}
+                        <li class="list-group-item"><b>{{ books_by_type.count }}</b> {{ type }}{{ books_by_type|pluralize }}</li>
+                    {% endif %}
                 {% endfor %}
                 <li class="list-group-item"><b>{{ series.count }}</b> séries</li>
                 <li class="list-group-item"><b>{{ authors.count }}</b> auteurs</li>
