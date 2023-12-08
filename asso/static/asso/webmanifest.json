@@ -2,15 +2,18 @@
   "short_name": "Club BD Manga",
   "name": "Club BD Manga",
   "description": "App of Club BD Manga of INSA",
+  "start_url": "https://bdmanga.insalgo.fr/",
+  "display": "standalone",
   "icons": [
     {
-      "src":"https://bdm.insalgo.fr/static/asso/logo.png",
-      "type": "image/png",
-      "sizes": "192x192"
+      "src": "https://bdmanga.insalgo.fr/static/asso/favicon.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src":"https://bdmanga.insalgo.fr/static/asso/logo.png",
+      "sizes": "460x460",
+      "type": "image/png"
     }
-  ],
-  "start_url": "https://bdm.insalgo.fr/",
-  "background_color": "#FFFFFF",
-  "theme_color": "#FFFFFF",
-  "display": "standalone"
+  ]
 }
