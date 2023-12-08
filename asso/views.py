@@ -14,16 +14,15 @@ class StatsPageView(generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        count = defaultdict(list)
-        for loan in Loan.objects.all():
-            count[loan.book.series].append(loan.member)
-        context["top_series"] = tuple(sorted((
-            (len(set(members)), len(members), series) for series, members in count.items()),
-            key=lambda x: x[:-1],
-            reverse=True)
-        )[:10]
-
+        context["top_series"] = Loan.objects.raw(
+            """
+            SELECT s.*, count(DISTINCT l.member_id) as nb_members, count(l.id) as nb_loans
+            FROM inventory_series s JOIN inventory_book b ON s.id=b.series_id JOIN asso_loan l ON b.id=l.book_id
+            GROUP BY s.id
+            ORDER BY nb_members DESC, nb_loans DESC
+            LIMIT 10;
+            """
+        )
         context["books"] = Book.objects
         context["types"] = {}
         for book_type, type_name in Series.TYPES:

@@ -16,11 +16,11 @@
         <div class="col-12 col-md-6">
             <h3 class="mb-3">Les séries les plus empruntées</h3>
             <ol class="list-group list-group-numbered">
-                {% for nb_members, nb_loans, series in top_series %}
+                {% for series in top_series %}
                     <li class="list-group-item d-flex justify-content-between align-items-start">
-                        <div class="ms-2 me-auto">{{ series }}</div>
-                        <span class="badge">{{ nb_members }} personne{{ nb_members|pluralize }}</span>
-                        <span class="badge">{{ nb_loans }} emprunt{{ nb_members|pluralize }}</span>
+                        <div class="ms-2 me-auto">{{ series.name }}</div>
+                        <span class="badge">{{ series.nb_members }} personne{{ series.nb_members|pluralize }}</span>
+                        <span class="badge">{{ series.nb_loans }} emprunt{{ series.nb_loans|pluralize }}</span>
                     </li>
                 {% endfor %}
             </ol>
