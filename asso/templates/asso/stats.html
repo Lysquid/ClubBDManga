@@ -18,7 +18,9 @@
             <ol class="list-group list-group-numbered">
                 {% for series in top_series %}
                     <li class="list-group-item d-flex justify-content-between align-items-start">
-                        <div class="ms-2 me-auto">{{ series.name }}</div>
+                        <div class="ms-2 me-auto">
+                            <a href="{% url 'series detail' series.id %}" class="text-reset text-decoration-none">{{ series.name }}</a>
+                        </div>
                         <span class="badge">{{ series.nb_members }} personne{{ series.nb_members|pluralize }}</span>
                         <span class="badge">{{ series.nb_loans }} emprunt{{ series.nb_loans|pluralize }}</span>
                     </li>
