@@ -13,11 +13,13 @@ class BailListFilter(admin.SimpleListFilter):
     parameter_name = "bail"
 
     def lookups(self, request, model_admin):
-        return [(True, "oui")]
+        return [("yes", "Oui")]
 
     def queryset(self, request, queryset):
-        if self.value():
+        if self.value() == "yes":
             return queryset.filter(bail__gt=0)
+        else:
+            return queryset
 
 
 @admin.register(models.Member)
@@ -38,11 +40,13 @@ class CurrentLoansListFilter(admin.SimpleListFilter):
     parameter_name = "current"
 
     def lookups(self, request, model_admin):
-        return [(True, "oui")]
+        return [("yes", "Oui")]
 
     def queryset(self, request, queryset: models.LoanQuerySet):
-        if self.value():
+        if self.value() == "yes":
             return queryset.current_loans()
+        else:
+            return queryset
 
 
 class LateLoansListFilter(admin.SimpleListFilter):
@@ -50,11 +54,13 @@ class LateLoansListFilter(admin.SimpleListFilter):
     parameter_name = "late"
 
     def lookups(self, request, model_admin):
-        return [(True, "oui")]
+        return [("yes", "Oui")]
 
     def queryset(self, request, queryset: models.LoanQuerySet):
         if self.value():
             return queryset.late_loans()
+        else:
+            return queryset
 
 
 @admin.register(models.Loan)

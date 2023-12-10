@@ -5,13 +5,27 @@ from django.forms import Textarea
 from inventory import models
 
 
+class AvailableListFilter(admin.SimpleListFilter):
+    title = "disponible"
+    parameter_name = "available"
+
+    def lookups(self, request, model_admin):
+        return [("no", "Non")]
+
+    def queryset(self, request, queryset):
+        if self.value() == "no":
+            return queryset.filter(loan__isnull=False, loan__loan_return=None)
+        else:
+            return queryset
+
+
 @admin.register(models.Book)
 class BookAdmin(admin.ModelAdmin):
     readonly_fields = ["id"]
     search_fields = ["series__name", "volume_nb"]
     autocomplete_fields = ["series"]
     list_display = ["__str__", "id", "date_added", "comment"]
-    list_filter = ["available", "date_added"]
+    list_filter = [AvailableListFilter, "date_added"]
 
 
 class BookInline(admin.TabularInline):
