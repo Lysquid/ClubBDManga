@@ -105,15 +105,10 @@ class Loan(models.Model):
     @property
     def returned(self):
         return self.loan_return is not None
-    late_return.fget.short_description = "emprunt rendu"
+    returned.fget.short_description = "emprunt rendu"
 
     def __str__(self):
         return f"{self.member} - {self.book.name}"
-
-    def save(self, *args, **kwargs):
-        self.book.available = self.returned
-        self.book.save()
-        super().save(*args, **kwargs)
 
     def return_book(self):
         self.loan_return = datetime.now()

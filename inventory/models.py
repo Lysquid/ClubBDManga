@@ -87,13 +87,17 @@ class Book(models.Model):
     series = models.ForeignKey(Series, on_delete=models.CASCADE, verbose_name="série")
     volume_nb = models.PositiveIntegerField("volume")
     duplicate_nb = models.PositiveIntegerField("numéro de duplicata", default=1)
-    available = models.BooleanField("disponible", default=True, editable=False)
     condition = models.PositiveSmallIntegerField("état", validators=[
         validators.MinValueValidator(1),
         validators.MaxValueValidator(10)
     ])
     date_added = models.DateField("date d'ajout", auto_now_add=True)
     comment = models.TextField("commentaire", blank=True)
+
+    @property
+    def available(self):
+        return not self.loan_set.filter(loan_return=None).exists()
+    available.fget.short_description = "disponible"
 
     def __str__(self):
         return f"{self.series} {self.volume_nb}"
