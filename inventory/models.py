@@ -57,7 +57,7 @@ class Series(models.Model):
         ("comics", "comic"),
         ("novel", "roman")
     ]
-    id = models.CharField("référence", primary_key=True, max_length=5, validators=[
+    id = models.CharField("code", primary_key=True, max_length=5, validators=[
         validators.RegexValidator('^[A-Z0-9]{5}$')
     ])
     name = models.CharField("nom", max_length=255)
@@ -70,6 +70,11 @@ class Series(models.Model):
     def nb_books(self):
         return self.book_set.count()
     nb_books.fget.short_description = "nombre de volumes"
+
+    @property
+    def reference(self):
+        return str(self.genre.id).zfill(2) + self.id
+    reference.fget.short_description = "référence"
 
     def __str__(self):
         return self.name
@@ -103,12 +108,7 @@ class Book(models.Model):
         return f"{self.series} {self.volume_nb}"
 
     def save(self, *args, **kwargs):
-        self.id = "".join((
-            str(self.series.genre.id).zfill(2),
-            self.series.id,
-            str(self.volume_nb).zfill(3),
-            str(self.duplicate_nb).zfill(2)
-        ))
+        self.id = self.series.reference + str(self.volume_nb).zfill(3) + str(self.duplicate_nb).zfill(2)
         super().save(*args, **kwargs)
 
     class Meta:
