@@ -57,7 +57,7 @@ class LateLoansListFilter(admin.SimpleListFilter):
         return [("yes", "Oui")]
 
     def queryset(self, request, queryset: models.LoanQuerySet):
-        if self.value():
+        if self.value() == "yes":
             return queryset.late_loans()
         else:
             return queryset

@@ -100,7 +100,7 @@ class Loan(models.Model):
     @property
     def late_return(self):
         return self.loan_start + Loan.MAX_LOAN_LENGTH
-    late_return.fget.short_description = "date de retour maximum"
+    late_return.fget.short_description = "date limite de retour"
 
     @property
     def returned(self):

@@ -19,12 +19,12 @@ class StatsPageView(generic.TemplateView):
             nb_loans=Count('book__loan')
         ).filter(nb_loans__gt=0).order_by('-nb_members', '-nb_loans')[:10]
 
-        context["books"] = Book.objects
+        context["books"] = Book.objects.all()
         context["types"] = {}
         for book_type, type_name in Series.TYPES:
             context["types"][type_name] = Book.objects.filter(series__type=book_type)
         context["authors"] = Author.objects.filter(series__isnull=False).distinct()
-        context["series"] = Series.objects
+        context["series"] = Series.objects.all()
         context["members"] = Member.objects.filter(has_paid=True)
         context["loans"] = Loan.objects.filter(member__has_paid=True)
 
