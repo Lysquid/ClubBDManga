@@ -25,7 +25,7 @@ Des backups journalières sont réalisées sur le VPS avec une action.
 
 ### Faire une backup
 
-`mariadb-dump -u root -p -D BDMANGA > dump.sql`
+`mariadb-dump -u root -p BDMANGA > dump.sql`
 
 Avec docker :
 
@@ -33,7 +33,7 @@ Avec docker :
 
 ### Réstaurer une backup
 
-`mariadb -u root -p -D BDMANGA < dump.sql`
+`mariadb -u root -p BDMANGA < dump.sql`
 
 Avec docker :
 
