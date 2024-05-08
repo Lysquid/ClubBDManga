@@ -79,7 +79,7 @@ def _last_loan_book():
     if Loan.objects.exists():
         latest_book = Loan.objects.latest("id").book
         try:
-            return Book.objects.get(series=latest_book.series, volume_nb=latest_book.volume_nb + 1)
+            return Book.objects.get(series=latest_book.series, volume_nb=latest_book.volume_nb + 1, duplicate_nb=1)
         except models.ObjectDoesNotExist:
             return None
     return None

@@ -27,8 +27,10 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'DEBUG')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.getenv('DEBUG', 0)))
 
+ALLOWED_HOSTS = [os.getenv('SITE_URL')]
+
 if DEBUG:
-    ALLOWED_HOSTS = [
+    ALLOWED_HOSTS += [
         'localhost',
         '127.0.0.1',
         '0.0.0.0',
@@ -38,8 +40,6 @@ if DEBUG:
         'http://127.0.0.1:8001',
         'http://0.0.0.0:8001',
     ]
-else:
-    ALLOWED_HOSTS = [os.getenv('SITE_URL')]
 
 # Application definition
 
