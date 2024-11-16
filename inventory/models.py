@@ -86,20 +86,26 @@ class Series(models.Model):
 
 def _last_book_series():
     if Book.objects.exists() and Book.last_book_id:
-        return Book.objects.get(id=Book.last_book_id).series
-    return None
+        try:
+            return Book.objects.get(id=Book.last_book_id).series
+        except Book.DoesNotExist:
+            return None
 
 
 def _next_volume_nb():
     if Book.objects.exists() and Book.last_book_id:
-        return Book.objects.get(id=Book.last_book_id).volume_nb + 1
-    return None
+        try:
+            return Book.objects.get(id=Book.last_book_id).volume_nb + 1
+        except Book.DoesNotExist:
+            return None
 
 
 def _last_book_condition():
     if Book.objects.exists() and Book.last_book_id:
-        return Book.objects.get(id=Book.last_book_id).condition
-    return None
+        try:
+            return Book.objects.get(id=Book.last_book_id).condition
+        except Book.DoesNotExist:
+            return None
 
 
 class Book(models.Model):
