@@ -10,6 +10,9 @@ services:
       - MARIADB_USER=${DB_USER}
       - MARIADB_PASSWORD=${DB_PASSWORD}
       - MARIADB_ROOT_PASSWORD=${DB_PASSWORD}
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-u", "$DB_USER", "--password=$DB_PASSWORD"]
+      start_period: 10s
 
   app:
     build:
@@ -30,7 +33,8 @@ services:
       - SITE_URL
       - DEBUG
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   nginx:
     build:
