@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django import forms
+from django.db import models as db_models
 
 from . import models
 
@@ -75,3 +77,11 @@ class LoanAdmin(admin.ModelAdmin):
     def mark_returned(self, request, queryset):
         for loan in queryset:
             loan.return_book()
+
+
+@admin.register(models.News)
+class NewsAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ["title"]}
+    formfield_overrides = {
+        db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 40, 'cols': 100})},
+    }

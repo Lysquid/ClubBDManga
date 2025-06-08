@@ -118,3 +118,18 @@ class Loan(models.Model):
         verbose_name = "emprunt"
         unique_together = ('member', 'book', 'loan_start')
         ordering = ["-loan_start"]
+
+
+class News(models.Model):
+    title = models.CharField("titre", max_length=100)
+    slug = models.SlugField("adresse", unique=True,
+                            help_text="dernière partie de l'URL à laquelle on pourra trouver cet article")
+    date = models.DateField("date", default=datetime.now)
+    content = models.TextField("contenu", help_text="le texte doit utiliser le format Markdown")
+
+    class Meta:
+        verbose_name = "actualité"
+        ordering = ["-date"]
+
+    def __str__(self):
+        return self.title

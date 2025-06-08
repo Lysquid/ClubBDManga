@@ -1,0 +1,11 @@
+{% extends "asso/base.html" %}
+
+{% block title %}Actualités{% endblock %}
+
+{% block content %}
+
+    {% for news in news_list %}
+        <a href="{% url 'news detail' news.slug %}">{{ news.title }}</a>
+    {% endfor %}
+
+{% endblock %}

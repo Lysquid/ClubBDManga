@@ -1,7 +1,7 @@
 from django.db.models import Count
 from django.views import generic
 from inventory.models import Book, Series, Author
-from asso.models import Member, Loan
+from asso.models import Member, Loan, News
 
 
 class HomePageView(generic.TemplateView):
@@ -29,3 +29,11 @@ class StatsPageView(generic.TemplateView):
         context["loans"] = Loan.objects.filter(member__has_paid=True)
 
         return context
+
+
+class NewsListView(generic.ListView):
+    model = News
+
+
+class NewsDetailView(generic.DetailView):
+    model = News

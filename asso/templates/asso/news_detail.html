@@ -1,0 +1,13 @@
+{% extends "asso/base.html" %}
+{% load markdown %}
+
+{% block title %}{{ news.title }}{% endblock %}
+
+{% block content %}
+
+    <h1>{{ news.title }}</h1>
+    <p>{{ news.date }}</p>
+
+    {{ news.content|render_markdown }}
+
+{% endblock %}
