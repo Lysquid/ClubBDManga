@@ -13,6 +13,9 @@ h3 {
   font-size: 1.2rem;
 }
 
+.markdown > h1 {
+  margin-bottom: 30px;
+}
 .markdown > h2 {
   margin-top: 35px;
   margin-bottom: 20px;

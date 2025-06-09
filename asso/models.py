@@ -123,10 +123,11 @@ class Loan(models.Model):
 class News(models.Model):
     title = models.CharField("titre", max_length=100)
     slug = models.SlugField("adresse", unique=True,
-                            help_text="dernière partie de l'URL à laquelle on pourra trouver cet article")
-    date = models.DateField("date", default=datetime.now)
-    visible = models.BooleanField("visible", default=True,
-                                  help_text="visible dans la liste des actualités")
+                            help_text="Dernière partie de l'URL à laquelle on pourra trouver cet article.")
+    date = models.DateField("date", default=datetime.now, help_text="""
+        Si la date est dans le futur, l'article n'apparaitra pas dans les actualités avant cette date.
+        Il reste accessible via son adresse.
+    """)
     summary = models.CharField("résumé", max_length=400, blank=True)
     content = models.TextField("contenu", help_text="""
         Le texte doit utiliser le format Markdown.
@@ -139,3 +140,16 @@ class News(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Page(models.Model):
+    description = models.CharField("description", max_length=100, blank=True)
+    identifier = models.SlugField("identifiant", unique=True)
+    content = models.TextField("contenu", blank=True,
+                               help_text="Le texte doit utiliser le format Markdown.")
+
+    class Meta:
+        verbose_name = "page"
+
+    def __str__(self):
+        return self.description if self.description else self.identifier

@@ -82,7 +82,17 @@ class LoanAdmin(admin.ModelAdmin):
 @admin.register(models.News)
 class NewsAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ["title"]}
-    list_display = ["__str__", "date", "visible"]
+    list_display = ["title", "date"]
+    search_fields = ["title"]
+    list_filter = ["date"]
     formfield_overrides = {
         db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 40, 'cols': 100})},
+    }
+
+
+@admin.register(models.Page)
+class PageAdmin(admin.ModelAdmin):
+    list_display = ["identifier", "description"]
+    formfield_overrides = {
+        db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 30, 'cols': 100})},
     }

@@ -1,7 +1,9 @@
+from datetime import datetime
+
 from django.db.models import Count
 from django.views import generic
 from inventory.models import Book, Series, Author
-from asso.models import Member, Loan, News
+from asso.models import Member, Loan, News, Page
 
 
 class HomePageView(generic.TemplateView):
@@ -9,8 +11,7 @@ class HomePageView(generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if News.objects.filter(slug="home").exists():
-            context["text"] = News.objects.get(slug="home")
+        context["text_accueil"] = Page.objects.get_or_create(identifier="accueil")[0].content
         return context
 
 
@@ -39,11 +40,8 @@ class StatsPageView(generic.TemplateView):
 
 class NewsListView(generic.ListView):
     model = News
-    queryset = News.objects.filter(visible=True)
+    queryset = News.objects.filter(date__lte=datetime.today())
 
 
 class NewsDetailView(generic.DetailView):
     model = News
-
-    def get_queryset(self):
-        return News.objects.filter(visible=True)
