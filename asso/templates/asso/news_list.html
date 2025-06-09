@@ -4,8 +4,19 @@
 
 {% block content %}
 
-    {% for news in news_list %}
-        <a href="{% url 'news detail' news.slug %}">{{ news.title }}</a>
-    {% endfor %}
+    <div class="row justify-content-center">
+        <div class="col-xxl-8 d-flex flex-column gap-3">
+            {% for news in news_list %}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a class="stretched-link text-reset text-decoration-none" href="{% url 'news detail' news.slug %}">{{ news.title }}</a>
+                        </h5>
+                        <h6 class="card-subtitle text-body-secondary">{{ news.date }}</h6>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 
 {% endblock %}

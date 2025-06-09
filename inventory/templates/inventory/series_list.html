@@ -2,8 +2,8 @@
 
 <div class="row g-4">
     {% for series in series_list %}
-        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
-            <div class="card">
+        <div class="col-12 col-md-6 col-xxl-4">
+            <div class="card book-card">
                 <div class="card-body">
                     <h5 class="card-title">{{ series.name }}</h5>
                     <p class="card-subtitle mt-1">{{ series.authors.all|join:", " }}</p>

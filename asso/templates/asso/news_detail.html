@@ -5,9 +5,17 @@
 
 {% block content %}
 
-    <h1>{{ news.title }}</h1>
-    <p>{{ news.date }}</p>
+    <div class="row justify-content-center">
 
-    {{ news.content|render_markdown }}
+        <div class="col-xxl-10">
+
+            <h1>{{ news.title }}</h1>
+            <p class="text-secondary">{{ news.date }}</p>
+
+            {{ news.content|render_markdown }}
+
+        </div>
+
+    </div>
 
 {% endblock %}
