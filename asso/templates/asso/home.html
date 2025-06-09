@@ -1,5 +1,6 @@
 {% extends "asso/base.html" %}
 {% load static %}
+{% load markdown %}
 
 {% block title %}Accueil{% endblock %}
 
@@ -7,36 +8,20 @@
 
     <div class="row justify-content-center">
         <div class="col-xxl-10">
+            {% if text %}
 
-            <h2>Bienvenue sur le site du Club BD Manga de l'INSA Lyon !</h2>
+                <h1 class="mb-4">{{ text.title }}</h1>
 
-            <p>
-                Le club BD Manga, c’est plus de 5300 BD, comics et mangas rassemblés depuis 47 ans.
-                Chacun peut y trouver son bonheur : le bédéphile acharné comme le profane en quête de distraction.
-                En devenant membre du club, tu peux venir bouquiner au local ou emprunter nos ouvrages et les lire bien au chaud dans ton nid douillet !
-            </p>
+                <div class="markdown">{{ text.content|render_markdown }}</div>
 
-            <img class="col-3 mb-3" src="{% static 'asso/img/logo_full.png' %}" alt="logo de l'asso"/>
+                <div class="d-flex my-5 gap-4 justify-content-center">
+                    <a class="btn btn-primary" href="{% url 'news list' %}">Voir les actualités</a>
+                    <a class="btn btn-primary" href="{% url 'library' %}">Explorer la bibliothèque</a>
+                </div>
 
-            <p>
-                Mais le club ne s'arrête pas là ! Les 6 membres du bureau se sont coupés en quatre pour vous ! Au programme :
-            </p>
-            <ul>
-                <li>Un concours de BD ouvert à tous en partenariat avec le CLUJI.</li>
-                <li>Nouveau, chaque semaine des ateliers conviviaux : dessin (papier ou tablette), création d'animés, peinture de figurines, visionnage de tes séries préférées, ... !!</li>
-            </ul>
-            <p>
-                Si tu veux rejoindre l'aventure ou la trouver dans une lecture, n'hésite pas à passer au club ! Il se trouve à l'étage de la MDE, en face de la COOP.
-            </p>
-            <p>
-                Club ouvert aux étudiants, au personnel INSA et aux anciens Insaliens.
-            </p>
+                <img class="col-10 col-md-9 col-xxl-8 center-image" src="{% static 'asso/img/logo_full.png' %}" alt="logo de l'asso"/>
 
-            <div class="d-flex gap-3">
-                <a class="btn btn-primary" href="{% url 'news list' %}">Voir les actualités</a>
-                <a class="btn btn-primary" href="{% url 'library' %}">Explorer la bibliothèque</a>
-            </div>
-
+            {% endif %}
         </div>
     </div>
 

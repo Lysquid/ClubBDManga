@@ -3,14 +3,21 @@
   background-size: 30px 30px;
 }
 
+h1 {
+  font-size: 1.9rem;
+}
+h2 {
+  font-size: 1.5rem;
+}
+h3 {
+  font-size: 1.2rem;
+}
+
 .markdown > h2 {
-  font-size: 1.7rem;
   margin-top: 35px;
   margin-bottom: 20px;
 }
-
 .markdown > h3 {
-  font-size: 1.3rem;
   margin-top: 25px;
   margin-bottom: 15px;
 }
@@ -19,4 +26,9 @@
   max-width: 100%;
   display: block;
   margin: 30px auto;
+}
+
+.center-image {
+  display: block;
+  margin: auto;
 }

@@ -125,6 +125,8 @@ class News(models.Model):
     slug = models.SlugField("adresse", unique=True,
                             help_text="dernière partie de l'URL à laquelle on pourra trouver cet article")
     date = models.DateField("date", default=datetime.now)
+    visible = models.BooleanField("visible", default=True,
+                                  help_text="visible dans la liste des actualités")
     summary = models.CharField("résumé", max_length=400, blank=True)
     content = models.TextField("contenu", help_text="""
         Le texte doit utiliser le format Markdown.

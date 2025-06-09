@@ -14,7 +14,7 @@
         </div>
 
         <div class="col-12 col-xxl-7">
-            <h3 class="mb-3">Les séries les plus empruntées</h3>
+            <h2 class="mb-3">Les séries les plus empruntées</h2>
             <ol class="list-group list-group-numbered">
                 {% for series in top_series %}
                     <li class="list-group-item d-flex justify-content-between align-items-start">
@@ -28,7 +28,7 @@
             </ol>
         </div>
         <div class="col-12 col-xxl-5">
-            <h3 class="mb-3">Les chiffres du Club</h3>
+            <h2 class="mb-3">Les chiffres du Club</h2>
             <p>L'inventaire n'étant pas terminé, ces statistiques sont sous-estimées</p>
             <ul class="list-group">
                 <li class="list-group-item"><b>{{ books.count }}</b> livre{{ books|pluralize }}</li>

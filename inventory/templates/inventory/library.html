@@ -5,7 +5,7 @@
 
 {% block content %}
 
-    <h1>Bibliothèque du Club</h1>
+    <h1 class="mb-4">Bibliothèque du Club</h1>
 
     <form action="{% url 'library' %}" method="post"
           hx-post="/search/" hx-target="#search-results" hx-indicator=".htmx-indicator" hx-trigger="load, change">
