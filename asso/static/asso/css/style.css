@@ -2,3 +2,21 @@
   background-image: radial-gradient(hsl(0, 0%, 50%, 25%) 1px, transparent 0);
   background-size: 30px 30px;
 }
+
+.markdown > h2 {
+  font-size: 1.7rem;
+  margin-top: 35px;
+  margin-bottom: 20px;
+}
+
+.markdown > h3 {
+  font-size: 1.3rem;
+  margin-top: 25px;
+  margin-bottom: 15px;
+}
+
+.markdown > p > img {
+  max-width: 100%;
+  display: block;
+  margin: 30px auto;
+}

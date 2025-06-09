@@ -10,9 +10,9 @@
         <div class="col-xxl-10">
 
             <h1>{{ news.title }}</h1>
-            <p class="text-secondary">{{ news.date }}</p>
+            <p class="text-secondary mb-4">{{ news.date }}</p>
 
-            {{ news.content|render_markdown }}
+            <div class="markdown">{{ news.content|render_markdown }}</div>
 
         </div>
 
