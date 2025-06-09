@@ -1,3 +1,10 @@
+/*
+To edit Bootstrap theme, I compiled it with this example project:
+https://github.com/twbs/examples/tree/main/sass-js
+My custom Sass is in static/css/bootstrap.scss
+Then copy paste css/style.css for the example into static/css/bootstrap.css
+*/
+
 .book-card {
   background-image: radial-gradient(hsl(0, 0%, 50%, 25%) 1px, transparent 0);
   background-size: 30px 30px;
