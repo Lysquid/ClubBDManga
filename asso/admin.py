@@ -82,6 +82,7 @@ class LoanAdmin(admin.ModelAdmin):
 @admin.register(models.News)
 class NewsAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ["title"]}
+    list_display = ["__str__", "date"]
     formfield_overrides = {
         db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 40, 'cols': 100})},
     }

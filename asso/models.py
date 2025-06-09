@@ -125,7 +125,11 @@ class News(models.Model):
     slug = models.SlugField("adresse", unique=True,
                             help_text="dernière partie de l'URL à laquelle on pourra trouver cet article")
     date = models.DateField("date", default=datetime.now)
-    content = models.TextField("contenu", help_text="le texte doit utiliser le format Markdown")
+    summary = models.CharField("résumé", max_length=400, blank=True)
+    content = models.TextField("contenu", help_text="""
+        Le texte doit utiliser le format Markdown.
+        Pour les images, déposez les sur le Google Drive et utilisez le lien de partage.
+    """)
 
     class Meta:
         verbose_name = "actualité"
