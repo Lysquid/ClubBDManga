@@ -57,7 +57,7 @@ class Series(models.Model):
         ("comics", "comic"),
         ("novel", "roman")
     ]
-    id = models.CharField("code", primary_key=True, max_length=5, validators=[
+    code = models.CharField("code", unique=True, db_index=True, max_length=5, validators=[
         validators.RegexValidator('^[A-Z0-9]{5}$')
     ])
     name = models.CharField("nom", max_length=255)
@@ -73,7 +73,7 @@ class Series(models.Model):
 
     @property
     def reference(self):
-        return str(self.genre.id).zfill(2) + self.id
+        return str(self.genre.id).zfill(2) + self.code
     reference.fget.short_description = "référence"
 
     def __str__(self):
@@ -109,7 +109,7 @@ def _last_book_condition():
 
 
 class Book(models.Model):
-    id = models.CharField("cote", primary_key=True, max_length=12, editable=False, validators=[
+    call_number = models.CharField("cote", unique=True, db_index=True, max_length=12, editable=False, validators=[
         validators.RegexValidator('^[0-9]{2}[A-Z0-9]{5}[0-9]{5}$')
     ])
     name = models.CharField("nom", max_length=255, blank=True)
@@ -134,11 +134,11 @@ class Book(models.Model):
         return f"{self.series} {self.volume_nb}"
 
     def save(self, *args, **kwargs):
-        self.id = self.series.reference + str(self.volume_nb).zfill(3) + str(self.duplicate_nb).zfill(2)
+        self.call_number = self.series.reference + str(self.volume_nb).zfill(3) + str(self.duplicate_nb).zfill(2)
         Book.last_book_id = self.id
         super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "livre"
         unique_together = ("series", "volume_nb", "duplicate_nb")
-        ordering = ["id"]
+        ordering = ["call_number"]

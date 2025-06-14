@@ -21,10 +21,10 @@ class AvailableListFilter(admin.SimpleListFilter):
 
 @admin.register(models.Book)
 class BookAdmin(admin.ModelAdmin):
-    readonly_fields = ["id"]
+    readonly_fields = ["call_number"]
     search_fields = ["series__name", "volume_nb"]
     autocomplete_fields = ["series"]
-    list_display = ["__str__", "id", "date_added", "comment"]
+    list_display = ["__str__", "call_number", "date_added", "comment"]
     list_filter = [AvailableListFilter, "date_added"]
 
 
@@ -42,7 +42,7 @@ class SeriesAdmin(admin.ModelAdmin):
     inlines = [BookInline]
     search_fields = ["name"]
     filter_horizontal = ["authors", "editors"]
-    list_display = ["name", "id", "type", "genre", "nb_books"]
+    list_display = ["name", "code", "type", "genre", "nb_books"]
     list_filter = ["type"]
 
 
