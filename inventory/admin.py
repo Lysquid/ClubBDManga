@@ -43,7 +43,7 @@ class SeriesAdmin(admin.ModelAdmin):
     search_fields = ["name"]
     filter_horizontal = ["authors", "editors"]
     list_display = ["name", "code", "type", "genre", "nb_books"]
-    list_filter = ["type"]
+    list_filter = ["type", "genre"]
 
 
 class SeriesInline(admin.TabularInline):

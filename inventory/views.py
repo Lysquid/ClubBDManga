@@ -24,6 +24,8 @@ class LibraryView(generic.TemplateView):
 
 class SeriesDetailView(generic.DetailView):
     model = Series
+    slug_field = 'code'
+    slug_url_kwarg = 'code'
 
 
 @require_POST

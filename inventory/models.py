@@ -72,9 +72,9 @@ class Series(models.Model):
     nb_books.fget.short_description = "nombre de volumes"
 
     @property
-    def reference(self):
+    def call_number(self):
         return str(self.genre.id).zfill(2) + self.code
-    reference.fget.short_description = "référence"
+    call_number.fget.short_description = "référence"
 
     def __str__(self):
         return self.name

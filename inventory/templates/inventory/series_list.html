@@ -8,7 +8,7 @@
                     <h5 class="card-title">{{ series.name }}</h5>
                     <p class="card-subtitle mt-1">{{ series.authors.all|join:", " }}</p>
                     <p class="card-text fst-italic mt-1">{{ series.get_type_display|capfirst }} - {{ series.genre|capfirst }}</p>
-                    <a class="card-link stretched-link" href="{% url 'series detail' series.id %}">Détails</a>
+                    <a class="card-link stretched-link" href="{% url 'series detail' series.code %}">Détails</a>
                 </div>
             </div>
         </div>
