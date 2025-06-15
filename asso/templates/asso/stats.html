@@ -24,7 +24,7 @@
                 {% for series in top_series %}
                     <li class="list-group-item d-flex justify-content-between align-items-start">
                         <div class="ms-2 me-auto">
-                            <a href="{% url 'series detail' series.id %}" class="text-reset text-decoration-none">{{ series.name }}</a>
+                            <a href="{% url 'series detail' series.code %}" class="text-reset text-decoration-none">{{ series.name }}</a>
                         </div>
                         <span class="badge">{{ series.members_count }} personne{{ series.members_count|pluralize }}</span>
                         <span class="badge">{{ series.loans_count }} emprunt{{ series.loans_count|pluralize }}</span>
