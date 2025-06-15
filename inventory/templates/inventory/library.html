@@ -32,10 +32,19 @@
             </div>
 
             <div>
-                <select name="genre" class="form-select" aria-label="Default select example">
+                <select name="genre" class="form-select" aria-label="Genre selection">
                     <option value="">Tous les genres</option>
                     {% for genre in genres %}
                         <option value="{{ genre }}">{{ genre|capfirst }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <select name="language" class="form-select" aria-label="Language selection">
+                    <option value="">Tous les langues</option>
+                    {% for language, language_name in languages %}
+                        <option value="{{ language }}">{{ language_name }}</option>
                     {% endfor %}
                 </select>
             </div>

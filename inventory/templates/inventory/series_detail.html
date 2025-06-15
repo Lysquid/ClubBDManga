@@ -28,6 +28,10 @@
                     <div>{{ series.genre|capfirst }}</div>
                 </div>
                 <div>
+                    <div class="text-body-secondary">Langue</div>
+                    <div>{{ series.get_language_display }}</div>
+                </div>
+                <div>
                     <div class="text-body-secondary">Référence</div>
                     <div>{{ series.call_number }}</div>
                 </div>

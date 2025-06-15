@@ -19,6 +19,10 @@ class LibraryView(generic.TemplateView):
         context = super().get_context_data(**kwargs)
         context["types"] = Series.TYPES
         context["genres"] = Genre.objects.all()
+        context["languages"] = (
+            (code, Series.LANGUAGES[code])
+            for code in Series.objects.values_list("language", flat=True).distinct().order_by("language")
+        )
         return context
 
 
@@ -41,6 +45,9 @@ def series_search(request: HtmxHttpRequest) -> HttpResponse:
     genre = request.POST.get("genre")
     if genre:
         series = series.filter(genre__name__exact=genre)
+    language = request.POST.get("language")
+    if language:
+        series = series.filter(language__exact=language)
 
     return render(
         request,
