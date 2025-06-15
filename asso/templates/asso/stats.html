@@ -1,6 +1,7 @@
 {% extends "asso/base.html" %}
 
 {% load static %}
+{% load singular %}
 
 {% block title %}Statistiques{% endblock %}
 
@@ -35,7 +36,7 @@
                 <li class="list-group-item"><b>{{ books.count }}</b> livre{{ books|pluralize }}</li>
                 {% for type, books_by_type in types.items %}
                     {% if books_by_type.exists %}
-                        <li class="list-group-item"><b>{{ books_by_type.count }}</b> {{ type }}{{ books_by_type|pluralize }}</li>
+                        <li class="list-group-item"><b>{{ books_by_type.count }}</b> {{ type|singular }}{{ books_by_type|pluralize }}</li>
                     {% endif %}
                 {% endfor %}
                 <li class="list-group-item"><b>{{ series.count }}</b> série{{ series|pluralize }}</li>

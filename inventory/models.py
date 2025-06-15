@@ -63,7 +63,7 @@ class Series(models.Model):
     TYPES = {
         "bd": "BD",
         "manga": "manga",
-        "comics": "comic",
+        "comics": "comics",
         "novel": "roman",
     }
     LANGUAGES = {
