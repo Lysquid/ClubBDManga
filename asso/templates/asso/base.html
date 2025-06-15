@@ -15,7 +15,7 @@
     {% block head %}{% endblock %}
 </head>
 
-<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' style="height: 100%;display: flex;flex-direction: column;">
 
 <nav class="navbar navbar-expand-xxl bg-primary" data-bs-theme="dark">
     <div class="container-fluid col-11 col-sm-8 col-md-8 col-lg-6">
@@ -48,11 +48,13 @@
     </div>
 </nav>
 
-<div class="container-fluid">
-    <div class="row justify-content-center mt-5">
-        <div class="col-11 col-sm-8 col-md-8 col-lg-6" id="content">
-            {% block content %}{% endblock %}
-
+<div class="container-fluid" style="flex-grow: 1;display: flex;flex-direction: column;">
+    <div class="row justify-content-center mt-5" style="flex-grow: 1;">
+        <div class="col-11 col-sm-8 col-md-8 col-lg-6" id="content" style="display: flex;flex-direction: column;">
+            <div class="" style="flex-grow: 1;">
+                {% block content %}{% endblock %}
+            </div>
+            
             <footer class="d-flex flex-column mt-5 py-3 border-top align-items-center gap-3">
                 <ul class="nav justify-content-center">
                     <li class="nav-item"><a class="nav-link px-2 link-info" href="https://www.instagram.com/insabdmangas">Instagram</a></li>
