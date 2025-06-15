@@ -12,10 +12,8 @@ class Migration(migrations.Migration):
 
     operations = [
 
-        # Remove the old foreign key constraint
         migrations.RunSQL(
-            sql="-- Foreign key will be handled by manual SQL script",
-            reverse_sql="-- Reverse not implemented"
+            sql="-- Actual schema changes handled by manual SQL script",
         ),
 
         # Modify the Book model
@@ -34,9 +32,4 @@ class Migration(migrations.Migration):
             field=models.CharField(db_index=True, editable=False, max_length=12, unique=True, validators=[django.core.validators.RegexValidator('^[0-9]{2}[A-Z0-9]{5}[0-9]{5}$')], verbose_name='cote'),
         ),
 
-        # Mark this as a no-op since we're handling it manually
-        migrations.RunSQL(
-            sql="-- Actual schema changes handled by manual SQL script",
-            reverse_sql="-- Reverse not implemented"
-        ),
     ]
