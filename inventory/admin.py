@@ -42,7 +42,7 @@ class SeriesAdmin(admin.ModelAdmin):
     inlines = [BookInline]
     search_fields = ["name"]
     filter_horizontal = ["authors", "editors"]
-    list_display = ["name", "code", "type", "genre", "nb_books"]
+    list_display = ["name", "call_number", "type", "genre", "nb_books"]
     list_filter = ["type", "genre"]
 
 

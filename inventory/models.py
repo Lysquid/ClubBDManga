@@ -1,5 +1,6 @@
 from django.core import validators
 from django.db import models
+from django.db.models import functions
 
 
 class Author(models.Model):
@@ -57,27 +58,38 @@ class Series(models.Model):
         ("comics", "comic"),
         ("novel", "roman")
     ]
-    code = models.CharField("code", unique=True, db_index=True, max_length=5, validators=[
-        validators.RegexValidator('^[A-Z0-9]{5}$')
-    ])
+    code = models.CharField("code", unique=True, db_index=True, max_length=5,
+                            validators=[validators.RegexValidator('^[A-Z0-9]{5}$')],
+                            help_text="5 caractères en majuscules (lettres et chiffres)")
     name = models.CharField("nom", max_length=255)
     type = models.CharField("type", max_length=16, choices=TYPES)
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE, verbose_name="genre")
     authors = models.ManyToManyField(Author, verbose_name="auteurs")
     editors = models.ManyToManyField(Editor, verbose_name="éditeurs")
+    call_number = models.GeneratedField(
+        expression=functions.Concat(
+            functions.LPad(functions.Cast("genre__id", models.CharField()), 2, models.Value("0")),
+            "code"
+        ),
+        output_field=models.CharField("référence", unique=True, max_length=7),
+        db_persist=True
+    )
 
     @property
     def nb_books(self):
         return self.book_set.count()
     nb_books.fget.short_description = "nombre de volumes"
 
-    @property
-    def call_number(self):
-        return str(self.genre.id).zfill(2) + self.code
-    call_number.fget.short_description = "référence"
-
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # Refresh the call_number materialized view
+        self.refresh_from_db(fields=['call_number'])
+        # Saves books in case the call number changed
+        for book in self.book_set.all():
+            book.save(force_update=True)
 
     class Meta:
         verbose_name = "série"
@@ -134,7 +146,8 @@ class Book(models.Model):
         return f"{self.series} {self.volume_nb}"
 
     def save(self, *args, **kwargs):
-        self.call_number = self.series.reference + str(self.volume_nb).zfill(3) + str(self.duplicate_nb).zfill(2)
+        # We can't use a generated field because it doesn't support using other model fields or other generated fields
+        self.call_number = self.series.call_number + str(self.volume_nb).zfill(3) + str(self.duplicate_nb).zfill(2)
         Book.last_book_id = self.id
         super().save(*args, **kwargs)
 
