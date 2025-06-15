@@ -6,7 +6,7 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 COPY pyproject.toml /app/
-RUN pip install -e .[prod]
+RUN pip install .[prod]
 
 COPY . /app/
 
