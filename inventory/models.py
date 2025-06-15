@@ -1,6 +1,7 @@
 from django.core import validators
 from django.db import models
 from django.db.models import functions
+from django.core.exceptions import ValidationError
 
 
 class Author(models.Model):
@@ -35,8 +36,14 @@ class Editor(models.Model):
         ordering = ["name"]
 
 
+def validate_lowercase(value: str):
+    if not value.islower():
+        raise ValidationError("La valeur doit être en minuscules.")
+
+
 class Genre(models.Model):
-    name = models.CharField("nom", unique=True, max_length=64)
+
+    name = models.CharField("nom", unique=True, max_length=64, validators=[validate_lowercase])
 
     @property
     def nb_series(self):

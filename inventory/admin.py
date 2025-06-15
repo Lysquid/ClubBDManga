@@ -81,4 +81,3 @@ class EditorAdmin(admin.ModelAdmin):
 class GenreAdmin(admin.ModelAdmin):
     search_fields = ["name"]
     list_display = ["name", "id", "nb_series"]
-    inlines = [SeriesGenresInline]
