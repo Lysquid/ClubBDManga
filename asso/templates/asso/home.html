@@ -3,6 +3,9 @@
 {% load markdown %}
 
 {% block title %}Accueil{% endblock %}
+{% block head %}
+    <meta name="description" content="Bienvenue au Club BD Manga de l'INSA Lyon ! Ce site présente les actualités de l'association et les livres de la bibliothèques. Vous pouvez faire des recherches avancées pour trouver votre manga, BD ou comics préféré, et vérifier sa disponibilité.">
+{% endblock %}
 
 {% block content %}
 
@@ -16,7 +19,7 @@
                 <a class="btn btn-primary" href="{% url 'library' %}">Explorer la bibliothèque</a>
             </div>
 
-            <img class="col-10 col-md-9 col-xxl-8 center-image" src="{% static 'asso/img/logo_full.png' %}" alt="logo de l'asso"/>
+            <img class="col-10 col-md-9 col-xxl-8 center-image" src="{% static 'asso/img/logo_full.png' %}" alt="logo du club"/>
 
         </div>
     </div>

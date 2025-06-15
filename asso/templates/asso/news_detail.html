@@ -2,6 +2,10 @@
 {% load markdown %}
 
 {% block title %}{{ news.title }}{% endblock %}
+{% block head %}
+    <meta name="description" content="{{ news.title }} - {{ news.summary }}. Actualité du Club BD Manga INSA Lyon">
+{% endblock %}
+
 
 {% block content %}
 
