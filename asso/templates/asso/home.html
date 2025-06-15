@@ -2,7 +2,6 @@
 {% load static %}
 {% load markdown %}
 
-{% block title %}Accueil{% endblock %}
 {% block head %}
     <meta name="description" content="Bienvenue au Club BD Manga de l'INSA Lyon ! Ce site présente les actualités de l'association et les livres de la bibliothèques. Vous pouvez faire des recherches avancées pour trouver votre manga, BD ou comics préféré, et vérifier sa disponibilité.">
 {% endblock %}
@@ -10,13 +9,49 @@
 {% block content %}
 
     <div class="row justify-content-center">
-        <div class="col-xxl-10">
+        <div class="col-xxl-12">
 
-            <div class="markdown">{{ text_accueil|render_markdown }}</div>
+            <div class="row mb-5">
+                <div class="col-xxl-9 markdown">{{ text_accueil|render_markdown }}</div>
+                <div class="d-none d-xl-block col-xxl-3 align-self-end ps-3">
+                    <img width="100%" src="{% static 'asso/img/book_stack.png' %}" alt="pile de livres"/>
+                </div>
+            </div>
 
-            <div class="d-flex my-5 gap-4 justify-content-center">
-                <a class="btn btn-primary" href="{% url 'news list' %}">Voir les actualités</a>
+            <h2 class="mb-2">Dernières actualités</h2>
+            <div class="row">
+                {% for news in news_list %}
+                    <div class="col-xl-6 d-flex flex-column g-3">
+                        {% include "asso/news_card.html" with news=news %}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="d-flex mt-4 mb-5 justify-content-center">
+                <a class="btn btn-primary" href="{% url 'news list' %}">Voir toutes les actualités</a>
+            </div>
+
+            <h2 class="mb-2">Derniers ajouts à l'inventaire</h2>
+            <div class="row">
+                {% for series in new_series %}
+                    <div class="col-lg-6 col-xxl-4 g-4">
+                        {% include "inventory/series_card.html" with series=series %}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="d-flex mt-4 mb-5 justify-content-center">
                 <a class="btn btn-primary" href="{% url 'library' %}">Explorer la bibliothèque</a>
+            </div>
+
+            <h2 class="mb-2">Livres populaires en ce moment</h2>
+            <div class="row">
+                {% for series in popular_series %}
+                    <div class="col-lg-6 col-xxl-4 g-4">
+                        {% include "inventory/series_card.html" with series=series %}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="d-flex mt-4 mb-5 justify-content-center">
+                <a class="btn btn-primary" href="{% url 'stats' %}">Voir plus de statistiques</a>
             </div>
 
             <img class="col-10 col-md-9 col-xxl-8 center-image" src="{% static 'asso/img/logo_full.png' %}" alt="logo du club"/>

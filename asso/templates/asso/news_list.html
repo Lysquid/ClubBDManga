@@ -7,22 +7,13 @@
 
 {% block content %}
 
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-5">
         <div class="col-xxl-8 d-flex flex-column gap-3">
 
             <h1 class="mb-3">Actualités</h1>
 
             {% for news in news_list %}
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="card-title">{{ news.title }}</h2>
-                        <p class="text-secondary mb-2 card-subtitle">{{ news.date }}</p>
-                        {% if news.summary %}
-                            <p class="card-text">{{ news.summary }}</p>
-                        {% endif %}
-                        <a class="card-link stretched-link" href="{% url 'news detail' news.slug %}">Lire l'article</a>
-                    </div>
-                </div>
+                {% include "asso/news_card.html" with news=news %}
             {% endfor %}
         </div>
     </div>

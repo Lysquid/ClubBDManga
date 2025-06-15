@@ -20,19 +20,20 @@ h3 {
   font-size: 1.2rem;
 }
 
-.markdown > h1 {
+.markdown h1 {
+  margin-top: 45px;
   margin-bottom: 30px;
 }
-.markdown > h2 {
+.markdown h2 {
   margin-top: 35px;
   margin-bottom: 20px;
 }
-.markdown > h3 {
+.markdown h3 {
   margin-top: 25px;
   margin-bottom: 15px;
 }
 
-.markdown > p > img {
+.markdown p img {
   max-width: 100%;
   display: block;
   margin: 30px auto;

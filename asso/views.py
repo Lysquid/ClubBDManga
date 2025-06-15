@@ -1,6 +1,6 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
-from django.db.models import Count
+from django.db import models
 from django.views import generic
 from inventory.models import Book, Series, Author
 from asso.models import Member, Loan, News, Page
@@ -12,6 +12,17 @@ class HomePageView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["text_accueil"] = Page.objects.get_or_create(identifier="accueil")[0].content
+        context["news_list"] = News.objects.order_by('-date')[:2]
+        context["new_series"] = Series.objects.annotate(
+            latest_book_date=models.Max('book__date_added'),
+            min_volume=models.Min('book__volume_nb'),
+            max_volume=models.Max('book__volume_nb')
+        ).order_by('-latest_book_date', '?')[:3]
+        context["popular_series"] = Series.objects.filter(
+            book__loan__loan_return__isnull=False
+        ).annotate(
+            latest_return_date=models.Max('book__loan__loan_return')
+        ).distinct().order_by('-latest_return_date')[:3]
         return context
 
 
@@ -22,8 +33,8 @@ class StatsPageView(generic.TemplateView):
         context = super().get_context_data(**kwargs)
 
         context["top_series"] = Series.objects.annotate(
-            members_count=Count('book__loan__member', distinct=True),
-            loans_count=Count('book__loan')
+            members_count=models.Count('book__loan__member', distinct=True),
+            loans_count=models.Count('book__loan')
         ).filter(loans_count__gt=0).order_by('-members_count', '-loans_count')[:10]
 
         context["books"] = Book.objects.all()

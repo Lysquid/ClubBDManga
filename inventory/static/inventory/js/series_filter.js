@@ -108,8 +108,8 @@ class SeriesFilter {
                     <div class="card book-card h-100">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">${this.escapeHtml(series.name)}</h5>
-                            <p class="card-subtitle mt-1">${this.escapeHtml(series.authors.join(', '))}</p>
-                            <p class="card-text fst-italic mt-1">${this.escapeHtml(series.type_display)} - ${this.escapeHtml(series.genre_display)}</p>
+                            <p class="card-text mb-1">${this.escapeHtml(series.authors.join(', '))}</p>
+                            <p class="card-text mb-2">${this.escapeHtml(series.type_display)} - ${this.escapeHtml(series.genre_display)}</p>
                             <a class="card-link stretched-link mt-auto" href="${series.url}">Détails</a>
                         </div>
                     </div>

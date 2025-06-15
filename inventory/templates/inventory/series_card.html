@@ -1,0 +1,14 @@
+<div class="card h-100">
+    <div class="card-body d-flex flex-column">
+        <h5 class="card-title">{{ series }}</h5>
+        {% if series.max_volume %}
+            <p class="card-subtitle mb-2 text-secondary">Tome {{ series.min_volume }}{% if series.min_volume != series.max_volume %} à {{ series.max_volume }}{% endif %} depuis {{ series.latest_book_date|date:"F"  }}</p>
+        {% endif %}
+        {% if series.latest_return_date %}
+            <p class="card-subtitle mb-2 text-secondary">Emprunté en {{ series.latest_return_date|date:"F" }}</p>
+        {% endif %}
+        <p class="card-text mb-1">{{ series.authors.all|join:", " }}</p>
+        <p class="card-text mb-2">{{ series.get_type_display|capfirst }} - {{ series.genre|capfirst }}</p>
+        <a class="card-link stretched-link mt-auto" href="{% url 'series detail' series.code %}">Détails</a>
+    </div>
+</div>
