@@ -3,59 +3,67 @@
 
 {% block title %}Séries{% endblock %}
 
+{% block head %}
+    <script src="{% static 'inventory/js/series_filter.js' %}"></script>
+{% endblock %}
+
 {% block content %}
 
     <h1 class="mb-4">Bibliothèque du Club</h1>
 
-    <form action="{% url 'library' %}" method="post"
-          hx-post="/search/" hx-target="#search-results" hx-indicator=".htmx-indicator" hx-trigger="load, change">
-        {% csrf_token %}
+    <div class="d-flex flex-row flex-wrap my-4 gap-4 mb-3">
 
-        <div class="d-flex flex-row flex-wrap my-4 gap-4 mb-3">
-
-            <div>
-                <div class="input-group rounded">
-                    <input list="books" name="search" type="search" class="form-control" placeholder="Recherche" aria-label="Search" aria-describedby="search-addon"
-                        hx-trigger="input changed delay:500ms, search" hx-post="/search/"/>
-                    <button type="submit" hx-post="/search/"  class="btn btn-outline-primary">Rechercher</button>
-                </div>
+        <div>
+            <div class="input-group rounded">
+                <input id="search-input" type="search" class="form-control" placeholder="Recherche" aria-label="Rechercher par titre ou auteur" aria-describedby="search-addon">
+                <button id="clear-button" class="btn btn-outline-primary">Effacer</button>
             </div>
-
-            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="type" value="" id="all" autocomplete="off" hx-post="/search/" checked/>
-                <label class="btn btn-outline-primary" for="all">Tout</label>
-
-                {% for type, type_name in types.items %}
-                    <input type="radio" class="btn-check" name="type" value="{{ type }}" id="{{ type }}" autocomplete="off"/>
-                    <label class="btn btn-outline-primary" for="{{ type }}">{{ type_name|capfirst }}</label>
-                {% endfor %}
-            </div>
-
-            <div>
-                <select name="genre" class="form-select" aria-label="Genre selection">
-                    <option value="">Tous les genres</option>
-                    {% for genre in genres %}
-                        <option value="{{ genre }}">{{ genre|capfirst }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div>
-                <select name="language" class="form-select" aria-label="Language selection">
-                    <option value="">Tous les langues</option>
-                    {% for language, language_name in languages %}
-                        <option value="{{ language }}">{{ language_name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div>
-                <img class="htmx-indicator" src="{% static 'asso/img/spinner.svg' %}" alt="spinner">
-            </div>
-
         </div>
-    </form>
 
-    <div id="search-results"></div>
+        <div class="btn-group" role="group" aria-label="Filtrer par type de livre">
+            <input type="radio" class="btn-check" name="type-select" value="" id="all-types" autocomplete="off" checked/>
+            <label class="btn btn-outline-primary" for="all-types">Tout</label>
+
+            {% for type, type_name in types.items %}
+                <input type="radio" class="btn-check" name="type-select" value="{{ type }}" id="type-{{ type }}" autocomplete="off"/>
+                <label class="btn btn-outline-primary" for="type-{{ type }}">{{ type_name|capfirst }}</label>
+            {% endfor %}
+        </div>
+
+        <div>
+            <select id="genre-select" class="form-select" aria-label="Filtrer par genre">
+                <option value="">Tous les genres</option>
+                {% for genre in genres %}
+                    <option value="{{ genre }}">{{ genre|capfirst }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <select id="language-select" class="form-select" aria-label="Filtrer par langue">
+                <option value="">Tous les langues</option>
+                {% for language, language_name in languages %}
+                    <option value="{{ language }}">{{ language_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <button id="reset-button" type="button" class="btn btn-outline-primary" aria-label="Réinitialiser tous les filtres">
+                Réinitialiser
+            </button>
+        </div>
+        
+        <div class="ms-auto d-flex align-items-center">
+            <p id="results-count" class="align-self-center mb-0">Chargement...</p>
+        </div>
+
+    </div>
+
+    <div class="mt-5">
+        <div id="series-list-container" class="row g-4 d-flex align-items-stretch">
+            <!-- Series will be rendered here by JavaScript -->
+        </div>
+    </div>
 
 {% endblock %}

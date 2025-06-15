@@ -1,15 +1,8 @@
-from django.db.models import Q
-from django.http import HttpResponse, HttpRequest
-from django.shortcuts import render
 from django.views import generic
-from django.views.decorators.http import require_POST
+from django.template import defaultfilters
 
 from inventory.models import Series, Genre
-from django_htmx.middleware import HtmxDetails
-
-
-class HtmxHttpRequest(HttpRequest):
-    htmx: HtmxDetails
+from django.http import JsonResponse
 
 
 class LibraryView(generic.TemplateView):
@@ -32,25 +25,23 @@ class SeriesDetailView(generic.DetailView):
     slug_url_kwarg = 'code'
 
 
-@require_POST
-def series_search(request: HtmxHttpRequest) -> HttpResponse:
-    series = Series.objects.all()
-
-    search = request.POST.get("search")
-    if search:
-        series = series.filter(Q(name__icontains=search) | Q(authors__name__icontains=search))
-    book_type = request.POST.get("type")
-    if book_type:
-        series = series.filter(type__exact=book_type)
-    genre = request.POST.get("genre")
-    if genre:
-        series = series.filter(genre__name__exact=genre)
-    language = request.POST.get("language")
-    if language:
-        series = series.filter(language__exact=language)
-
-    return render(
-        request,
-        "inventory/series_list.html",
-        {"series_list": series.distinct()},
-    )
+def series_list(request) -> JsonResponse:
+    """REST API endpoint that returns all series data for client-side filtering"""
+    series = Series.objects.select_related('genre').prefetch_related('authors').all()
+    
+    series_data = []
+    for s in series:
+        series_data.append({
+            'name': s.name,
+            'code': s.code,
+            'type': s.type,
+            'type_display': defaultfilters.capfirst(s.get_type_display()),
+            'genre': s.genre.name,
+            'genre_display': defaultfilters.capfirst(s.genre.name.capitalize()),
+            'language': s.language,
+            'language_display': s.get_language_display(),
+            'authors': [author.name for author in s.authors.all()],
+            'url': f'/livre/{s.code}/'
+        })
+    
+    return JsonResponse({'series': series_data})
