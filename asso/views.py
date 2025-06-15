@@ -28,7 +28,7 @@ class StatsPageView(generic.TemplateView):
 
         context["books"] = Book.objects.all()
         context["types"] = {}
-        for book_type, type_name in Series.TYPES:
+        for book_type, type_name in Series.TYPES.items():
             context["types"][type_name] = Book.objects.filter(series__type=book_type)
         context["authors"] = Author.objects.filter(series__isnull=False).distinct()
         context["series"] = Series.objects.all()

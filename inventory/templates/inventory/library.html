@@ -25,7 +25,7 @@
                 <input type="radio" class="btn-check" name="type" value="" id="all" autocomplete="off" hx-post="/search/" checked/>
                 <label class="btn btn-outline-primary" for="all">Tout</label>
 
-                {% for type, type_name in types %}
+                {% for type, type_name in types.items %}
                     <input type="radio" class="btn-check" name="type" value="{{ type }}" id="{{ type }}" autocomplete="off"/>
                     <label class="btn btn-outline-primary" for="{{ type }}">{{ type_name|capfirst }}</label>
                 {% endfor %}

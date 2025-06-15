@@ -59,12 +59,13 @@ class Genre(models.Model):
 
 
 class Series(models.Model):
-    TYPES = [
-        ("bd", "BD"),
-        ("manga", "manga"),
-        ("comics", "comic"),
-        ("novel", "roman")
-    ]
+    # Using lowercase singular to display in context, for example 10 comics
+    TYPES = {
+        "bd": "BD",
+        "manga": "manga",
+        "comics": "comic",
+        "novel": "roman",
+    }
     LANGUAGES = {
         "fr": "Français",
         "en": "English",
