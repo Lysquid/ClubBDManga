@@ -65,12 +65,25 @@ class Series(models.Model):
         ("comics", "comic"),
         ("novel", "roman")
     ]
+    LANGUAGES = {
+        "fr": "Français",
+        "en": "English",
+        "es": "Español",
+        "de": "Deutsch",
+        "it": "Italiano",
+        "pt": "Português",
+        "jp": "Japonais",
+        "ch": "Chinois",
+        "ru": "Russe",
+        "ar": "Arabe",
+    }
     name = models.CharField("nom", max_length=255)
     code = models.CharField("code", unique=True, db_index=True, max_length=5,
                             validators=[validators.RegexValidator('^[A-Z0-9]{5}$')],
                             help_text="5 caractères en majuscules (lettres et chiffres)")
     type = models.CharField("type", max_length=16, choices=TYPES)
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE, verbose_name="genre")
+    language = models.CharField("langue", max_length=2, choices=LANGUAGES, default="fr")
     authors = models.ManyToManyField(Author, verbose_name="auteurs")
     editors = models.ManyToManyField(Editor, verbose_name="éditeurs")
     call_number = models.GeneratedField(
@@ -78,8 +91,9 @@ class Series(models.Model):
             functions.LPad(functions.Cast("genre__id", models.CharField()), 2, models.Value("0")),
             "code"
         ),
-        output_field=models.CharField("référence", unique=True, max_length=7),
-        db_persist=True
+        output_field=models.CharField(unique=True, max_length=7),
+        db_persist=True,
+        verbose_name="référence"
     )
 
     @property
@@ -88,6 +102,8 @@ class Series(models.Model):
     books_count.fget.short_description = "nombre de volumes"
 
     def __str__(self):
+        if self.language != "fr":
+            return f"{self.name} ({self.get_language_display()})"
         return self.name
 
     def save(self, *args, **kwargs):
