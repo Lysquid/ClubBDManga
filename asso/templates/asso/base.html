@@ -1,7 +1,7 @@
 {% load suffix %}
 
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" prefix="og: https://ogp.me/ns#">
 <head>
     {% load static %}
     <meta charset="UTF-8">
@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="{% static 'asso/css/style.css' %}">
     <script src="{% static 'asso/js/base.js' %}"></script>
     <meta name="keywords" content="club, BD, manga, comics, INSA, INSA Lyon, association, assos, bibliothèque, livres, actualités, concours, ateliers, recherche, emprunts, disponibilité">
+    <meta property="og:image" content="{% static 'asso/img/logo_full.png' %}">
+    <meta property="og:locale" content="fr_FR" />
     {% block head %}{% endblock %}
 </head>
 
