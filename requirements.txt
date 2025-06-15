@@ -1,3 +1,0 @@
-Django>=5.2.3,<6.0
-mysqlclient>=2.2.7,<3.0
-markdown>=3.8,<4.0

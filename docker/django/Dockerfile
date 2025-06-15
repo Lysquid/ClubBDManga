@@ -5,9 +5,8 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-COPY requirements.txt /app/
-RUN pip install "gunicorn>=23.0.0,<24.0"
-RUN pip install -r requirements.txt
+COPY pyproject.toml /app/
+RUN pip install -e .[prod]
 
 COPY . /app/
 
