@@ -22,9 +22,9 @@ class StatsPageView(generic.TemplateView):
         context = super().get_context_data(**kwargs)
 
         context["top_series"] = Series.objects.annotate(
-            nb_members=Count('book__loan__member', distinct=True),
-            nb_loans=Count('book__loan')
-        ).filter(nb_loans__gt=0).order_by('-nb_members', '-nb_loans')[:10]
+            members_count=Count('book__loan__member', distinct=True),
+            loans_count=Count('book__loan')
+        ).filter(loans_count__gt=0).order_by('-members_count', '-loans_count')[:10]
 
         context["books"] = Book.objects.all()
         context["types"] = {}

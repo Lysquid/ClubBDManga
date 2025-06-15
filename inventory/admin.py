@@ -42,12 +42,21 @@ class SeriesAdmin(admin.ModelAdmin):
     inlines = [BookInline]
     search_fields = ["name"]
     filter_horizontal = ["authors", "editors"]
-    list_display = ["name", "call_number", "type", "genre", "nb_books"]
+    list_display = ["name", "call_number", "type", "genre", "books_count"]
     list_filter = ["type", "genre"]
 
 
 class SeriesInline(admin.TabularInline):
     extra = 0
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 class SeriesAuthorsInline(SeriesInline):
@@ -58,26 +67,20 @@ class SeriesEditorsInline(SeriesInline):
     model = models.Editor.series_set.through
 
 
-class SeriesGenresInline(SeriesInline):
-    model = models.Series
-    fields = ["name", "type", "id"]
-
-
 @admin.register(models.Author)
 class AuthorAdmin(admin.ModelAdmin):
     search_fields = ["name"]
-    list_display = ["name", "nb_series"]
+    list_display = ["name", "series_count"]
     inlines = [SeriesAuthorsInline]
 
 
 @admin.register(models.Editor)
 class EditorAdmin(admin.ModelAdmin):
     search_fields = ["name"]
-    list_display = ["name", "nb_series"]
+    list_display = ["name", "series_count"]
     inlines = [SeriesEditorsInline]
 
 
 @admin.register(models.Genre)
 class GenreAdmin(admin.ModelAdmin):
     search_fields = ["name"]
-    list_display = ["name", "id", "nb_series"]

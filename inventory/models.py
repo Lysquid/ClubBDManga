@@ -8,9 +8,9 @@ class Author(models.Model):
     name = models.CharField("nom", unique=True, max_length=255)
 
     @property
-    def nb_series(self):
+    def series_count(self):
         return self.series_set.count()
-    nb_series.fget.short_description = "nombre de séries"
+    series_count.fget.short_description = "nombre de séries"
 
     def __str__(self):
         return self.name
@@ -24,9 +24,9 @@ class Editor(models.Model):
     name = models.CharField("nom", unique=True, max_length=255)
 
     @property
-    def nb_series(self):
+    def series_count(self):
         return self.series_set.count()
-    nb_series.fget.short_description = "nombre de séries"
+    series_count.fget.short_description = "nombre de séries"
 
     def __str__(self):
         return self.name
@@ -46,9 +46,9 @@ class Genre(models.Model):
     name = models.CharField("nom", unique=True, max_length=64, validators=[validate_lowercase])
 
     @property
-    def nb_series(self):
+    def series_count(self):
         return self.series_set.count()
-    nb_series.fget.short_description = "nombre de séries"
+    series_count.fget.short_description = "nombre de séries"
 
     def __str__(self):
         return self.name
@@ -65,10 +65,10 @@ class Series(models.Model):
         ("comics", "comic"),
         ("novel", "roman")
     ]
+    name = models.CharField("nom", max_length=255)
     code = models.CharField("code", unique=True, db_index=True, max_length=5,
                             validators=[validators.RegexValidator('^[A-Z0-9]{5}$')],
                             help_text="5 caractères en majuscules (lettres et chiffres)")
-    name = models.CharField("nom", max_length=255)
     type = models.CharField("type", max_length=16, choices=TYPES)
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE, verbose_name="genre")
     authors = models.ManyToManyField(Author, verbose_name="auteurs")
@@ -83,9 +83,9 @@ class Series(models.Model):
     )
 
     @property
-    def nb_books(self):
+    def books_count(self):
         return self.book_set.count()
-    nb_books.fget.short_description = "nombre de volumes"
+    books_count.fget.short_description = "nombre de volumes"
 
     def __str__(self):
         return self.name

@@ -26,12 +26,12 @@ class Member(models.Model):
     comment = models.TextField("commentaire", blank=True)
     date_added = models.DateField("date d'inscription", auto_now_add=True)
 
-    MAX_NB_LOANS = 5
+    MAX_LOANS_COUNT = 5
 
     @property
-    def nb_loans(self):
+    def loans_count(self):
         return self.loan_set.count()
-    nb_loans.fget.short_description = "nb d'emprunts"
+    loans_count.fget.short_description = "nb d'emprunts"
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -65,8 +65,8 @@ def can_make_loan(member_id):
         raise ValidationError(f"{member} n'a pas encore cotisé cette année")
     if not member.can_make_loan:
         raise ValidationError("Il faut être Membre+ pour pouvoir emprunter")
-    if member.loan_set.current_loans().count() > Member.MAX_NB_LOANS:
-        raise ValidationError(f"{member} à dépassé le quota des {Member.MAX_NB_LOANS} emprunts maximums")
+    if member.loan_set.current_loans().count() > Member.MAX_LOANS_COUNT:
+        raise ValidationError(f"{member} à dépassé le quota des {Member.MAX_LOANS_COUNT} emprunts maximums")
 
 
 def _last_loan_member():
