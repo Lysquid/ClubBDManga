@@ -11,11 +11,14 @@
     <div class="row justify-content-center">
         <div class="col-xxl-12">
 
-            <div class="row mb-5">
-                <div class="col-xxl-9 markdown">{{ text_accueil|render_markdown }}</div>
+            <div class="row">
+                <div class="col-xxl-9 markdown">{{ text_home|render_markdown }}</div>
                 <div class="d-none d-xl-block col-xxl-3 align-self-end ps-3">
                     <img width="100%" src="{% static 'asso/img/book_stack.png' %}" alt="pile de livres"/>
                 </div>
+            </div>
+            <div class="d-flex mt-4 mb-5 justify-content-center">
+                <a class="btn btn-primary" href="{% url 'info' %}">Comment nous rejoindre ?</a>
             </div>
 
             <h2 class="mb-2">Dernières actualités</h2>

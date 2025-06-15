@@ -53,17 +53,16 @@
                 Réinitialiser
             </button>
         </div>
-        
-        <div class="ms-auto d-flex align-items-center">
-            <p id="results-count" class="align-self-center mb-0">Chargement...</p>
+
+        <div class="col-12 d-flex justify-content-between">
+            <a href="{% url 'stats' %}" class="link-primary">Statistiques</a>
+            <p id="results-count">Chargement...</p>
         </div>
 
     </div>
 
-    <div class="mt-5">
-        <div id="series-list-container" class="row g-4 d-flex align-items-stretch">
-            <!-- Series will be rendered here by JavaScript -->
-        </div>
+    <div id="series-list-container" class="row g-4 d-flex align-items-stretch">
+        <!-- Series will be rendered here by JavaScript -->
     </div>
 
 {% endblock %}

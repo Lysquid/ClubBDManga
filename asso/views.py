@@ -11,7 +11,7 @@ class HomePageView(generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["text_accueil"] = Page.objects.get_or_create(identifier="accueil")[0].content
+        context["text_home"] = Page.objects.get_or_create(identifier="accueil")[0].content
         context["news_list"] = News.objects.order_by('-date')[:2]
         context["new_series"] = Series.objects.annotate(
             latest_book_date=models.Max('book__date_added'),
@@ -23,6 +23,24 @@ class HomePageView(generic.TemplateView):
         ).annotate(
             latest_return_date=models.Max('book__loan__loan_return')
         ).distinct().order_by('-latest_return_date')[:3]
+        return context
+
+
+class NewsListView(generic.ListView):
+    model = News
+    queryset = News.objects.filter(date__lte=datetime.today())
+
+
+class NewsDetailView(generic.DetailView):
+    model = News
+
+
+class InfoPageView(generic.TemplateView):
+    template_name = "asso/info.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["text_info"] = Page.objects.get_or_create(identifier="infos")[0].content
         return context
 
 
@@ -47,12 +65,3 @@ class StatsPageView(generic.TemplateView):
         context["loans"] = Loan.objects.filter(member__has_paid=True)
 
         return context
-
-
-class NewsListView(generic.ListView):
-    model = News
-    queryset = News.objects.filter(date__lte=datetime.today())
-
-
-class NewsDetailView(generic.DetailView):
-    model = News

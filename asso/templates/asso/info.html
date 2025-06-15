@@ -1,0 +1,15 @@
+{% extends "asso/base.html" %}
+{% load markdown %}
+
+{% block title %}Infos pratiques{% endblock %}
+{% block head %}
+    <meta name="description" content="Informations pratiques pour rejoindre le Club BD Manga de l'INSA Lyon: lieux, horaires, contacts.">
+{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-xxl-10">
+            <div class="markdown">{{ text_info|render_markdown }}</div>
+        </div>
+    </div>
+{% endblock %}

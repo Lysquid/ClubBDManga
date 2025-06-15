@@ -6,20 +6,12 @@
     <meta name="description" content="{{ news.title }} - {{ news.summary }}. Actualité du Club BD Manga INSA Lyon">
 {% endblock %}
 
-
 {% block content %}
-
     <div class="row justify-content-center mt-5">
-
         <div class="col-xxl-10">
-
             <h1>{{ news.title }}</h1>
             <p class="text-secondary mb-4">{{ news.date }}</p>
-
             <div class="markdown">{{ news.content|render_markdown }}</div>
-
         </div>
-
     </div>
-
 {% endblock %}
