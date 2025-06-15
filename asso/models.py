@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.core import validators
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.utils.datetime_safe import datetime
+from django.utils import timezone
 
 from inventory.models import Book
 
@@ -55,7 +55,7 @@ class LoanQuerySet(models.QuerySet):
         return self.filter(loan_return__exact=None)
 
     def late_loans(self):
-        late_start = datetime.now() - Loan.MAX_LOAN_LENGTH
+        late_start = timezone.now() - Loan.MAX_LOAN_LENGTH
         return self.current_loans().filter(loan_start__lt=late_start)
 
 
@@ -90,7 +90,7 @@ class Loan(models.Model):
                                default=_last_loan_member)
     book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name="livre",
                              default=_last_loan_book)
-    loan_start = models.DateField("date de début", default=datetime.now)
+    loan_start = models.DateField("date de début", default=timezone.now)
     loan_return = models.DateField("date de retour", blank=True, null=True,
                                    help_text="laisser vide jusqu'au retour")
     objects = LoanQuerySet.as_manager()
@@ -111,7 +111,7 @@ class Loan(models.Model):
         return f"{self.member} - {self.book.name}"
 
     def return_book(self):
-        self.loan_return = datetime.now()
+        self.loan_return = timezone.now()
         self.save()
 
     class Meta:
@@ -124,7 +124,7 @@ class News(models.Model):
     title = models.CharField("titre", max_length=100)
     slug = models.SlugField("adresse", unique=True,
                             help_text="Dernière partie de l'URL à laquelle on pourra trouver cet article.")
-    date = models.DateField("date", default=datetime.now, help_text="""
+    date = models.DateField("date", default=timezone.now, help_text="""
         Si la date est dans le futur, l'article n'apparaitra pas dans les actualités avant cette date.
         Il reste accessible via son adresse.
     """)
