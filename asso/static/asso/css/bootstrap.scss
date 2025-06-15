@@ -1,13 +1,13 @@
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
 
-$primary: $purple;
-$info: $purple-400;
+$primary: lighten($purple, 8%);
+$link-color: $primary;
+$link-hover-color: darken($primary, 15%);
 
 // merge with existing $theme-colors map
 $theme-colors: map-merge($theme-colors, (
   "primary": $primary,
-  "info": $info
 ));
 
 // set changes

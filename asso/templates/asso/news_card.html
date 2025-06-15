@@ -5,6 +5,6 @@
         {% if news.summary %}
             <p class="card-text">{{ news.summary }}</p>
         {% endif %}
-        <a class="card-link stretched-link" href="{% url 'news detail' news.slug %}">Lire l'article</a>
+        <a class="card-link stretched-link link-primary" href="{% url 'news detail' news.slug %}">Lire l'article</a>
     </div>
 </div>

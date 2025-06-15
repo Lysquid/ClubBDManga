@@ -39,6 +39,16 @@ h3 {
   margin: 30px auto;
 }
 
+.markdown a {
+  color:RGBA(var(--bs-primary-rgb), var(--bs-link-opacity, 1)) !important;
+  text-decoration-color:RGBA(var(--bs-primary-rgb), var(--bs-link-underline-opacity, 1)) !important;
+}
+
+.markdown a:hover, .markdown a:focus {
+    color: RGBA(108, 77, 162, var(--bs-link-opacity, 1)) !important;
+    text-decoration-color: RGBA(108, 77, 162, var(--bs-link-underline-opacity, 1)) !important;
+}
+
 .center-image {
   display: block;
   margin: auto;

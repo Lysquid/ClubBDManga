@@ -110,7 +110,7 @@ class SeriesFilter {
                             <h5 class="card-title">${this.escapeHtml(series.name)}</h5>
                             <p class="card-text mb-1">${this.escapeHtml(series.authors.join(', '))}</p>
                             <p class="card-text mb-2">${this.escapeHtml(series.type_display)} - ${this.escapeHtml(series.genre_display)}</p>
-                            <a class="card-link stretched-link mt-auto" href="${series.url}">Détails</a>
+                            <a class="card-link stretched-link link-primary mt-auto" href="${series.url}">Détails</a>
                         </div>
                     </div>
                 </div>
