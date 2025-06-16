@@ -1,10 +1,10 @@
-<div class="card">
-    <div class="card-body">
+<div class="card h-100">
+    <div class="card-body d-flex flex-column">
         <h3 class="card-title">{{ news.title }}</h3>
         <p class="text-secondary mb-2 card-subtitle">{{ news.date }}</p>
         {% if news.summary %}
             <p class="card-text">{{ news.summary }}</p>
         {% endif %}
-        <a class="card-link stretched-link link-primary" href="{% url 'news detail' news.slug %}">Lire l'article</a>
+        <a class="card-link stretched-link link-primary mt-auto" href="{% url 'news detail' news.slug %}">Lire l'article</a>
     </div>
 </div>

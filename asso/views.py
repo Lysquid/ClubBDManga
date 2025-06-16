@@ -12,7 +12,7 @@ class HomePageView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["text_home"] = Page.objects.get_or_create(identifier="accueil")[0].content
-        context["news_list"] = News.objects.order_by('-date')[:2]
+        context["news_list"] = News.objects.order_by('-date')[:3]
         context["new_series"] = Series.objects.annotate(
             latest_book_date=models.Max('book__date_added'),
             min_volume=models.Min('book__volume_nb'),

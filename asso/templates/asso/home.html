@@ -14,7 +14,7 @@
 
             <div class="row">
                 <div class="col-xxl-9 markdown">{{ text_home|render_markdown }}</div>
-                <div class="d-none d-xl-block col-xxl-3 align-self-end ps-3">
+                <div class="d-none d-xxl-block col-xxl-3 align-self-end ps-3">
                     <img width="100%" src="{% static 'asso/img/book_stack.png' %}" alt="pile de livres"/>
                 </div>
             </div>
@@ -25,7 +25,7 @@
             <h2 class="mb-2">Dernières actualités</h2>
             <div class="row">
                 {% for news in news_list %}
-                    <div class="col-xl-6 d-flex flex-column g-4">
+                    <div class="col-xxl-4 d-flex flex-column g-4">
                         {% include "asso/news_card.html" with news=news %}
                     </div>
                 {% endfor %}
@@ -37,7 +37,7 @@
             <h2 class="mb-2">Livres populaires en ce moment</h2>
             <div class="row">
                 {% for series in popular_series %}
-                    <div class="col-lg-6 col-xxl-4 g-4">
+                    <div class="col-xxl-4 g-4">
                         {% include "inventory/series_card.html" with series=series %}
                     </div>
                 {% endfor %}
@@ -49,7 +49,7 @@
             <h2 class="mb-2">Derniers ajouts à l'inventaire</h2>
             <div class="row">
                 {% for series in new_series %}
-                    <div class="col-lg-6 col-xxl-4 g-4">
+                    <div class="col-xxl-4 g-4">
                         {% include "inventory/series_card.html" with series=series %}
                     </div>
                 {% endfor %}
