@@ -60,20 +60,11 @@ class LateLoansListFilter(admin.SimpleListFilter):
             return queryset
 
 
-def get_last_loan_member():
-    if models.Loan.objects.exists():
-        return models.Loan.objects.latest("id").member
-    return None
-
-
-def get_last_loan_book():
-    if models.Loan.objects.exists():
-        latest_book = models.Loan.objects.latest("id").book
-        try:
-            return Book.objects.get(series=latest_book.series, volume_nb=latest_book.volume_nb + 1, duplicate_nb=1)
-        except Book.DoesNotExist:
-            return None
-    return None
+def get_next_volume(book: Book):
+    try:
+        return Book.objects.get(series=book.series, volume_nb=book.volume_nb + 1, duplicate_nb=1)
+    except Book.DoesNotExist:
+        return None
 
 
 @admin.register(models.Loan)
@@ -93,8 +84,10 @@ class LoanAdmin(admin.ModelAdmin):
         form = super().get_form(request, obj, **kwargs)
         if obj is None:
             # Quickly add loans in bulk by pre-filling the fields from the last loan
-            form.base_fields['member'].initial = get_last_loan_member()
-            form.base_fields['book'].initial = get_last_loan_book()
+            if models.Loan.objects.exists():
+                latest_loan = models.Loan.objects.latest("id")
+                form.base_fields['member'].initial = latest_loan.member
+                form.base_fields['book'].initial = get_next_volume(latest_loan.book)
         return form
 
 

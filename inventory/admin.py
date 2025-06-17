@@ -6,6 +6,7 @@ from inventory import models
 from datetime import timedelta
 from django.utils import timezone
 
+
 class AvailableListFilter(admin.SimpleListFilter):
     title = "disponible"
     parameter_name = "available"
@@ -18,26 +19,6 @@ class AvailableListFilter(admin.SimpleListFilter):
             return queryset.filter(loan__isnull=False, loan__loan_return=None)
         else:
             return queryset
-
-
-def get_last_book(user):
-    last_week = timezone.now() - timedelta(weeks=1)
-    return models.Book.objects.filter(added_by=user, date_added__gte=last_week).order_by('-date_added').first()
-
-
-def get_last_book_series(user):
-    last_book = get_last_book(user)
-    return last_book.series if last_book else None
-
-
-def get_next_volume_nb(user):
-    last_book = get_last_book(user)
-    return last_book.volume_nb + 1 if last_book else 1
-
-
-def get_last_book_condition(user):
-    last_book = get_last_book(user)
-    return last_book.condition if last_book else None
 
 
 @admin.register(models.Book)
@@ -61,19 +42,22 @@ class BookAdmin(admin.ModelAdmin):
         form = super().get_form(request, obj, **kwargs)
         if obj is None:
             # Quickly add books in bulk by pre-filling the fields from the last book
-            form.base_fields['series'].initial = get_last_book_series(request.user)
-            form.base_fields['volume_nb'].initial = get_next_volume_nb(request.user)
-            form.base_fields['condition'].initial = get_last_book_condition(request.user)
+            last_week = timezone.now() - timedelta(weeks=1)
+            last_book = models.Book.objects.filter(added_by=request.user, date_added__gte=last_week).order_by('-date_added').first()
+            form.base_fields['volume_nb'].initial = last_book.volume_nb + 1 if last_book else 1
+            if last_book:
+                form.base_fields['series'].initial = last_book.series
+                form.base_fields['condition'].initial = last_book.condition
         return form
 
 
 class BookInline(admin.TabularInline):
-    formfield_overrides = {
-        TextField: {'widget': Textarea(attrs={'rows': 1})},
-    }
     model = models.Book
     fields = ["name", "volume_nb", "duplicate_nb", "condition", "comment"]
     extra = 0
+    formfield_overrides = {
+        TextField: {'widget': Textarea(attrs={'rows': 1})},
+    }
 
 
 @admin.register(models.Series)
