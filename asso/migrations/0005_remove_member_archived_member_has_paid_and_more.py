@@ -27,11 +27,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='loan',
             name='book',
-            field=models.ForeignKey(default=asso.models._last_loan_book, on_delete=django.db.models.deletion.CASCADE, to='inventory.book', verbose_name='livre'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='inventory.book', verbose_name='livre'),
         ),
         migrations.AlterField(
             model_name='loan',
             name='member',
-            field=models.ForeignKey(default=asso.models._last_loan_member, on_delete=django.db.models.deletion.CASCADE, to='asso.member', validators=[asso.models.can_make_loan], verbose_name='membre'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='asso.member', validators=[asso.models.can_make_loan], verbose_name='membre'),
         ),
     ]

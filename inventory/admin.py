@@ -60,7 +60,7 @@ class BookAdmin(admin.ModelAdmin):
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         if obj is None:
-            # quickly add books in bulk by pre-filling the fields from the last book
+            # Quickly add books in bulk by pre-filling the fields from the last book
             form.base_fields['series'].initial = get_last_book_series(request.user)
             form.base_fields['volume_nb'].initial = get_next_volume_nb(request.user)
             form.base_fields['condition'].initial = get_last_book_condition(request.user)

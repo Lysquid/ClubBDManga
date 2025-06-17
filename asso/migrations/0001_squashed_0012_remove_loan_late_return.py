@@ -47,8 +47,8 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('loan_start', models.DateField(default=django.utils.timezone.now, verbose_name='date de début')),
                 ('loan_return', models.DateField(blank=True, help_text="laisser vide jusqu'au retour", null=True, verbose_name='date de retour')),
-                ('book', models.ForeignKey(default=asso.models._last_loan_book, on_delete=django.db.models.deletion.CASCADE, to='inventory.book', verbose_name='livre')),
-                ('member', models.ForeignKey(default=asso.models._last_loan_member, on_delete=django.db.models.deletion.CASCADE, to='asso.member', validators=[asso.models.can_make_loan], verbose_name='membre')),
+                ('book', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='inventory.book', verbose_name='livre')),
+                ('member', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='asso.member', validators=[asso.models.can_make_loan], verbose_name='membre')),
             ],
             options={
                 'verbose_name': 'emprunt',

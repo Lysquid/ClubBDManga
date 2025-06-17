@@ -15,14 +15,14 @@ class Member(models.Model):
     email = models.EmailField("email")
     tel = models.CharField("tel", max_length=15, blank=True)
     has_paid = models.BooleanField("a cotisé",
-                                   help_text="Ce champ est réinitialisé tous les ans")
-    can_make_loan = models.BooleanField("membre +",
-                                        help_text="Les membres + peuvent emprunter des livres")
+                                   help_text="Ce champ est réinitialisé tous les ans.")
+    plus_membership = models.BooleanField("membre+",
+                                          help_text="Les membres+ peuvent emprunter des livres.")
     bail = models.FloatField("caution déposée", default=0, help_text="en euros", validators=[
         validators.MinValueValidator(0)
     ])
     account = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="compte",
-                                   help_text="compte pour accéder à ce site")
+                                   help_text="Compte pour accéder à la partie admin du site (optionel).")
     comment = models.TextField("commentaire", blank=True)
     date_added = models.DateField("date d'inscription", auto_now_add=True)
 
@@ -35,6 +35,10 @@ class Member(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+    def clean(self):
+        if self.plus_membership and not self.has_paid:
+            raise ValidationError("Un membre+ doit avoir cotisé.")
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -61,38 +65,18 @@ class LoanQuerySet(models.QuerySet):
 
 def can_make_loan(member_id):
     member = Member.objects.get(pk=member_id)
-    if not member.has_paid:
-        raise ValidationError(f"{member} n'a pas encore cotisé cette année")
-    if not member.can_make_loan:
-        raise ValidationError("Il faut être Membre+ pour pouvoir emprunter")
+    if not member.has_paid or not member.plus_membership:
+        raise ValidationError("Il faut être Membre+ pour pouvoir emprunter.")
     if member.loan_set.current_loans().count() > Member.MAX_LOANS_COUNT:
-        raise ValidationError(f"{member} à dépassé le quota des {Member.MAX_LOANS_COUNT} emprunts maximums")
-
-
-def _last_loan_member():
-    if Loan.objects.exists():
-        return Loan.objects.latest("id").member
-    return None
-
-
-def _last_loan_book():
-    if Loan.objects.exists():
-        latest_book = Loan.objects.latest("id").book
-        try:
-            return Book.objects.get(series=latest_book.series, volume_nb=latest_book.volume_nb + 1, duplicate_nb=1)
-        except models.ObjectDoesNotExist:
-            return None
-    return None
+        raise ValidationError(f"{member} à dépassé le quota des {Member.MAX_LOANS_COUNT} emprunts maximums.")
 
 
 class Loan(models.Model):
-    member = models.ForeignKey(Member, on_delete=models.CASCADE, verbose_name="membre", validators=[can_make_loan],
-                               default=_last_loan_member)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name="livre",
-                             default=_last_loan_book)
+    member = models.ForeignKey(Member, on_delete=models.CASCADE, verbose_name="membre", validators=[can_make_loan])
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name="livre")
     loan_start = models.DateField("date de début", default=timezone.now)
     loan_return = models.DateField("date de retour", blank=True, null=True,
-                                   help_text="laisser vide jusqu'au retour")
+                                   help_text="Laisser vide jusqu'au retour.")
     objects = LoanQuerySet.as_manager()
 
     MAX_LOAN_LENGTH = timedelta(days=30)

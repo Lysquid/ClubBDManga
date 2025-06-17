@@ -3,11 +3,7 @@ from django import forms
 from django.db import models as db_models
 
 from . import models
-
-
-class LoanInline(admin.TabularInline):
-    model = models.Loan
-    extra = 0
+from inventory.models import Book
 
 
 class BailListFilter(admin.SimpleListFilter):
@@ -26,15 +22,14 @@ class BailListFilter(admin.SimpleListFilter):
 
 @admin.register(models.Member)
 class MembersAdmin(admin.ModelAdmin):
-    # inlines = [LoanInline]  # slow for some reason
     search_fields = ["first_name", "last_name"]
-    list_display = ["__str__", "has_paid", "can_make_loan", "bail", "date_added", "loans_count", "comment"]
-    list_filter = ["has_paid", "can_make_loan", BailListFilter, "date_added"]
+    list_display = ["__str__", "has_paid", "plus_membership", "bail", "date_added", "loans_count", "comment"]
+    list_filter = ["has_paid", "plus_membership", BailListFilter, "date_added"]
     actions = ["mark_has_not_paid"]
 
     @admin.action(description="Réinitialiser la cotisation des membres sélectionnés")
     def mark_has_not_paid(self, request, queryset):
-        queryset.update(has_paid=False, can_make_loan=False)
+        queryset.update(has_paid=False, plus_membership=False)
 
 
 class CurrentLoansListFilter(admin.SimpleListFilter):
@@ -65,6 +60,22 @@ class LateLoansListFilter(admin.SimpleListFilter):
             return queryset
 
 
+def get_last_loan_member():
+    if models.Loan.objects.exists():
+        return models.Loan.objects.latest("id").member
+    return None
+
+
+def get_last_loan_book():
+    if models.Loan.objects.exists():
+        latest_book = models.Loan.objects.latest("id").book
+        try:
+            return Book.objects.get(series=latest_book.series, volume_nb=latest_book.volume_nb + 1, duplicate_nb=1)
+        except Book.DoesNotExist:
+            return None
+    return None
+
+
 @admin.register(models.Loan)
 class LoanAdmin(admin.ModelAdmin):
     search_fields = ["book__series__name", "book__volume_nb", "member__first_name", "member__last_name"]
@@ -77,6 +88,14 @@ class LoanAdmin(admin.ModelAdmin):
     def mark_returned(self, request, queryset):
         for loan in queryset:
             loan.return_book()
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        if obj is None:
+            # Quickly add loans in bulk by pre-filling the fields from the last loan
+            form.base_fields['member'].initial = get_last_loan_member()
+            form.base_fields['book'].initial = get_last_loan_book()
+        return form
 
 
 @admin.register(models.News)
