@@ -148,9 +148,10 @@ class Book(models.Model):
     call_number = models.CharField("cote", unique=True, db_index=True, max_length=12, editable=False, validators=[
         validators.RegexValidator('^[0-9]{2}[A-Z0-9]{5}[0-9]{5}$')
     ])
-    name = models.CharField("nom", max_length=255, blank=True)
     series = models.ForeignKey(Series, on_delete=models.CASCADE, verbose_name="série", default=_last_book_series)
-    volume_nb = models.PositiveIntegerField("volume", default=_next_volume_nb)
+    name = models.CharField("nom", max_length=255, blank=True,
+                            help_text="Laisser vide si le tome n'a pas de nom spécial, et son nom sera automatiquement généré.")
+    volume_nb = models.PositiveIntegerField("tome", default=_next_volume_nb)
     duplicate_nb = models.PositiveIntegerField("numéro de duplicata", default=1)
     condition = models.PositiveSmallIntegerField("état", default=_last_book_condition, validators=[
         validators.MinValueValidator(1),
@@ -167,7 +168,14 @@ class Book(models.Model):
     available.fget.short_description = "disponible"
 
     def __str__(self):
-        return f"{self.series} {self.volume_nb}"
+        return f"{self.series} T.{self.volume_nb}"
+
+    def clean(self):
+        book_name = self.name.lower()
+        series_name = self.series.name.lower()
+        if (self.name.lower() == series_name
+                or (book_name.startswith(series_name) and book_name.endswith(str(self.volume_nb)))):
+            raise ValidationError("Laissez le nom vide si c'est le même que la série, il sera automatiquement généré.")
 
     def save(self, *args, **kwargs):
         # We can't use a generated field because it doesn't support using other model fields or other generated fields
