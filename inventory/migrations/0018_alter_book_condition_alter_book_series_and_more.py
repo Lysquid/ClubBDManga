@@ -16,17 +16,17 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='book',
             name='condition',
-            field=models.PositiveSmallIntegerField(default=inventory.models._last_book_condition, validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(10)], verbose_name='état'),
+            field=models.PositiveSmallIntegerField(validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(10)], verbose_name='état'),
         ),
         migrations.AlterField(
             model_name='book',
             name='series',
-            field=models.ForeignKey(default=inventory.models._last_book_series, on_delete=django.db.models.deletion.CASCADE, to='inventory.series', verbose_name='série'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='inventory.series', verbose_name='série'),
         ),
         migrations.AlterField(
             model_name='book',
             name='volume_nb',
-            field=models.PositiveIntegerField(default=inventory.models._next_volume_nb, verbose_name='volume'),
+            field=models.PositiveIntegerField(verbose_name='volume'),
         ),
         migrations.AlterField(
             model_name='series',

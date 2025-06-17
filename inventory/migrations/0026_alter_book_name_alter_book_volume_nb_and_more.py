@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='book',
             name='volume_nb',
-            field=models.PositiveIntegerField(default=inventory.models._next_volume_nb, verbose_name='tome'),
+            field=models.PositiveIntegerField(verbose_name='tome'),
         ),
         migrations.RunPython(
             remove_non_compliant_book_names,

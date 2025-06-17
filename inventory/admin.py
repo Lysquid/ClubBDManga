@@ -3,7 +3,8 @@ from django.db.models import TextField
 from django.forms import Textarea
 
 from inventory import models
-
+from datetime import timedelta
+from django.utils import timezone
 
 class AvailableListFilter(admin.SimpleListFilter):
     title = "disponible"
@@ -19,13 +20,51 @@ class AvailableListFilter(admin.SimpleListFilter):
             return queryset
 
 
+def get_last_book(user):
+    last_week = timezone.now() - timedelta(weeks=1)
+    return models.Book.objects.filter(added_by=user, date_added__gte=last_week).order_by('-date_added').first()
+
+
+def get_last_book_series(user):
+    last_book = get_last_book(user)
+    return last_book.series if last_book else None
+
+
+def get_next_volume_nb(user):
+    last_book = get_last_book(user)
+    return last_book.volume_nb + 1 if last_book else 1
+
+
+def get_last_book_condition(user):
+    last_book = get_last_book(user)
+    return last_book.condition if last_book else None
+
+
 @admin.register(models.Book)
 class BookAdmin(admin.ModelAdmin):
     readonly_fields = ["call_number"]
     search_fields = ["series__name", "volume_nb"]
     autocomplete_fields = ["series"]
-    list_display = ["__str__", "call_number", "date_added", "comment"]
+    list_display = ["__str__", "call_number", "date_added_short", "comment"]
     list_filter = [AvailableListFilter, "date_added"]
+
+    def date_added_short(self, obj):
+        return obj.date_added.date()
+    date_added_short.short_description = "date d'ajout"
+
+    def save_model(self, request, obj, _, change):
+        if not change:
+            obj.added_by = request.user
+        obj.save()
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        if obj is None:
+            # quickly add books in bulk by pre-filling the fields from the last book
+            form.base_fields['series'].initial = get_last_book_series(request.user)
+            form.base_fields['volume_nb'].initial = get_next_volume_nb(request.user)
+            form.base_fields['condition'].initial = get_last_book_condition(request.user)
+        return form
 
 
 class BookInline(admin.TabularInline):

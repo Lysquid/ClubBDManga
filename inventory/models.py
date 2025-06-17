@@ -2,6 +2,7 @@ from django.core import validators
 from django.db import models
 from django.db.models import functions
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 
 
 class Author(models.Model):
@@ -120,47 +121,22 @@ class Series(models.Model):
         ordering = ["name"]
 
 
-def _last_book_series():
-    if Book.objects.exists() and Book.last_book_id:
-        try:
-            return Book.objects.get(id=Book.last_book_id).series
-        except Book.DoesNotExist:
-            return None
-
-
-def _next_volume_nb():
-    if Book.objects.exists() and Book.last_book_id:
-        try:
-            return Book.objects.get(id=Book.last_book_id).volume_nb + 1
-        except Book.DoesNotExist:
-            return None
-
-
-def _last_book_condition():
-    if Book.objects.exists() and Book.last_book_id:
-        try:
-            return Book.objects.get(id=Book.last_book_id).condition
-        except Book.DoesNotExist:
-            return None
-
-
 class Book(models.Model):
     call_number = models.CharField("cote", unique=True, db_index=True, max_length=12, editable=False, validators=[
         validators.RegexValidator('^[0-9]{2}[A-Z0-9]{5}[0-9]{5}$')
     ])
-    series = models.ForeignKey(Series, on_delete=models.CASCADE, verbose_name="série", default=_last_book_series)
+    series = models.ForeignKey(Series, verbose_name="série", on_delete=models.CASCADE)
     name = models.CharField("nom", max_length=255, blank=True,
                             help_text="Laisser vide si le tome n'a pas de nom spécial, et son nom sera automatiquement généré.")
-    volume_nb = models.PositiveIntegerField("tome", default=_next_volume_nb)
+    volume_nb = models.PositiveIntegerField("tome")
     duplicate_nb = models.PositiveIntegerField("numéro de duplicata", default=1)
-    condition = models.PositiveSmallIntegerField("état", default=_last_book_condition, validators=[
+    condition = models.PositiveSmallIntegerField("état", validators=[
         validators.MinValueValidator(1),
         validators.MaxValueValidator(10)
     ])
-    date_added = models.DateField("date d'ajout", auto_now_add=True)
     comment = models.TextField("commentaire", blank=True)
-
-    last_book_id = None
+    date_added = models.DateTimeField("date d'ajout", auto_now_add=True)
+    added_by = models.ForeignKey(User, verbose_name="ajouté par", editable=False, null=True, on_delete=models.SET_NULL)
 
     @property
     def available(self):
