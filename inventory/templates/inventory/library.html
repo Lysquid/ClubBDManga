@@ -12,7 +12,7 @@
 
     <h1 class="mb-4 mt-5">Bibliothèque du Club</h1>
 
-    <div class="d-flex flex-row flex-wrap my-4 gap-4 mb-3">
+    <div class="d-flex flex-row flex-wrap my-4 gap-4 mb-4">
 
         <div>
             <div class="input-group rounded">
@@ -55,11 +55,11 @@
             </button>
         </div>
 
-        <div class="col-12 d-flex justify-content-between">
-            <a href="{% url 'stats' %}" class="link-primary">Statistiques</a>
-            <p id="results-count">Chargement...</p>
-        </div>
+    </div>
 
+    <div class="d-flex flex-row justify-content-between mb-5">
+        <a href="{% url 'stats' %}" class="link-primary">Statistiques</a>
+        <p id="results-count" class="my-auto">Chargement...</p>
     </div>
 
     <div id="series-list-container" class="row g-4 d-flex align-items-stretch">
