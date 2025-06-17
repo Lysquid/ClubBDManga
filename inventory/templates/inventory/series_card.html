@@ -4,8 +4,8 @@
         {% if series.max_volume %}
             <p class="card-subtitle mb-2 text-secondary">Tome {{ series.min_volume }}{% if series.min_volume != series.max_volume %} à {{ series.max_volume }}{% endif %} depuis {{ series.latest_book_date|date:"F"  }}</p>
         {% endif %}
-        {% if series.latest_return_date %}
-            <p class="card-subtitle mb-2 text-secondary">Emprunté en {{ series.latest_return_date|date:"F" }}</p>
+        {% if series.loans_count %}
+            <p class="card-subtitle mb-2 text-secondary">{{ series.loans_count }} emprunt{{ series.loans_count|pluralize }}</p>
         {% endif %}
         <p class="card-text mb-1">{{ series.authors.all|join:", " }}</p>
         <p class="card-text mb-2">{{ series.get_type_display|capfirst }} - {{ series.genre|capfirst }}</p>
