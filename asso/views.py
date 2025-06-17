@@ -64,5 +64,7 @@ class StatsPageView(generic.TemplateView):
         context["series"] = Series.objects.all()
         context["members"] = Member.objects.filter(has_paid=True)
         context["loans"] = Loan.objects.filter(member__has_paid=True)
+        last_year = timezone.now() - timedelta(days=365)
+        context["new_books"] = Book.objects.filter(date_added__gte=last_year)
 
         return context
