@@ -58,6 +58,7 @@ class BookInline(admin.TabularInline):
     formfield_overrides = {
         TextField: {'widget': Textarea(attrs={'rows': 1})},
     }
+    # Cannot pre-fill from last book because there is no way to increment the volume number when adding multiple books
 
 
 @admin.register(models.Series)

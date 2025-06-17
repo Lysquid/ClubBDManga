@@ -22,5 +22,5 @@ prod = [
 ]
 
 [project.urls]
-Homepage = "https://bdmanga.insalgo.fr"
+Homepage = "https://bdmanga.asso-insa-lyon.fr"
 Repository = "https://github.com/Lysquid/ClubBDManga"

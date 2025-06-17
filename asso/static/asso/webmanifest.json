@@ -1,8 +1,8 @@
 {
   "short_name": "Club BD Manga",
   "name": "Club BD Manga",
-  "description": "App of Club BD Manga of INSA",
-  "start_url": "https://bdmanga.insalgo.fr/",
+  "description": "Application du Club BD Manga de l'INSA Lyon",
+  "start_url": "https://bdmanga.asso-insa-lyor.fr/",
   "display": "standalone",
   "icons": [
     {
@@ -12,7 +12,7 @@
     },
     {
       "src":"static/asso/img/logo.png",
-      "sizes": "460x460",
+      "sizes": "200x200",
       "type": "image/png"
     }
   ]
