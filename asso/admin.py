@@ -86,6 +86,7 @@ class NewsAdmin(admin.ModelAdmin):
     search_fields = ["title"]
     list_filter = ["date"]
     formfield_overrides = {
+        db_models.CharField: {'widget': forms.TextInput(attrs={'size': '100'})},
         db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 40, 'cols': 100})},
     }
 

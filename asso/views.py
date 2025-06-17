@@ -13,7 +13,7 @@ class HomePageView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["text_home"] = Page.objects.get_or_create(identifier="accueil")[0].content
-        context["news_list"] = News.objects.order_by('-date')[:3]
+        context["news_list"] = News.objects.filter(date__lte=timezone.now()).order_by('-date')[:3]
         context["popular_series"] = Series.objects.filter(
             book__loan__loan_start__gte=timezone.now() - timedelta(days=365)
         ).annotate(
