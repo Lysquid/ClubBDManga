@@ -92,7 +92,7 @@ class NewsAdmin(admin.ModelAdmin):
 
 @admin.register(models.Page)
 class PageAdmin(admin.ModelAdmin):
-    list_display = ["identifier", "description"]
+    list_display = ["__str__"]
     formfield_overrides = {
         db_models.TextField: {'widget': forms.Textarea(attrs={'rows': 30, 'cols': 100})},
     }
