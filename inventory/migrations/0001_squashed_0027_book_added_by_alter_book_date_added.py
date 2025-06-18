@@ -11,8 +11,6 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    replaces = [('inventory', '0001_squashed_0016_delete_loan_delete_member'), ('inventory', '0017_alter_series_options_remove_book_available_and_more'), ('inventory', '0018_alter_book_condition_alter_book_series_and_more'), ('inventory', '0019_book_change_pk'), ('inventory', '0020_series_change_pk'), ('inventory', '0021_alter_book_options'), ('inventory', '0022_series_call_number_alter_series_code'), ('inventory', '0023_alter_genre_name'), ('inventory', '0024_series_language'), ('inventory', '0025_alter_series_call_number_alter_series_language'), ('inventory', '0026_alter_book_name_alter_book_volume_nb_and_more'), ('inventory', '0027_book_added_by_alter_book_date_added')]
-
     initial = True
 
     dependencies = [

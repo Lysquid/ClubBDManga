@@ -11,8 +11,6 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    replaces = [('asso', '0001_squashed_0012_remove_loan_late_return'), ('asso', '0013_remove_member_is_alir_member_alter_member_account_and_more'), ('asso', '0014_alter_member_tel'), ('asso', '0015_news'), ('asso', '0016_alter_news_options_news_date_news_slug_news_title_and_more'), ('asso', '0017_news_summary_alter_news_date'), ('asso', '0018_news_visible_alter_news_content_alter_news_summary'), ('asso', '0019_page_remove_news_visible_alter_news_date'), ('asso', '0020_alter_news_date_alter_news_slug'), ('asso', '0021_remove_member_can_make_loan_member_plus_membership_and_more'), ('asso', '0022_rename_bail_member_deposit')]
-
     initial = True
 
     dependencies = [
