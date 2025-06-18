@@ -9,45 +9,45 @@
 
 {% block content %}
 
-    <div class="row gy-5 mt-1">
+    <div class="row mb-4">
+        <h1>{{ series.name }}</h1>
+    </div>
+
+    <div class="row gy-5">
 
         <div class="col-xxl-5">
 
-            <h2 class="mb-4">{{ series.name }}</h2>
-
-            <div class="d-flex flex-column gap-3">
-                <div>
+            <div class="row g-3">
+                <div class="col-6 col-xxl-12">
                     <div class="text-body-secondary">Auteur{{ series.authors.all|pluralize }}</div>
                     <div>{{ series.authors.all|join:", " }}</div>
                 </div>
-                <div>
-                    <div class="text-body-secondary">Éditeur{{ series.editor.all|pluralize }}</div>
+                <div class="col-6 col-xxl-12">
+                    <div class="text-body-secondary">Éditeur{{ series.editors.all|pluralize }}</div>
                     <div>{{ series.editors.all|join:", " }}</div>
                 </div>
-                <div>
-                    <div class="text-body-secondary">Type</div>
+                <div class="col-6 col-xxl-12">
+                    <div class="text-body-secondary">Format</div>
                     <div>{{ series.get_type_display|capfirst }}</div>
                 </div>
-                <div>
+                <div class="col-6 col-xxl-12">
                     <div class="text-body-secondary">Genre</div>
                     <div>{{ series.genre|capfirst }}</div>
                 </div>
-                <div>
+                <div class="col-6 col-xxl-12">
                     <div class="text-body-secondary">Langue</div>
                     <div>{{ series.get_language_display }}</div>
                 </div>
-                <div>
+                <div class="col-6 col-xxl-12">
                     <div class="text-body-secondary">Référence</div>
                     <div>{{ series.call_number }}</div>
                 </div>
+
             </div>
 
         </div>
 
         <div class="col-xxl-7">
-
-            <h2 class="mb-4">Tomes</h2>
-
 
             <ol class="list-group">
                 {% for book in series.book_set.all %}
@@ -62,7 +62,7 @@
                         {% endif %}
                     </li>
                 {% empty %}
-                    <p>Aucun tome ajouté pour le moment</p>
+                    <p>Aucun tome ajouté pour le moment.</p>
                 {% endfor %}
             </ol>
 

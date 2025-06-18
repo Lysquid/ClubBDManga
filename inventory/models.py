@@ -83,7 +83,7 @@ class Series(models.Model):
     code = models.CharField("code", unique=True, db_index=True, max_length=5,
                             validators=[validators.RegexValidator('^[A-Z0-9]{5}$')],
                             help_text="5 caractères en majuscules (lettres et chiffres)")
-    type = models.CharField("type", max_length=16, choices=TYPES)
+    type = models.CharField("format", max_length=16, choices=TYPES)
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE, verbose_name="genre")
     language = models.CharField("langue", max_length=2, choices=LANGUAGES, default="fr")
     authors = models.ManyToManyField(Author, verbose_name="auteurs")
