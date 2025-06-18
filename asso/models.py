@@ -18,7 +18,7 @@ class Member(models.Model):
                                    help_text="Ce champ est réinitialisé tous les ans.")
     plus_membership = models.BooleanField("membre+",
                                           help_text="Les membres+ peuvent emprunter des livres.")
-    bail = models.FloatField("caution déposée", default=0, help_text="en euros", validators=[
+    deposit = models.FloatField("caution déposée", default=0, help_text="en euros", validators=[
         validators.MinValueValidator(0)
     ])
     account = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="compte",

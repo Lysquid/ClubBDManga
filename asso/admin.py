@@ -6,16 +6,16 @@ from . import models
 from inventory.models import Book
 
 
-class BailListFilter(admin.SimpleListFilter):
+class DepositListFilter(admin.SimpleListFilter):
     title = "caution"
-    parameter_name = "bail"
+    parameter_name = "deposit"
 
     def lookups(self, request, model_admin):
         return [("yes", "Oui")]
 
     def queryset(self, request, queryset):
         if self.value() == "yes":
-            return queryset.filter(bail__gt=0)
+            return queryset.filter(deposit__gt=0)
         else:
             return queryset
 
@@ -23,8 +23,8 @@ class BailListFilter(admin.SimpleListFilter):
 @admin.register(models.Member)
 class MembersAdmin(admin.ModelAdmin):
     search_fields = ["first_name", "last_name"]
-    list_display = ["__str__", "has_paid", "plus_membership", "bail", "date_added", "loans_count", "comment"]
-    list_filter = ["has_paid", "plus_membership", BailListFilter, "date_added"]
+    list_display = ["__str__", "has_paid", "plus_membership", "deposit", "date_added", "loans_count", "comment"]
+    list_filter = ["has_paid", "plus_membership", DepositListFilter, "date_added"]
     actions = ["mark_has_not_paid"]
 
     @admin.action(description="Réinitialiser la cotisation des membres sélectionnés")
