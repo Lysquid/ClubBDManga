@@ -10,13 +10,11 @@ import django.utils.timezone
 
 class Migration(migrations.Migration):
 
-    replaces = [('asso', '0001_initial'), ('asso', '0002_alter_loan_member_alter_member_role_alir_and_more'), ('asso', '0003_member_can_make_loan_member_is_alir_member_and_more'), ('asso', '0004_remove_member_last_loan_remove_member_loan_length_and_more'), ('asso', '0005_remove_member_archived_member_has_paid_and_more'), ('asso', '0006_member_account_alter_member_is_alir_member'), ('asso', '0007_alter_member_account'), ('asso', '0008_member_last_name_alter_member_name'), ('asso', '0009_rename_name_member_first_name_alter_member_account'), ('asso', '0010_rename_mail_member_email'), ('asso', '0011_alter_member_account'), ('asso', '0012_remove_loan_late_return')]
-
     initial = True
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('inventory', '0016_delete_loan_delete_member'),
+        ('inventory', '0001_squashed_0016_delete_loan_delete_member'),
     ]
 
     operations = [

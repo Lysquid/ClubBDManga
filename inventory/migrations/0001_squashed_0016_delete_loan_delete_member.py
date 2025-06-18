@@ -7,8 +7,6 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    replaces = [('inventory', '0001_initial'), ('inventory', '0002_alter_member_last_loan_alter_series_type'), ('inventory', '0003_alter_member_last_loan'), ('inventory', '0004_alter_book_condition_alter_loan_archived_and_more'), ('inventory', '0005_alter_loan_loan_return'), ('inventory', '0006_alter_loan_late_return_alter_member_last_loan'), ('inventory', '0007_alter_author_options_alter_author_name'), ('inventory', '0008_alter_book_options_alter_editor_options_and_more'), ('inventory', '0009_alter_series_type'), ('inventory', '0010_alter_member_options_alter_book_volume_nb_and_more'), ('inventory', '0011_alter_loan_options_alter_loan_book_and_more'), ('inventory', '0012_alter_loan_book_alter_loan_loan_return'), ('inventory', '0013_alter_genre_options'), ('inventory', '0014_remove_book_available_remove_loan_archived_and_more'), ('inventory', '0015_book_available'), ('inventory', '0016_delete_loan_delete_member')]
-
     initial = True
 
     dependencies = [

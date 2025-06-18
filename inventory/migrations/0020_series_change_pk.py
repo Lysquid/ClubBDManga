@@ -11,12 +11,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-
-        migrations.RunSQL(
-            sql="-- Actual schema changes handled by manual SQL script",
-        ),
-
-        # Modify the Series model
+        # Manual migration with SQL script needed
         migrations.RemoveField(
             model_name='series',
             name='id',

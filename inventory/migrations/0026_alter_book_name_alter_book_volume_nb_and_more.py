@@ -37,9 +37,6 @@ class Migration(migrations.Migration):
             name='volume_nb',
             field=models.PositiveIntegerField(verbose_name='tome'),
         ),
-        migrations.RunPython(
-            remove_non_compliant_book_names,
-        ),
         migrations.AlterField(
             model_name='series',
             name='type',
