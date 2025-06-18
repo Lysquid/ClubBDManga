@@ -1,11 +1,11 @@
 *
-!pyproject.toml
 !asso
 !bdmanga
 !inventory
 !templates
+!requirements.txt
 !manage.py
 !.env
 !docker/django
-docker/django/Dockerfile
+Dockerfile
 __pycache__

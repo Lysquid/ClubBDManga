@@ -5,10 +5,11 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-COPY ./pyproject.toml /app/
-RUN pip install .[prod] && \
-    pip uninstall -y ClubBDManga && \
-    rm pyproject.toml
+COPY docker/django/requirements.txt /app/prod-requirements.txt
+RUN pip install -r prod-requirements.txt
+
+COPY requirements.txt /app/
+RUN pip install -r requirements.txt
 
 COPY . /app/
 

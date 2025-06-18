@@ -13,7 +13,7 @@ L'application est écrite en Python avec le framework [Django](https://www.djang
 - `git clone https://github.com/Lysquid/ClubBDManga`
 - `python -m venv env`
 - `source env/bin/activate`
-- `pip install .`
+- `pip install -r requirements.txt`
 - installer `mariadb` ou `mysql` (les deux sont interchangeables)
 - `mariadb -u root -p -e "create database BDMANGA"`
 - définir les variables d'environnement suivantes :
