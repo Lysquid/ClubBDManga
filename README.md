@@ -10,12 +10,12 @@ L'application est écrite en Python avec le framework [Django](https://www.djang
 
 ### Installation en local
 
-- `git clone https://github.com/Lysquid/ClubBDManga`
+- installer `mariadb` ou `mysql` (les deux sont interchangeables)
+- `mariadb -u root -p -e "create database BDMANGA"`
+- cloner le projet
 - `python -m venv env`
 - `source env/bin/activate`
 - `pip install -r requirements.txt`
-- installer `mariadb` ou `mysql` (les deux sont interchangeables)
-- `mariadb -u root -p -e "create database BDMANGA"`
 - définir les variables d'environnement suivantes :
   - `DB_NAME=BDMANGA`
   - `DB_USER=root` (utilisateur de la db)
@@ -25,7 +25,14 @@ L'application est écrite en Python avec le framework [Django](https://www.djang
 - `python manage.py createsuperuser` (pour avoir accès au site admin)
 - `python manage.py runserver`
 
-Le docker-compose peut également être utilisé en local, pour ne rien à avoir d'autres à installer que Docker. Il faut alors définir les variables d'environnement dans un fichier `.env`. Cette méthode reste moins pratique pour le développement, car elle a été prévue pour le déploiement.
+### Installation avec Docker
+
+- installer Docker
+- cloner le projet
+- créer un fichier `.env` et définir les mêmes variables d'environnements.
+- `docker compose up --build`
+
+Docker est prévu pour le déploiement. Ce n'est pas pratique pour le développement, car il faut rebuild à chaque changement (à moins d'adapter le `docker-compose.yml`).
 
 ### Backups
 
@@ -51,7 +58,7 @@ docker exec -i clubbdmanga-db-1 mariadb-dump -u django -p BDMANGA > dump.sql
 cat dump.sql | docker exec -i clubbdmanga-db-1 mariadb -u django -p BDMANGA
 ```
 
-Pour avoir un shell dans docker:
+Pour avoir un shell dans docker :
 
 ```sh
 docker exec -it clubbdmanga-app-1 bash
