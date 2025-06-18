@@ -27,7 +27,7 @@
 
             {% for type, type_name in types.items %}
                 <input type="radio" class="btn-check" name="type-select" value="{{ type }}" id="type-{{ type }}" autocomplete="off"/>
-                <label class="btn btn-outline-primary" for="type-{{ type }}">{{ type_name|capfirst }}</label>
+                <label class="btn btn-outline-primary" for="type-{{ type }}">{{ type_name }}</label>
             {% endfor %}
         </div>
 
@@ -35,7 +35,7 @@
             <select id="genre-select" class="form-select" aria-label="Filtrer par genre">
                 <option value="">Tous les genres</option>
                 {% for genre in genres %}
-                    <option value="{{ genre }}">{{ genre|capfirst }}</option>
+                    <option value="{{ genre }}">{{ genre }}</option>
                 {% endfor %}
             </select>
         </div>

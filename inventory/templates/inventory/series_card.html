@@ -8,7 +8,7 @@
             <p class="card-subtitle mb-2 text-secondary">{{ series.loans_count }} emprunt{{ series.loans_count|pluralize }}</p>
         {% endif %}
         <p class="card-text mb-1">{{ series.authors.all|join:", " }}</p>
-        <p class="card-text mb-2">{{ series.get_type_display|capfirst }} - {{ series.genre|capfirst }}</p>
+        <p class="card-text mb-2">{{ series.get_type_display }} - {{ series.genre }}</p>
         <a class="card-link stretched-link link-primary mt-auto" href="{% url 'series detail' series.code %}">Détails</a>
     </div>
 </div>

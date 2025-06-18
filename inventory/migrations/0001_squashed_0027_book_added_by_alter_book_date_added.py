@@ -46,7 +46,7 @@ class Migration(migrations.Migration):
             name='Genre',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=64, unique=True, validators=[inventory.models.validate_lowercase], verbose_name='nom')),
+                ('name', models.CharField(max_length=64, unique=True, validators=[inventory.models.validate_capitalized], verbose_name='nom')),
             ],
             options={
                 'verbose_name': 'genre',

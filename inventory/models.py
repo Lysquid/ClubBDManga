@@ -37,14 +37,14 @@ class Editor(models.Model):
         ordering = ["name"]
 
 
-def validate_lowercase(value: str):
-    if not value.islower():
-        raise ValidationError("La valeur doit être en minuscules.")
+def validate_capitalized(value: str):
+    if not len(value) >= 1 or not value[0].isupper():
+        raise ValidationError("La valeur doit commencer par une majuscule.")
 
 
 class Genre(models.Model):
 
-    name = models.CharField("nom", unique=True, max_length=64, validators=[validate_lowercase])
+    name = models.CharField("nom", unique=True, max_length=64, validators=[validate_capitalized])
 
     @property
     def series_count(self):
@@ -63,9 +63,9 @@ class Series(models.Model):
     # Using lowercase singular to display in context, for example 10 comics
     TYPES = {
         "bd": "BD",
-        "manga": "manga",
-        "comics": "comics",
-        "novel": "roman",
+        "manga": "Manga",
+        "comics": "Comics",
+        "novel": "Roman",
     }
     LANGUAGES = {
         "fr": "Français",

@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='genre',
             name='name',
-            field=models.CharField(max_length=64, unique=True, validators=[inventory.models.validate_lowercase], verbose_name='nom'),
+            field=models.CharField(max_length=64, unique=True, validators=[inventory.models.validate_capitalized], verbose_name='nom'),
         ),
     ]
