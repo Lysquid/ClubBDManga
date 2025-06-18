@@ -5,8 +5,10 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-COPY pyproject.toml /app/
-RUN pip install .[prod]
+COPY ./pyproject.toml /app/
+RUN pip install .[prod] && \
+    pip uninstall -y ClubBDManga && \
+    rm pyproject.toml
 
 COPY . /app/
 

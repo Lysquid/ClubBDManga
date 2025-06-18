@@ -51,6 +51,12 @@ docker exec -i clubbdmanga-db-1 mariadb-dump -u django -p BDMANGA > dump.sql
 cat dump.sql | docker exec -i clubbdmanga-db-1 mariadb -u django -p BDMANGA
 ```
 
+Pour avoir un shell dans docker:
+
+```sh
+docker exec -it clubbdmanga-app-1 bash
+```
+
 ## Déploiement
 
 Le déploiement se fait automatiquement sur le serveur hébergeant l'action runner à chaque push sur `main`, ou en lançant l'action manuellement. Il y a une autre action pour arrêter l'application.
