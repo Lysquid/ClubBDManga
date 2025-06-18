@@ -19,7 +19,7 @@
     {% block head %}{% endblock %}
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
 
 <nav class="navbar navbar-expand-xxl bg-primary" data-bs-theme="dark">
     <div class="container-fluid col-11 col-sm-8 col-md-8 col-lg-6">
@@ -52,12 +52,14 @@
     </div>
 </nav>
 
-<div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-11 col-sm-8 col-md-8 col-lg-6">
-            <div id="content" class="mt-5" style="min-height: 58vh">
+<div class="container-fluid flex-grow-1 d-flex">
+    <div class="row justify-content-center flex-grow-1 w-100">
+        <div class="col-11 col-sm-8 col-md-8 col-lg-6 d-flex flex-column">
+
+            <div id="content" class="mt-5 flex-grow-1">
                 {% block content %}{% endblock %}
             </div>
+            
             <footer class="d-flex flex-column mt-5 py-3 border-top align-items-center gap-3">
                 <ul class="nav justify-content-center">
                     <li class="nav-item"><a class="nav-link px-2 link-primary" href="https://www.instagram.com/insabdmangas">Instagram</a></li>
@@ -68,11 +70,10 @@
                     <li class="nav-item"><a class="nav-link px-2 link-primary" href="mailto:clubbdinsa@gmail.com">Email</a></li>
                     <li class="nav-item"><a class="nav-link px-2 link-primary" href="https://github.com/Lysquid/ClubBDManga">GitHub</a></li>
                 </ul>
-
                 <p class="text-secondary">© 2025 Club BD Manga</p>
             </footer>
+            
         </div>
-
     </div>
 </div>
 </body>
