@@ -3,7 +3,7 @@
         <h3 class="card-title">{{ news.title }}</h3>
         <p class="text-secondary mb-2 card-subtitle">{{ news.date }}</p>
         {% if news.summary %}
-            <p class="card-text">{{ news.summary }}</p>
+            <p class="card-text mb-2">{{ news.summary }}</p>
         {% endif %}
         <a class="card-link stretched-link link-primary mt-auto" href="{% url 'news detail' news.slug %}">Lire l'article</a>
     </div>
