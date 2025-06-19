@@ -17,10 +17,11 @@ jobs:
       DB_NAME: ${{ vars.DB_NAME }}
       DB_USER: ${{ vars.DB_USER }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      BACKUP_DIR: BDMangaBackups
     steps:
     - name: Make dump directory
-      run: mkdir -p ~/$DB_NAME
+      run: mkdir -p ~/$BACKUP_DIR
     - name: Dump database
-      run: docker exec clubbdmanga-db-1 mariadb-dump -u $DB_USER --password=$DB_PASSWORD $DB_NAME > ~/$DB_NAME/$(date +"%s").sql
+      run: docker exec clubbdmanga-db-1 mariadb-dump -u $DB_USER --password=$DB_PASSWORD $DB_NAME > ~/$BACKUP_DIR/$(date +"%s").sql
     - name: Delete dumps older than 30 days
-      run: find ~/$DB_NAME -type f -mtime +30 -delete
+      run: find ~/$BACKUP_DIR -type f -mtime +30 -delete
