@@ -122,6 +122,12 @@ class Series(models.Model):
 
 
 class Book(models.Model):
+    CONDITIONS = {
+        4: "Neuf",
+        3: "Bon",
+        2: "Abimé",
+        1: "Très abimé"
+    }
     call_number = models.CharField("cote", unique=True, db_index=True, max_length=12, editable=False, validators=[
         validators.RegexValidator('^[0-9]{2}[A-Z0-9]{5}[0-9]{5}$')
     ])
@@ -130,10 +136,7 @@ class Book(models.Model):
                             help_text="Laisser vide si le tome n'a pas de nom spécial, et son nom sera automatiquement généré.")
     volume_nb = models.PositiveIntegerField("tome")
     duplicate_nb = models.PositiveIntegerField("numéro de duplicata", default=1)
-    condition = models.PositiveSmallIntegerField("état", validators=[
-        validators.MinValueValidator(1),
-        validators.MaxValueValidator(10)
-    ])
+    condition = models.PositiveSmallIntegerField("état", choices=CONDITIONS)
     comment = models.TextField("commentaire", blank=True)
     date_added = models.DateTimeField("date d'ajout", auto_now_add=True)
     added_by = models.ForeignKey(User, verbose_name="ajouté par", editable=False, null=True, on_delete=models.SET_NULL)

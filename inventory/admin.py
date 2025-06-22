@@ -26,8 +26,8 @@ class BookAdmin(admin.ModelAdmin):
     readonly_fields = ["call_number"]
     search_fields = ["series__name", "volume_nb"]
     autocomplete_fields = ["series"]
-    list_display = ["__str__", "call_number", "date_added_short", "comment"]
-    list_filter = [AvailableListFilter, "date_added"]
+    list_display = ["__str__", "call_number", "date_added_short", "condition", "comment"]
+    list_filter = [AvailableListFilter, "date_added", "condition"]
 
     def date_added_short(self, obj):
         return obj.date_added.date()
