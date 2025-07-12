@@ -23,13 +23,13 @@ class DepositListFilter(admin.SimpleListFilter):
 @admin.register(models.Member)
 class MembersAdmin(admin.ModelAdmin):
     search_fields = ["first_name", "last_name"]
-    list_display = ["__str__", "has_paid", "plus_membership", "deposit", "date_added", "loans_count", "comment"]
-    list_filter = ["has_paid", "plus_membership", DepositListFilter, "date_added"]
+    list_display = ["__str__", "membership", "deposit", "date_added", "loans_count", "comment"]
+    list_filter = ["membership", DepositListFilter, "date_added"]
     actions = ["mark_has_not_paid"]
 
     @admin.action(description="Réinitialiser la cotisation des membres sélectionnés")
     def mark_has_not_paid(self, request, queryset):
-        queryset.update(has_paid=False, plus_membership=False)
+        queryset.update(membership=models.Member.Membership.NOT_PAID)
 
 
 class CurrentLoansListFilter(admin.SimpleListFilter):

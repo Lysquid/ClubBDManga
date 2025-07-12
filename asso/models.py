@@ -10,14 +10,16 @@ from inventory.models import Book
 
 
 class Member(models.Model):
+    class Membership(models.IntegerChoices):
+        NOT_PAID = 0, 'Pas cotisé'
+        MEMBER = 1, 'Membre'
+        MEMBER_PLUS = 2, 'Membre+'
     first_name = models.CharField("prénom", max_length=255)
     last_name = models.CharField("nom", max_length=255)
     email = models.EmailField("email")
     tel = models.CharField("tel", max_length=15, blank=True)
-    has_paid = models.BooleanField("a cotisé",
-                                   help_text="Ce champ est réinitialisé tous les ans.")
-    plus_membership = models.BooleanField("membre+",
-                                          help_text="Les membres+ peuvent emprunter des livres.")
+    membership = models.IntegerField("cotisation", choices=Membership.choices, default=Membership.NOT_PAID,
+                                     help_text="Seuls les membres+ peuvent emprunter des livres. Ce champ est réinitialisé tous les ans.")
     deposit = models.FloatField("caution déposée", default=0, help_text="en euros", validators=[
         validators.MinValueValidator(0)
     ])
@@ -35,10 +37,6 @@ class Member(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
-
-    def clean(self):
-        if self.plus_membership and not self.has_paid:
-            raise ValidationError("Un membre+ doit avoir cotisé.")
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -65,7 +63,7 @@ class LoanQuerySet(models.QuerySet):
 
 def can_make_loan(member_id):
     member = Member.objects.get(pk=member_id)
-    if not member.has_paid or not member.plus_membership:
+    if member.membership != Member.Membership.MEMBER_PLUS:
         raise ValidationError("Il faut être Membre+ pour pouvoir emprunter.")
     if member.loan_set.current_loans().count() > Member.MAX_LOANS_COUNT:
         raise ValidationError(f"{member} à dépassé le quota des {Member.MAX_LOANS_COUNT} emprunts maximums.")
