@@ -62,7 +62,7 @@ class StatsPageView(generic.TemplateView):
             context["types"][type_name] = Book.objects.filter(series__type=book_type)
         context["authors"] = Author.objects.filter(series__isnull=False).distinct()
         context["series"] = Series.objects.all()
-        context["members"] = Member.objects.filter(has_paid=True)
+        context["members"] = Member.objects.filter(membership__gt=Member.Membership.NOT_PAID)
         last_year = timezone.now() - timedelta(days=365)
         context["recent_loans"] = Loan.objects.filter(loan_start__gte=last_year)
         context["new_books"] = Book.objects.filter(date_added__gte=last_year)
