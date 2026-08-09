@@ -66,6 +66,7 @@ class Series(models.Model):
         "manga": "Manga",
         "comics": "Comics",
         "novel": "Roman",
+        "dvd": "DVD"
     }
     LANGUAGES = {
         "fr": "Français",
@@ -147,6 +148,8 @@ class Book(models.Model):
     available.fget.short_description = "disponible"
 
     def __str__(self):
+        if self.series.type == "dvd":
+            return f"{self.series}"
         return f"{self.series} T.{self.volume_nb}"
 
     def clean(self):
