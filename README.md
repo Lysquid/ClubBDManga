@@ -16,11 +16,12 @@ L'application est écrite en Python avec le framework [Django](https://www.djang
 - `python -m venv env`
 - `source env/bin/activate`
 - `pip install -r requirements.txt`
-- définir les variables d'environnement suivantes :
-  - `DB_NAME=BDMANGA`
-  - `DB_USER=root` (utilisateur de la db)
-  - `DB_PASSWORD=*****` (mot de passe de l'utilisateur)
-  - `DEBUG=1` pour faciliter le développement
+- créer un fichier `.env` et définir les variables d'environnement suivantes :
+  - `export DB_NAME=BDMANGA`
+  - `export DB_USER=root` (utilisateur de la db)
+  - `export DB_PASSWORD=*****` (mot de passe de l'utilisateur)
+  - `export DEBUG=1` pour faciliter le développement
+- `source .env`
 - `python manage.py migrate` (créé le schéma de la base de donnée)
 - `python manage.py createsuperuser` (pour avoir accès au site admin)
 - `python manage.py runserver`
