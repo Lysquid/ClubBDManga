@@ -2,7 +2,11 @@
 
 import django.utils.timezone
 from django.db import migrations, models
+from django.db.models import F
 
+def copy_old_date(apps, schema_editor):
+    news = apps.get_model("asso", "news")
+    news.objects.all().update(pub_date=F("date"))
 
 class Migration(migrations.Migration):
 
@@ -21,4 +25,5 @@ class Migration(migrations.Migration):
             name='date',
             field=models.DateField(default=django.utils.timezone.now, help_text="\n        Date de création ou de l'évènement en question, affichée avec l'article.\n    ", verbose_name='date'),
         ),
+        migrations.RunPython(code=copy_old_date)
     ]
