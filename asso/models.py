@@ -107,8 +107,10 @@ class News(models.Model):
     slug = models.SlugField("adresse", unique=True,
                             help_text="Dernière partie de l'URL à laquelle on pourra trouver cet article.")
     date = models.DateField("date", default=timezone.now, help_text="""
-        Si la date est dans le futur, l'article n'apparaitra pas dans les actualités avant cette date.
-        Il reste accessible via son adresse.
+        Date de création ou de l'évènement en question, affichée avec l'article.
+    """)
+    pub_date = models.DateField("date de publication", default=timezone.now, help_text="""
+        L'article n'apparaîtra qu'à partir de la date de publication, mais il est toujours accessible via son adresse.
     """)
     summary = models.CharField("résumé", max_length=400, blank=True)
     content = models.TextField("contenu", help_text="""

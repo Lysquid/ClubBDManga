@@ -94,7 +94,7 @@ class LoanAdmin(admin.ModelAdmin):
 @admin.register(models.News)
 class NewsAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ["title"]}
-    list_display = ["title", "date"]
+    list_display = ["title", "date", "pub_date"]
     search_fields = ["title"]
     list_filter = ["date"]
     formfield_overrides = {
